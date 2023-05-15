@@ -1,0 +1,105 @@
+
+
+
+
+
+
+
+<!-- Mirrored from wp.alithemes.com/html/evara/evara-backend/page-orders-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Aug 2021 15:33:21 GMT -->
+
+
+
+    
+<section class="content-main">
+  <div class="container">
+          <div class="content-header">
+              <div>
+                  <h2 class="content-title card-title">Products </h2>
+                  
+              </div>
+              <div>
+                <a href="/admin/add_product" class="btn btn-md rounded font-sm">Add Product</a>
+              </div>
+          </div>
+          <div class="card mb-4">
+              
+              <div class="card-body">
+                  <div class="table-responsive">
+                      <table class="table table-hover">
+                          <thead>
+                              <tr>
+                                  
+                                  <th scope="col">No:</th>
+                                  <th scope="col">Image</th>
+                                  <th scope="col">Product Name</th>
+                                  <th scope="col">Category</th>
+                                  <th scope="col">Price</th>
+                                  <th scope="col" class="text-end"> Action </th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                            <% response.forEach(function(response,index) { %>
+                              <tr>
+                                  <td><%=index+1 %> </td>
+                                  <td><img src='/uploads/<%= response.Image[0] %>' alt="" style="width:50px;height:50px";></td>
+                                  <td> <p><%=response.Productname%></p>
+                                    <small><%=response.ProductDescription%></small></td>
+                                  <td><%=response.category%></td>
+                                  <td>₹<%=response.Price%></td>
+                                
+                                  <td class="text-end">
+                                    <!-- <a href ="/admin/edit-product/<%=response._id %>"  class="btn btn-success">Edit</a>             -->
+
+     
+                                    <%if(response.blocked){%>
+                                      
+                                      
+                                      <a href ="/admin/unblocked-product/<%= response._id %>" class="btn btn-success">Available</a>
+                               
+                                      
+                                    <%}
+                                    else{%>
+                                      <a href ="/admin/block-product/<%= response._id %>" class="btn btn-danger">Unavailable</a>
+                              
+                              
+                                    <%} %>
+                              
+                              
+                              
+                                
+                                      <div class="dropdown">
+                                          <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                          <div class="dropdown-menu">
+                                              <a class="dropdown-item" href="#">View detail</a>
+                                              <a class="dropdown-item" href="/admin/edit-product/<%=response._id %>">Edit info</a>
+                                              <!-- <a class="dropdown-item text-danger" href="#">Delete</a> -->
+                                          </div>
+                                      </div> <!-- dropdown //end -->
+                                  </td>
+                              </tr>
+                              
+                              <% }) %>
+                          </tbody>
+                  </table>
+                  </div> <!-- table-responsive //end -->
+              </div> <!-- card-body end// -->
+          </div> <!-- card end// -->
+          
+<!--pagination-->
+<div class="pagination-area mt-15 mb-50">
+  <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-start">
+         
+          <% for(let i = 1; i <= pages ; i++) { %>
+          <li class="page-item"><a class="page-link" href="?page=<%= i %>" id="pagination"><%= i %></a></li>
+          
+          <% } %>
+      </ul>
+  </nav>
+</div>
+       </div>
+  </section
+  
+  
+      
+

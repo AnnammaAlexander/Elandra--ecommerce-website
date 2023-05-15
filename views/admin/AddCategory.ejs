@@ -1,0 +1,20 @@
+<section class="">
+    <div class="container d-flex justify-content-center">
+        <div class="row w-75 mt-5">
+            <div class="col-md-12"> 
+                <h2 class="text-center">Category</h2>
+           <form action="/admin/addCategoryView" method="POST">
+                <label for="">Category Name  
+                    <% if (preExist) { %>
+                        <p style="color: red;">Category already exist</p>
+                    <% } %>
+                </label>
+                <input type="text" name="categoryname" class="form-control" />
+                <button type="submit" class="btn btn-success mt-4" aria-label="Submit form (required)">Submit</button>
+
+                <!-- <button type="submit" class="btn btn-success mt-4" required="">Submit</button>  -->
+            </form> 
+        </div>
+      </div>
+    </div>
+</section>

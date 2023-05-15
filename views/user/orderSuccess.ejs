@@ -1,0 +1,140 @@
+<html>
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,700,900&display=swap" rel="stylesheet">
+    
+</head>
+<style>
+    body {
+        text-align: center;
+        padding: 40px 0;
+        background: #EBF0F5;
+    }
+
+    h1 {
+        color: #88B04B;
+        font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+        font-weight: 900;
+        font-size: 40px;
+        margin-bottom: 10px;
+    }
+
+    p {
+        color: #404F5E;
+        font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+        font-size: 20px;
+        margin: 0;
+    }
+
+    i {
+        color: #9ABC66;
+        font-size: 100px;
+        line-height: 200px;
+        margin-left: -15px;
+    }
+
+    .card {
+        background: white;
+        padding: 60px;
+        border-radius: 4px;
+        box-shadow: 0 2px 3px #C8D0D8;
+        display: inline-block;
+        margin: 0 auto;
+    }
+</style>
+
+<body>
+    <!-- <div class="col-md-6">
+        <div class="order_review">
+            
+            <div class="table-responsive order_table text-center">
+                <table class="table-hover" >
+                    <thead>
+                        <tr>
+                            <th colspan="2">Product</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%cartItems.forEach(function(object){ %>
+                        <tr>
+                            <td class="image product-thumbnail"><img src="/uploads/<%=object.cartItems.Image[0] %>" alt="#"></td>
+                            <td>
+                                <h5><a href="shop-product-full.html"><%= object.cartItems.Productname%></a></h5> <span class="product-qty">x <%=object.Quantity %></span>
+                            </td>
+                            <td class="text-right" data-title="Cart">
+                                ₹<span id="subTotal<%=object.item%>"><%=parseInt(object.Quantity) *
+                                  parseInt(object.cartItems.Price)%></span>
+                            </td>
+                        </tr>
+                        
+                        
+                                
+                        <% }) %>
+                         
+                        <tr>
+                            <th>SubTotal</th>
+                            <td class="product-subtotal" colspan="2"><span class="font-xl text-brand fw-900">₹</span> </td%>
+                        </tr>
+                        
+                        
+                     </tbody>
+                </table>
+            </div>
+        </div>
+    </div>     -->
+<!--card-->
+    <div class="card">
+        
+
+        <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;">
+            
+            <i class="checkmark">✓</i>
+        </div>
+        <h1>Success</h1>
+        <p>We received your purchase request;<br /> we'll be in touch shortly!</p>
+    </div>
+    <div class="col-md-12 text-center mt-3">
+
+        <a href="/view-orderDetail" class="btn btn-primary mt-5">View Orders</a>
+        
+        <button  class="btn btn-primary mt-5" onclick="cancelOrder('<%=orderid%>')">Cancel Order</button>
+        <a href="/shop" class="btn btn-primary mt-5">Continue Shopping</a>
+        
+    </div>
+   
+
+   
+</body>
+<script>
+      function cancelOrder(id) {
+  swal({
+    title: "Are you sure,You want to cancel the order?",
+    text: "Once returned, you will not be able to recover the product!",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  }).then((willCancel) => {
+    if (willCancel) {
+      $.ajax({
+        url:'/cancel-product', 
+        type:'PUT',
+        data: {
+          orderid: id
+        },
+        success: function (response) {
+          if (response) {
+            location.reload();
+          }
+        }
+      });
+      swal("Your product is canceled!", {
+        icon: "success",
+      });
+    } else {
+      swal("Canceled");
+    }
+  });
+}
+</script>
+

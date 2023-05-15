@@ -1,0 +1,36 @@
+<section>
+    <div class="container">
+      <div class="row mt-5">
+  
+      </div>
+      <table class="table mt-5" id="ordersTable">
+       
+        
+        <thead>
+          <tr>
+            <th scope="col">Order</th>
+            <th scope="col">Date</th>
+            <th scope="col">Payment</th>
+            <th scope="col">Status</th>
+            <th scope="col">Total</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+            <% orderedList.forEach(function(object){ %> 
+          <tr>
+            <td><%= object.hashedId%></td>
+            <td><%=object.CreatedAt%></td>
+            <td><%=object.paymentMethod%></td>
+            <td><%=object.paymentStatus%></td>
+            <td>₹<%=object.totalPrice%></td>
+  
+            <td>
+              <a href="/view-order-products/<%=object._id%>" class="btn btn-primary">View</a>
+            </td>
+          </tr>
+       <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </section>

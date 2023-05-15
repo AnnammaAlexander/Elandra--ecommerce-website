@@ -1,0 +1,324 @@
+
+
+
+    
+    <div class="mobile-header-active mobile-header-wrapper-style">
+        <div class="mobile-header-wrapper-inner">
+            <div class="mobile-header-top">
+                <div class="mobile-header-logo">
+                    <a href="index.html"><img src="assets/imgs/theme/logo.svg" alt="logo"></a>
+                </div>
+                <div class="mobile-menu-close close-style-wrap close-style-position-inherit">
+                    <button class="close-style search-close">
+                        <i class="icon-top"></i>
+                        <i class="icon-bottom"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="mobile-header-content-area">
+                <div class="mobile-search search-style-3 mobile-header-border">
+                    <form action="#">
+                        <input type="text" placeholder="Search for items…">
+                        <button type="submit"><i class="fi-rs-search"></i></button>
+                    </form>
+                </div>
+                
+                    <!-- mobile menu start -->
+                    
+                    <!-- mobile menu end -->
+                </div>
+                <div class="mobile-header-info-wrap mobile-header-border">
+                    <div class="single-mobile-header-info mt-30">
+                        <a  href="page-contact.html"> Our location </a>
+                    </div>
+                    <div class="single-mobile-header-info">
+                        <a href="page-login-register.html">Log In / Sign Up </a>
+                    </div>
+                    <div class="single-mobile-header-info">
+                        <a href="#">(+01) - 2345 - 6789 </a>
+                    </div>
+                </div>
+                <div class="mobile-social-icon">
+                    <h5 class="mb-15 text-grey-4">Follow Us</h5>
+                    <a href="#"><img src="assets/imgs/theme/icons/icon-facebook.svg" alt=""></a>
+                    <a href="#"><img src="assets/imgs/theme/icons/icon-twitter.svg" alt=""></a>
+                    <a href="#"><img src="assets/imgs/theme/icons/icon-instagram.svg" alt=""></a>
+                    <a href="#"><img src="assets/imgs/theme/icons/icon-pinterest.svg" alt=""></a>
+                    <a href="#"><img src="assets/imgs/theme/icons/icon-youtube.svg" alt=""></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <main class="main">
+        
+        <div class="page-header breadcrumb-wrap">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="/" rel="nofollow">Home</a>
+                    <span></span> Shop
+                    <span></span> Your Cart
+                </div>
+            </div>
+        </div>
+        <section class="mt-50 mb-50">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <% if(cartCount==0){%>
+                                <div class="text-center " style="margin-top: 10rem; margin-bottom: 10rem;">
+                                    <h1>My Cart</h1>
+                                    <p>Your cart is currently empty.</p>
+                                    <p>Start adding items to your cart by browsing our products.</p>
+                                    <a href="/shop">Browse products</a>
+                      
+                                  </div>
+                                  <%}else{%>
+
+                            <table class="table shopping-summery text-center clean">
+                                <thead>
+                                    <tr class="main-heading">
+                                        <th scope="col">Image</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Subtotal</th>
+                                        <th scope="col">Remove</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tbody>
+                                        <% cartItems.forEach(function(object){ %>
+                        
+                                        <tr>
+                                          <td class="image product-thumbnail"><img src="/uploads/<%= object.cartItems.Image[0] %>" alt="#"></td>
+                                          <td class="product-des product-name">
+                                            <h5 class="product-name"><a href="shop-product-right.html"><%= object.cartItems.Productname %></a></h5>
+                                            <p class="font-xs"><%= object.cartItems.category%><br> </p>
+                                            <p class="font-xs"><%= object.cartItems.ProductDescription %><br> </p>
+                                          </td>
+                                          <td class="price" data-title="Price">₹<span id="price-<%= object.cartItems._id%>"><%= object.cartItems.Price%></span></td>
+                        
+                        
+                        
+                        
+                                          <!--akiaaa-->
+                                        <td class="column-4">
+                                            <h6 id="stockMessage" class="message" style="color: red;"></h6>
+                                            <button id="minusButton<%=object.item%>" class="cart-item-count mr-3" style="background-color: #cd9b68 ;
+                                                color:aliceblue; width: 3vh;" type="button"
+                                                onclick="changeQuantity('<%= object._id %>','<%= object.item %>','<%= userId%>',-1)">-</button>
+                                            <span  id="qty<%=object.cartItems._id%>"><%=parseInt(object.Quantity)%></span>
+                                          
+                                            <button class="cart-item-count plusBtnStyle ml-3" id="plusButton<%=object.item%>"
+                                                
+                                                onclick="changeQuantity('<%=object._id %>','<%= object.item %>','<%= userId%>',+1)">+</button>
+                                        </td>
+                             <td class="text-right" data-title="Cart">
+                                ₹<span id="subTotal<%=object.item%>"><%=parseInt(object.Quantity) *
+                                  parseInt(object.cartItems.Price)%></span>
+                              </td>
+                              <!--stock-->
+                              <h6 id="Invetory-qty<%=object.item%>"  style="display: none;"><%=object.cartItems.Quantity %></h6>
+              <!--delete document-->
+              <td class="action" data-title="Remove"><a onclick="deleteProduct('<%=object.item%>')" class="text-muted"><i class="fi-rs-trash"></i></a></td>
+                            </tr>
+                            <% }) %>
+                    
+                           </tbody>
+                            </table>
+                          <%}%>
+                        </div>
+                        <div class="cart-action text-end">
+                            
+                            <a class="btn " href="/shop"><i class="fi-rs-shopping-bag mr-15"></i>Continue Shopping</a>
+                        </div>
+                        <div class="divider center_icon mt-50 mb-50"><i class=""></i></div>
+                        <div class="row mb-50">
+                            <div class="col-lg-6 col-md-12">
+                                
+                                
+                                
+                             
+
+
+
+
+
+                                <!--coopon end-->
+                            </div>
+                            <% if(cartCount!=0){%>
+                            <div class="col-lg-6 col-md-12">
+                                <div class="border p-md-4 p-30 border-radius cart-totals">
+                                    <div class="heading_s1 mb-3">
+                                        <h4>Cart Totals</h4>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="cart_total_label">Cart Subtotal</td>
+                                                    <td class="cart_total_amount"><strong><span  id="total" class="font-xl fw-900 text-brand">₹<%=grandtotal%></span></strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="cart_total_label">Shipping</td>
+                                                    <td class="cart_total_amount"> <i class="ti-gift mr-5"></i> Free Shipping</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="cart_total_label">Total</td>
+                                                    <td class="cart_total_amount">₹<span id="subtotal" class="font-lg fw-900 text-brand"><%=grandtotal%></span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <a href="/shop-checkout" class="btn "> <i class="fi-rs-box-alt mr-10"></i> Proceed To CheckOut</a>
+                                </div>
+                            </div>
+                            <%}%>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    footer>
+  
+    <!-- Vendor JS-->
+  
+ <script>
+      
+
+  function changeQuantity(cartId, proId, userId, count) {
+
+    let invetory=document.getElementById('Invetory-qty'+proId).textContent
+    let qty = document.getElementById('qty'+proId).textContent;
+    let Price =document.getElementById('price-'+proId).textContent;
+    let coun = parseInt(count)
+    let quantity = parseInt(qty)
+    let price = parseInt(Price)
+   let stock=parseInt(invetory)
+
+    //total quantity
+
+    let totalQuantity = coun + quantity
+    let subT = (totalQuantity * price)
+console.log("stock",stock);
+console.log("qty:",totalQuantity);
+
+if(stock>=totalQuantity){
+
+    
+    document.getElementById('plusButton'+proId).classList.add('cart-item-count','plusBtnStyle' ,'ml-3');
+
+if (coun == -1 && quantity == 1) {
+      swal({
+          title: "Are you sure?",
+          text: "Once deleted, you will not be able to recover the product!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
+            $.ajax({
+              url: '/update-cart',
+              type: 'POST',
+              data: {
+                userId:userId,
+                proId: proId,
+                quantity: quantity,
+                count: coun,
+                price: price,
+                subtotal: subT,
+                totalQuantity : totalQuantity 
+
+              },
+              success: function(response) {
+                if (response) {
+                
+                }
+              }
+            })
+            location.reload()
+            swal("Your product is deleted!", {
+              icon: "success",
+            });
+          } else {
+            swal("Canceled");
+          }
+        });
+    } else  {
+
+      $.ajax({
+        url: '/update-cart',
+        type: 'POST',
+        data: {
+          userId:userId,
+          proId: proId,
+          quantity: quantity,
+          count: coun,
+          price: price,
+          subtotal: subT,
+          totalQuantity: totalQuantity 
+        },
+        success: function(response) {
+          console.log("rrrrr",response);
+
+        if(response){
+            //place subtotal of product
+          document.getElementById('subTotal'+proId).innerHTML= subT
+          
+          document.getElementById('qty'+proId).innerHTML=totalQuantity
+          document.getElementById('total').innerHTML=response
+          document.getElementById('subtotal').innerHTML=response
+         // 
+         document.getElementById('proId').innerHTML = quantity + count
+                    
+         document.getElementById('total').innerHTML =response.total;
+                    
+          
+            }
+          }
+        })
+      }
+    }else{
+        document.getElementById('plusButton'+proId).classList.remove('cart-item-count','plusBtnStyle','ml-3');
+
+    }
+}
+
+
+function deleteProduct(id) {
+  swal({
+    title: "Are you sure?",
+    text: "Once deleted, you will not be able to recover the product!",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  }).then((willDelete) => {
+    if (willDelete) {
+      $.ajax({
+        url: `/delete-product-cart/${id}`, 
+        type: 'GET',
+        data: {
+          proId: id
+        },
+        success: function (response) {
+          if (response) {
+            location.reload();
+          }
+        }
+      });
+      swal("Your product is deleted!", {
+        icon: "success",
+      });
+    } else {
+      swal("Canceled");
+    }
+  });
+}
+
+  </script>  
+
+
+<!-- Mirrored from wp.alithemes.com/html/evara/evara-frontend/shop-cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Aug 2021 15:26:06 GMT -->
