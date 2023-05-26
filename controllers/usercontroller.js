@@ -201,7 +201,7 @@ changePassword:async(req,res)=>{
 resetPasswordUser:async(req,res)=>{
   console.log("body:",req.body)
   await userHelpers.updatePassword(req.body).then((status)=>{
-    console.log(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",status);
+    
     res.json(status)
   })
 
