@@ -108,6 +108,7 @@ const orderSchema = new mongoose.Schema({
   paymentMethod: String,
   paymentStatus: String,
   totalPrice: Number,
+  ResonForReturn:String,
    
   shippingAddress: Array,
   orderStatus: String,
@@ -193,6 +194,39 @@ const bannerSchema= new mongoose.Schema({
   Image:String
 
 })
+const walletSchema=new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
+    required:true,
+  },
+  walletBalance:{
+    type:Number,
+    required:true
+  },
+  transaction:{
+    type:[Object],
+    default:[],
+  }
+})
+const offerSchema=new mongoose.Schema({
+  CategoryName:{
+    type:String,
+    
+  },
+  offerPercentage:{
+    type:Number
+  },
+  expirDate:{
+    type: Date,
+    default:new Date()
+  },
+  offerStatus:{
+    type:Boolean,
+    default:false
+  }
+})
+
 
 
 module.exports = {
@@ -204,5 +238,7 @@ module.exports = {
   address: mongoose.model('address', addressSchema),
   wishList:mongoose.model('wishLish',whishlistSchema),
   coupon:mongoose.model('coupon',couponSchema ),
-  banner:mongoose.model('banner',bannerSchema)
+  banner:mongoose.model('banner',bannerSchema),
+  wallet:mongoose.model('wallet',walletSchema),
+  offer:mongoose.model('offer',offerSchema)
 }

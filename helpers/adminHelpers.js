@@ -8,6 +8,7 @@ module.exports = {
     userView: (page,perpage) => {
          return new Promise(async (resolve, reject) => {
             let UserDetails = []
+            //find all user from user collection
             await db.user.find().skip((page-1)*perpage).limit(perpage).sort({_id:-1}).then((result) => {
                 UserDetails = result
                 resolve(UserDetails)
@@ -17,6 +18,7 @@ module.exports = {
     //block user
     blockUsers: (userId) => {
         return new Promise(async (resolve, reject) => {
+            //block the user in user collection
             await db.user.updateOne({ _id: userId }, { $set: { blocked: true } }).then((response) => {
                 resolve(response)
             })
@@ -25,6 +27,7 @@ module.exports = {
     //unblock user
     unblockUsers: (userId) => {
         return new Promise(async (resolve, reject) => {
+            //unblock the user
             await db.user.updateOne({ _id: userId }, { $set: { blocked: false } }).then((response) => {
                 resolve(response)
             })
@@ -34,6 +37,7 @@ module.exports = {
     getProduct:(page,perpage) => {
         return new Promise(async (resolve, reject) => {
             let productDetails = []
+            //get all product from product collection
             await db.product.find().skip((page-1)*perpage).limit(perpage).then((result) => {
                 productDetails = result
                 resolve(productDetails)
@@ -45,7 +49,7 @@ module.exports = {
 
 
     
-
+//get all categories from category collection
     getProcategory: () => {
         return new Promise(async (resolve, reject) => {
             await db.category.find().exec().then((response) => {
@@ -54,7 +58,7 @@ module.exports = {
         })
     },
 
-
+//
     postAddProduct: (data, filename) => {
         return new Promise((resolve, reject) => {
 
@@ -74,7 +78,7 @@ module.exports = {
 
         })
     },
-
+//set product is unavailable
     blockProducts: (productId) => {
         return new Promise(async (resolve, reject) => {
             await db.product.updateOne({ _id: productId }, { $set: { blocked: true } })
@@ -82,15 +86,17 @@ module.exports = {
             resolve()
         })
     },
+    //set product is available
     unblockProduct: (productId) => {
         return new Promise(async (resolve, reject) => {
             await db.product.updateOne({ _id: productId }, { $set: { blocked: false } })
             resolve()
         })
     },
-
+//edit product
     getEditProduct: (productId) => {
         return new Promise(async (resolve, reject) => {
+            //get the details of that porduct from product collecton
             await db.product.findOne({ _id: productId }).exec().then((response) => {
                 resolve(response)
             })
@@ -98,9 +104,10 @@ module.exports = {
         })
     },
 
-
+//update edited product  to product collection
     postEditProductHelper: (productId, data, filename) => {
         return new Promise(async (resolve, reject) => {
+            //update the details to the product collection
             await db.product.updateOne({ _id: productId }, {
                 $set: {
                     Productname: data.name,
@@ -116,8 +123,10 @@ module.exports = {
             })
         })
     },
+    //get category
     getEditCategoryProduct: () => {
         return new Promise(async (resolve, reject) => {
+            //find all the category from category collection
             await db.category.find().exec().then((response) => {
                 resolve(response)
             })
@@ -259,7 +268,18 @@ addCategory :(data)=>{
            })
         })
         },
-//view order page
+//get details of a single order
+getOrderDetails:(productId)=>{
+    return new Promise(async (resolve, reject) => {
+        try {
+            const order = await db.order.findOne({_id: objectId(productId) }).exec()
+            resolve(order)
+        } catch (error) {
+            reject(error)
+        }
+    })
+},
+//view order page ,all orders
         getOrder:(page,perpage)=>{
             return new Promise(async(resolve, reject) => {
                await db.order.find().skip((page-1)*perpage).limit(perpage).sort({CreatedAt:-1}).then((response)=>{
@@ -267,6 +287,16 @@ addCategory :(data)=>{
                })
             })
         },
+//view all order that is delivered
+getDeliveredOrder:(page,perpage)=>{
+    return new Promise(async(resolve, reject) => {
+        await db.order.find({orderStatus:"Delivered"}).skip((page-1)*perpage).limit(perpage).sort({CreatedAt:-1}).then((response)=>{
+         resolve(response)
+        })
+     })
+
+},
+
         //get dashbord data
         DashbordhHelper:async(req,res)=>{
         let response={}
@@ -292,7 +322,7 @@ addCategory :(data)=>{
           let monthlyEarnings = await db.order.aggregate([
             {
               $match: {
-                orderStatus: "confirmed",
+                orderStatus: "Delivered",
               },
             },
             {
@@ -307,7 +337,7 @@ addCategory :(data)=>{
               },
             },
           ]);
-    console.log("monthlyEarnings",monthlyEarnings);
+    console.log("monthlyEarnings..................................",monthlyEarnings);
     let monthlySales = await db.order.aggregate([
         {
           $group: {
@@ -341,4 +371,27 @@ addCategory :(data)=>{
 
         return response
         },
+        //get sales report
+        salesReport: (fromdate, toDate) => {
+            return new Promise(async (resolve, reject) => {
+              await db.order
+                .find({
+                  orderStatus: "confirmed",
+                  $expr: {
+                    $and: [
+                      { $gte: ["$CreatedAt", fromdate] },
+                      { $lte: ["$CreatedAt", toDate] }
+                    ]
+                  }
+                })
+                .then((result) => {
+                    
+                  resolve(result);
+                })
+                .catch((error) => {
+                  reject(error);
+                });
+            });
+          }
+          
 }

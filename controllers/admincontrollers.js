@@ -1,8 +1,11 @@
 const { response } = require('../app')
 const adminHelper = require('../helpers/adminHelpers')
+const adminOfferHelper = require('../helpers/adminOfferHelper')
 const bannerHelper=require('../helpers/bannerHelper')
 const user = require('../models/connection')
 const db=require('../models/connection')
+const objectId= require("mongodb").ObjectId
+const moment=require("moment")
 const adminCredential = {
     name: 'admin',
     email: 'admin@gmail.com',
@@ -12,11 +15,11 @@ const adminCredential = {
 let adminStatus
 module.exports = {
     
-
+//get /view Dashbord
     getDashboard: async(req, res) => {
         let variable = req.session.admin
        await adminHelper.DashbordhHelper().then((response)=>{
-        console.log("tttttttttttttttttttttt:",response);
+        
         if (adminStatus) {
             res.render("admin/adminDashboard", { layout: "adminLayout", variable, adminStatus, loggedIn: true,response});
         } else {
@@ -26,14 +29,44 @@ module.exports = {
        })
        
     },
+    //view sales report
+    viewSalesReport:async(req,res)=>{
+         //pagination 
+    const page=req.query.page||1;
+    const perpage=10;
+    const count=await db.order.countDocuments({})
+    const orderListCount=count
+    //view all delivered order
+        let order= await adminHelper.getDeliveredOrder(page,perpage)
+        
+
+        res.render("admin/salesReport", { layout: "adminLayout", adminStatus,order, loggedIn: true,pages:Math.ceil(orderListCount/perpage) })
+    },
+    //sales report
+    salesReport:async(req,res)=>{
+        
+        fromdate=req.body.fromDate
+        // toDate=req.body.toDate
+        toDate = moment.utc(req.body.toDate).endOf('day').format()
+        toDate = moment(toDate).format('YYYY-MM-DD')
+        console.log(fromdate,toDate);
+        
+        await adminHelper.salesReport(fromdate,toDate).then((result)=>{
+            res.json(result)
+        })
+
+    },
+    //view admin login page
     getAdminLogin: (req, res) => {
         if (req.session.adminLoggedIn) {
-            res.render("admin/adminDashboard", { layout: "adminLayout", adminStatus})
+            // res.render("admin/adminDashboard", { layout: "adminLayout", adminStatus})
+            res.redirect('/admin')
         } else {
 
             res.render("admin/adminLog", { layout: "adminLayout", adminStatus})
         }
     },
+   // post admin login
     postAdminLogin: (req, res) => {
         if (req.body.email == adminCredential.email && req.body.password == adminCredential.password) {
             req.session.admin = adminCredential;
@@ -80,9 +113,12 @@ module.exports = {
         })
 
     },
+    //  view the product details want to be edited
     getEditProducts: (req, res) => {
+        //get all category
         adminHelper.getEditCategoryProduct().then((response) => {
             var procategory = response
+           //get all the details of a product want to be edited 
             adminHelper.getEditProduct(req.params.id).then((response) => {
                 editproduct = response
                 res.render('admin/editProducts', { layout: "adminLayout", adminStatus, loggedIn: true, editproduct, procategory })
@@ -92,10 +128,11 @@ module.exports = {
         })
 
     },
+    //post edited product detail
     postEditProducts: async (req, res) => {
         let id = req.params.id
         let imageArray = []
-        console.log("annnnnnnna",req.body.image3[0]);
+        
         if (req.files.image1) {
 
             imageArray.push(req.files.image1[0].filename)
@@ -129,12 +166,13 @@ module.exports = {
                     imageArray.push(req.body.image4)
              }
 
-        // console.log("aaaaaaaa",req.body);
+        //update edited product 
         await adminHelper.postEditProductHelper(id, req.body, imageArray).then((response) => {
             res.redirect('/admin/product')
         })
     
 },
+
     blockProducts: (req, res) => {
         adminHelper.blockProducts(req.params.id).then((response) => {
             res.redirect('/admin/product')
@@ -230,9 +268,9 @@ module.exports = {
     getSubCategory: (req, res) => {
         res.render('admin/addSubCategory', { layout: "adminLayout", adminStatus, loggedIn: true })
     },
-    postSubCategory: (req, res) => {
-        adminHelper.postSubCategoryHelper(req.body).then()
-    },
+    // postSubCategory: (req, res) => {
+    //     adminHelper.postSubCategoryHelper(req.body).then()
+    // },
 
 //get view users
     getViewUsers: async(req, res) => {
@@ -256,7 +294,8 @@ module.exports = {
     //unblock user
     unblockUsers: (req, res) => {
         adminHelper.unblockUsers(req.params.id).then((response) => {
-            res.redirect("/admin/view_users")
+            // res.redirect("/admin/view_users")
+            res.json(true)
         })
     },
     //list ,view orders
@@ -267,7 +306,26 @@ module.exports = {
     const count=await db.order.countDocuments({})
     const orderListCount=count
         let order= await adminHelper.getOrder(page,perpage)
+        console.log("orders",order);
         res.render('admin/orderList', { layout: "adminLayout", adminStatus,loggedIn: true,order ,pages:Math.ceil(orderListCount/perpage)})
+    },
+    //get order details of each order
+    getOrderDetails:async(req, res) => {
+        productId=req.params.id
+        let orderDetails =  await adminHelper.getOrderDetails(productId)
+       console.log("orderDetails:",orderDetails)
+       
+       
+
+        res.render('admin/orderDetail', { layout: "adminLayout", adminStatus, loggedIn: true,orderDetails })
+
+    },
+    //get changed status from admin
+    getOrderStatusChange:async(req,res)=>{
+        let status=req.body.orderStatus
+        let orderid=req.body.orderId
+        await db.order.updateOne({_id:objectId(orderid)},{orderStatus:status}) 
+        res.json(true)
     },
     //get,view  Banner Page 
     getBanner:async(req,res)=>{
@@ -295,7 +353,31 @@ deleteBanner:async(req,res)=>{
 
 
 },
-
+//ilter order on thebasis of payment methord
+ordersByPayment:(req,res)=>{
+    console.log("data:",req.query.paymentData);
+},
+// view offer details
+getOffers:async(req,res)=>{
+    try {
+        let categories=await db.category.find()
+        res.render('admin/AddOffers',{layout: "adminLayout", adminStatus,loggedIn: true,categories})
+        
+    } catch (error) {
+        
+    }
+},
+//add offer
+addOffer: async (req, res) => {
+  console.log("req.body", req.body);
+  try {
+    const result = await adminOfferHelper.addOffer(req.body);
+    console.log(result)
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred' });
+  }
+},
 
 
 //logOut

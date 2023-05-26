@@ -24,7 +24,7 @@
     "nocache": "^3.0.4",
     "nodemon": "^2.0.20",
     "razorpay": "^2.8.6",
-    "sweetalert2": "^11.7.5",
+    "sweetalert2": "^11.4.8",
     "twilio": "^4.10.0"
   }
 }

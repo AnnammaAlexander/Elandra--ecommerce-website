@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html class="no-js" lang="en">
+
 
 
 <!-- Mirrored from wp.alithemes.com/html/evara/evara-frontend/shop-checkout.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Aug 2021 15:26:06 GMT -->
@@ -242,7 +241,105 @@
                                 
                                 <%}%>
                                 <div class="p-3">
-                                    <a href="/user-account" class="btn btn-primary">Add Address</a>
+                                    <a href="/user-account?address=checkout" class="btn btn-primary">Add Address</a>
+                                    <!-- <div class="ship_detail">
+                                        <div class="form-group">
+                                            <div class="chek-form">
+                                            <div class="custome-checkbox">
+                                              <input class="form-check-input" type="checkbox" name="checkbox" id="differentaddress">
+                                              <label class="form-check-label label_info" data-bs-toggle="collapse"
+                                                data-target="#collapseAddress" href="#collapseAddress" aria-controls="collapseAddress"
+                                                for="differentaddress"><span> <a href="#" class="btn-small">Add
+                                                    Address</a></span></label>
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <div id="collapseAddress" class="different_address collapse in">
+                                          <form id="address">
+                                            <input type="hidden"  id="userid" name="userId" value="<%=userId%>">
+                                            <div class="form-group">
+                                              <label for="name">First Name *</label>
+                                              <input type="text" name="name" id="name" placeholder="Enter your first name"
+                                                 required>
+                                              <label id="nmlabel" for="name" style="display: none; color:red;">This field is
+                                                required</label>
+                                              <label id="nmlabel-01" for="name" style="display: none; color:red;">Name doesn't start
+                                                with a number</label>
+                                              <label id="nmlabel-02" for="name" style="display: none; color:red;">Name doesn't contain
+                                                special characters</label>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="Lname">Last Name *</label>
+                                                <input type="text" name="Lname" id="Lname" placeholder="Enter your first name"
+                                                   required>
+                                                <label id="nmlabel" for="Lname" style="display: none; color:red;">This field is
+                                                  required</label>
+                                                <label id="nmlabel-01" for="Lname" style="display: none; color:red;">Name doesn't start
+                                                  with a number</label>
+                                                <label id="nmlabel-02" for="Lname" style="display: none; color:red;">Name doesn't contain
+                                                  special characters</label>
+                                              </div>
+                                            <div class="form-group">
+                                              <label for="phone">Phone *</label>
+                                              <input type="tel" name="phone" id="phone"  placeholder="Enter your phone number"
+                                                 required>
+                                              <label id="ml" for="phone" style="display: none; color:red;">This field is
+                                                required</label>
+                                              <label id="ml-01" for="phone" style="display: none; color:red;">Minimum 10
+                                                digits required</label>
+                  
+                                            </div>
+                                            <div class="form-group">
+                                              <label for="address">Address *</label>
+                                              <input type="text" name="billingaddress" id="address" 
+                                                placeholder="Enter your address"   required>
+                                              <label id="adlabel" for="address" style="display: none; color:red;">This field is
+                                                required</label>
+                                              <label id="adlabel-01" for="address" style="display: none; color:red;">Address doesn't start
+                                                with a number</label>
+                                              <label id="adlabel-02" for="address" style="display: none; color:red;">Address doesn't contain
+                                                special characters</label>
+                  
+                                            </div>
+                                            <div class="form-group">
+                                              <label for="address2">Street</label>
+                                              <input type="text" name="billingaddress2" id="address2"
+                                                placeholder="Enter your address line 2"  required>
+                                              <label id="adLlabel" for="address2" style="display: none; color:red;">This field is
+                                                required</label>
+                                              <label id="adLlabel-01" for="address2" style="display: none; color:red;">Address doesn't start
+                                                with a number</label>
+                                              <label id="adLlabel-02" for="address2" style="display: none; color:red;">Address doesn't contain
+                                                special characters</label>
+                                            </div>
+                                            <div class="form-group">
+                                              <label for="city">City/Town *</label>
+                                              <input type="text" name="city" id="city"  placeholder="Enter your city/town" required>
+                                              <label id="adlabel" for="address2" style="display: none; color:red;">This field is
+                                                required</label>
+                                              <label id="adlabel-01" for="address2" style="display: none; color:red;">Address doesn't start
+                                                with a number</label>
+                                              <label id="adlabel-02" for="address2" style="display: none; color:red;">Address doesn't contain
+                                                special characters</label>
+                  
+                                            </div>
+                                            <div class="form-group">
+                                              <label for="state">State/County *</label>
+                                              <input type="text" name="state" id="state" required placeholder="Enter your state/county">
+                  
+                                            </div>
+                                            <div class="form-group">
+                                              <label for="zipcode">Postcode/ZIP *</label>
+                                              <input type="text" name="zipcode" id="zipcode" required
+                                                placeholder="Enter your postcode/ZIP">
+                  
+                                            </div>
+                                            <button type="submit" class="btn btn-success mt-4" onclick="addAddress(event)">Submit</button>
+                                          </form>
+                  
+                                        </div>
+                                      
+                                     </div> -->
                                 </div>
     
                         </div>
@@ -299,7 +396,7 @@
                                             <th>GrandTotal</th>
                                             <td class="product-subtotal" colspan="2" ">₹<span class="font-xl text-brand fw-900" id="Grandtoal"><%=grandtotal%></span> </td%>
                                         </tr>
-                                       <input type="text" style="display: none;" id="totalhidden" value="" name="totalhidden"> 
+                                       <input type="text" style="display: none;" id="totalhidden" value="<%=grandtotal%>" name="totalhidden"> 
                                        <input type="text" style="display: none;" id="discountHidden" value="" name="discountHidden">
                                         
                                      </tbody>
@@ -401,9 +498,9 @@
                                         </div>
                                     </div>
                                     <div class="custome-radio">
-                                        <input class="form-check-input" required="" type="radio" name="payment_option" id="exampleRadios5" checked="" value="Wallet">
-                                        <label class="form-check-label" for="exampleRadios5" data-bs-toggle="collapse" data-target="#paypal" aria-controls="paypal">Wallet</label>
-                                        <div class="form-group collapse in" id="paypal">
+                                        <input class="form-check-input" required="" type="radio" name="payment_option" id="exampleRadios5" checked="" value="Wallet" onclick="walletCheck()">
+                                        <label class="form-check-label" for="exampleRadios5" data-bs-toggle="collapse" data-target="#wallet" aria-controls="paypal">Wallet</label>
+                                        <div class="form-group collapse in" id="wallet">
                                             <p class="text-muted mt-5">Pay via PayPal; you can pay with your credit card if you don't have a PayPal account.</p>
                                         </div>
                                     </div>
@@ -583,10 +680,11 @@ function couponCheck(event) {
 
     
             event.preventDefault()
-            let formdata =$('#couponForm').serialize()
- let couponData = document.getElementById('couponApply').value;
-
-            console.log("formdata : ",formdata,couponData);
+            // let formdata =$('#couponForm').serialize()
+            let couponData = document.getElementById('couponApply').value;
+            console.log("asdfghjk",couponData);
+            if(couponData!=''){
+            
             $.ajax({
                 url:'/apply-coupon',
                 type:'post',
@@ -595,7 +693,8 @@ function couponCheck(event) {
                 },
                 success:function(response){
                     console.log("...response,",response);
-                  if(response.status){
+                   
+                  if(response.couponValid){
                     
                     let totalAmt= response.totalAmount
                     document.getElementById('Grandtoal').innerHTML=Math.round(totalAmt)
@@ -603,19 +702,39 @@ function couponCheck(event) {
                     let discountamount=response.discount
                     document.getElementById('discount').innerHTML= Math.round(discountamount)
                     document.getElementById('discountHidden').value= Math.round(discountamount)
+                    swal('Coupon Applied')
 
 
                     
                     
-                    console.log("successssssss",response);
-                  } else{
-                   swal("coupon expired!!!")
+                    
+                  } else if(response.AlreadyUsed){
+                            swal("coupon already used!!!")
+                            document.getElementById('couponApply').value=''
                 
                  
-                  }  
+                  }else if(response.CouponExpired){
+
+                    swal("coupon expired!!!")
+                    document.getElementById('couponApply').value=''
+
+                  }else if(response.nocoupon){
+                    swal("enter valid coupon")
+                    document.getElementById('couponApply').value=''
+
+                  }else if(response.invalidCoupon){
+                    swal('Coupon not Applicable')
+                    document.getElementById('couponApply').value=''
+
+
+                  }
                     
                 }
             })
+            }else{
+                swal("enter valid coupon")
+                    document.getElementById('couponApply').value=''
+            }
         } 
 
 
@@ -627,17 +746,26 @@ function couponCheck(event) {
                 type:'post',
                 data:$('#placeorder').serialize(),
                 success:function(response){
-                    
+                    console.log('response',response);
                     if(response.COD){
+                        swal('order placed succesfully').then(()=>{
+                            location.href='/view-order-products/'+response.OrderID
+
+                        })
                     
                  
-                 
-                    location.href=`/order-details?oid=${response.OrderID}`
+                   
+                    
 
                     }else if(response.Razorpay){
                         
                         getRazorpay(response)
                     }else{
+
+                         swal('order placed succesfully').then(()=>{
+                            location.href='/view-order-products/'+response.OrderID
+
+                        })
                         
                     }
                 }
@@ -687,6 +815,7 @@ function getRazorpay(order){
 
 
     const verifyPayment = (payment, order) => {
+       
         $.ajax({
             type: "post",
             url: '/verify-payment',
@@ -695,20 +824,62 @@ function getRazorpay(order){
                 order
             },
             success: (response) => {
+               
                 if(response) {
                     swal({
                         title: "Order placed Successfully",
                   
                         
                     });
-                    location.href = '/order-details'
+                    location.href='/view-order-products/'+response.orderId
+
+                    
                 
                 }
             }
         })
     }
-        
 
+//check wallet amount
+
+function walletCheck(){
+    let grandTotal=document.getElementById('Grandtoal').innerText
+console.log("asdfghjkl",grandTotal);
+    $.ajax({
+                url:'/walletAmt-check',
+                type:'get',
+                data:{
+                    grandTotal 
+                },
+                success:function(response){
+                    console.log("asdf:",response);
+                    swal("insufficient amount...")
+                   
+                }
+            })
+
+
+}
+        
+// function addAddress(event){
+//     event.preventDefault()
+//     let userId=document.getElementById('userid').value
+    
+//     console.log("asdfghjk");
+//     console.log(userid);
+//     $.ajax({
+//                 url:'/checkoutAddress',
+//                 type:'post',
+//                 data:{
+//                     userId  
+//                 },
+//                 success:function(response){
+//                     swal("insufficient amount...")
+                   
+//                 }
+//             })
+
+// }
 
 
                 

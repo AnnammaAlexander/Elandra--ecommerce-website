@@ -11,7 +11,7 @@
                 </li>
                 <li>
                   <i class="fi-rs-marker"></i
-                  ><a href="page-contact.html">Our location</a>
+                  
                 </li>
               </ul>
             </div>
@@ -90,8 +90,8 @@
       <div class="container">
         <div class="header-wrap">
           <div class="logo logo-width-1">
-            <a href="/"
-              ><img src="assets/imgs/theme/logo.svg" alt="logo"
+            <a 
+              ><img src="/assets/imgs/theme/logo-color.png" alt="logo"
             /></a>
           </div>
           <div class="header-right">
@@ -125,18 +125,21 @@
                       alt="Evara"
                       src="assets/imgs/theme/icons/icon-heart.svg"
                     />
-                    <span class="pro-count blue">4</span>
+                    
+                    <span class="pro-count blue"><%=wishcount%></span>
+                    
                   </a>
                 </div>
                 <div class="header-action-icon-2">
                   <a class="mini-cart-icon" href="/show-user-cartDispaly">
+                    
                     <img
                       alt="Evara"
                       src="assets/imgs/theme/icons/icon-cart.svg"
                     />
                     <span class="pro-count blue"><%=cartCount%></span>
                   </a>
-                  <div class="cart-dropdown-wrap cart-dropdown-hm2">
+                  <!-- <div class="cart-dropdown-wrap cart-dropdown-hm2">
                     <ul>
                       <li>
                         <div class="shopping-cart-img">
@@ -184,7 +187,7 @@
                         <a href="shop-checkout.html">Checkout</a>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>
@@ -196,8 +199,8 @@
       <div class="container">
         <div class="header-wrap header-space-between position-relative main-nav">
           <div class="logo logo-width-1 d-block d-lg-none">
-            <a href="index.html"
-              ><img src="assets/imgs/theme/logo.svg" alt="logo"
+            <a 
+              ><img src="/assets/imgs/theme/logo-color.png" alt="logo"
             /></a>
           </div>
           <div class="header-nav d-none d-lg-flex">
@@ -866,8 +869,10 @@
   <script>
    function searchKey(){
     let key=document.getElementById('searchBox').value
+    console.log("key",key);
+    if(key!=="" || key!==""){
     $.ajax({
-        url: '/search', 
+        url: '/search',
         type: 'post',
         data: {
           key:key
@@ -884,5 +889,8 @@
           }
         }
       });
+    }else{
+      document.getElementById('searchKeyItems').innerHTML=""
+    }
    }
   </script>

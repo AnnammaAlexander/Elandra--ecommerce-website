@@ -48,32 +48,47 @@ module.exports = {
     },
     //applay coupon
     couponApply:async(req,res)=>{
+        let  Percentage=0
+        let discount=0
         let coupon=req.body.couponData
-        console.log("couppon:",coupon);
+        let userId=req.session.users._id
+       //check coupon data 
         let couponData=await couponHelper.couponValidation(coupon)
-        console.log();
-       let userId=req.session.users._id
-       let total = await cartHelper.grandTotal(userId)
-       grandtotal = total[0].total;
-       let  Percentage=couponData.discountPercentage
-       
-       let discount= (grandtotal*Percentage)/100
-       console.log("..........discount",discount);
-       
+        if(couponData){
+            let total = await cartHelper.grandTotal(userId)
+            //find grand total 
+            grandtotal = total[0].total;
+        
+            if(couponData.minPurchase<grandtotal){
+                // console.log("coupondata",couponData)
+                //  console.log("total",grandtotal);
+             Percentage=couponData.discountPercentage
+              discount= (grandtotal*Percentage)/100
+            
+       //check the coupon is used or not
+       let couponExist=await couponHelper.couponExist(userId,coupon)
+       console.log("couponexist",couponExist);
+       if(couponExist!=null){
+          res.json({AlreadyUsed:true})
+          //check the coupon expiry
+       }else if(couponData.expiry<new Date()){
+          res.json({CouponExpired:true})
+          //coupon is valid  
+       }else{
+          if(couponData.maxDiscountValue<discount){
+              discount=couponData.maxDiscountValue
+       }
+       let totalAmount=(grandtotal-discount)
 
-        let couponExist=await couponHelper.couponExist(userId,coupon)
-         if(couponExist!=null){
-            res.json({status:false})
-         }else if(couponData.expiry<new Date()){
-            res.json({status:false})  
+       console.log("total:",typeof totalAmount,totalAmount);
+       res.json({couponValid:true,totalAmount:totalAmount,discount:discount})
+
+        }
          }else{
-            if(couponData.maxDiscountValue<discount){
-                discount=couponData.maxDiscountValue
-         }
-         let totalAmount=(grandtotal-discount)
-
-         console.log("total:",typeof totalAmount,totalAmount);
-         res.json({status:true,totalAmount:totalAmount,discount:discount})
+            res.json({invalidCoupon:true})
+        }
+        }else{
+            res.json({nocoupon:true})
         }
 
         

@@ -1,7 +1,7 @@
 <aside class="navbar-aside" id="offcanvas_aside">
     <div class="aside-top">
       <a href="/" class="brand-wrap">
-        <img src="/admin-assets/imgs/theme/logo.svg" class="logo" alt="Evara Dashboard" />
+        <img src="/assets/imgs/theme/logo-color.png" class="logo" alt="Evara Dashboard" />
       </a>
       <div>
         <button class="btn btn-icon btn-aside-minimize">
@@ -13,28 +13,28 @@
       <ul class="menu-aside">
     
        
-          <li class="menu-item ">
+          <li class="menu-item " style="margin-bottom: 15px;">
             <a class="" href="/admin">
               <i class="icon material-icons md-home"></i>
               <span class="text" style="color: #000">Dashboard</span>
             </a>
           </li>
      
-        <li class="menu-item has-submenu">
+        <li class="menu-item has-submenu"style="margin-bottom: 15px;">
           <a class="" href="/admin/product">
             <i class="icon material-icons md-shopping_bag"></i>
             <span class="text" style="color: #000">Products</span>
           </a>
         </li>
      
-        <li class="menu-item has-submenu">
+        <li class="menu-item has-submenu"style="margin-bottom: 15px;">
           <a class="" href="/admin/add_category">
             <i class="icon material-icons md-store"></i>
             <span class="text" style="color: #000">Categories</span>
           </a>
         </li>
        
-        <li class="menu-item has-submenu">
+        <li class="menu-item has-submenu"style="margin-bottom: 15px;">
           <a class="" href="/admin/orders">
             <i class="icon material-icons md-shopping_cart"></i>
             <span class="text" style="color: #000">Orders</span>
@@ -42,7 +42,7 @@
         </li>
   
         
-        <li class="menu-item has-submenu">
+        <li class="menu-item has-submenu"style="margin-bottom: 15px;">
           <a class="" href="/admin/view_users">
             <i class="icon material-icons md-person"></i>
             <span class="text" style="color: #000">Users</span>
@@ -50,7 +50,7 @@
         </li>
         
         
-        <li class="menu-item">
+        <li class="menu-item"style="margin-bottom: 15px;">
           <a class="" href="/admin/add-coupon">
             <i class="icon material-icons md-stars"></i>
             <span class="text" style="color: #000">Coupon</span>
@@ -58,28 +58,40 @@
           </a>
         </li>
       
-        <li class="menu-item has-submenu">
+        <li class="menu-item has-submenu"style="margin-bottom: 15px;">
           <a class="" href="/admin/banners">
             <i class="icon material-icons md-settings"></i>
             <span class="text" style="color: #000">Banners</span>
           </a>
-        </li>
+          </li>
+          <li class="menu-item "style="margin-bottom: 15px;">
+            <a class="" href="/admin/offers">
+              <i class="icon material-icons md-monetization_on"></i>
+              <span class="text" style="color: #000">Offers</span>
+            </a>
+          </li> 
+
       </ul>
       <br />
       <br />
     </nav>
   </aside>
+  <script>
+    //give the indication of the side bar
+    // Get the current URL pathname
+    const currentPathname = window.location.pathname;
 
-<script>
-    // get all the 'a' elements in the navigation bar
-    var navLinks = document.querySelectorAll('.menu-aside a');
-  
-    // loop through the links and check if the 'href' attribute matches the current URL
-    for (var i = 0; i < navLinks.length; i++) {
-      if (navLinks[i].href === window.location.href) {
-        // add the 'active' class to the corresponding 'li' element
-        navLinks[i].parentNode.classList.add('indication');
-        break;
-      }
-    }
-  </script>
+    // Get all the menu items
+    const menuItems = document.querySelectorAll('.menu-item');
+
+    // Loop through each menu item and check if its pathname matches the current URL pathname
+    menuItems.forEach(item => {
+        const link = item.querySelector('a');
+        const linkPathname = new URL(link.href).pathname;
+
+        // Check if the current pathname matches the link's pathname
+        if (currentPathname === linkPathname) {
+            item.classList.add('indication');
+        }
+    });
+</script>

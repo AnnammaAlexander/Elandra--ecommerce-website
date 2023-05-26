@@ -180,6 +180,15 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="table-responsive">
+                            <% if(wishcount==0){%>
+                                <div class="text-center " style="margin-top: 10rem; margin-bottom: 10rem;">
+                                    <h1>My Wishlist</h1>
+                                    <p>Your wishList is currently empty.</p>
+                                    <p>Start adding items to your wishList by browsing our products.</p>
+                                    <a href="/shop">Browse products</a>
+                      
+                                  </div>
+                                  <%}else{%>
                             <table class="table shopping-summery text-center">
                                 <thead>
                                     <tr class="main-heading">
@@ -214,6 +223,7 @@
                                    <% })%>   
                                 </tbody>
                             </table>
+                            <%}%>
                         </div>
                     </div>
                 </div>
@@ -348,6 +358,14 @@
     </div>
 <script>
     function deleteWishList(id) {
+        swal({
+    title: "Are you sure?",
+    text: "Once deleted, you will not be able to recover the product!",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  }).then((willDelete) => {
+    if (willDelete) {
         $.ajax({
         url:  `/delete-wishlist/${id}`, 
         type: 'GET',
@@ -363,8 +381,11 @@
        swal("Your product is deleted!",{
         icon: "success",
       });
+    }else{
+        swal("Canceled");
     }
-   
+})
+    }
     function addCart(id){
         console.log("addd cart");
         $.ajax({

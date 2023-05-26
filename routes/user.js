@@ -31,21 +31,25 @@ router.post('/forgot-password',controllers.postforgotpassword)
 //change the password if the email is correct
 router.put('/password-change',controllers.changePassword)
 //reset password in userAccount
-router.post('/reset-password',controllers.resetPassword)
+router.post('/reset-password',controllers.resetPasswordUser)
+
+
 //view products
-router.get("/shop",middleware.userSession,middleware.blockedStatus,controllers.getShop)
+router.get("/shop",controllers.getShop)
 //view product based on category,ajax call
 router.get('/shop-category',controllers.categoruProducts)
-router.get('/product-detail/:id',middleware.userSession,middleware.blockedStatus ,controllers.product_detail)
+router.get('/product-detail/:id',controllers.product_detail)
 //search
 router.post('/search',controllers.searchItems)
+//product sort by price
+router.get('/sortByPrice',controllers.sortProducts)
 
 // router.get('/shop_product/:id',middleware.userSession,controllers.getShopProduct)
 
 
 // router.get('/show-user-cart',controllers. getViewCart)
 //add to cart from ajax
-router.get('/add-to-cart/:id',middleware.blockedStatus,controllers.addToCart)
+router.get('/add-to-cart/:id',middleware.userSession, middleware.blockedStatus,controllers.addToCart)
 //update cart -ajax
 router.post('/update-cart',middleware.userSession,controllers.AjaxUdateCart)
 //delete product from cart
@@ -54,6 +58,8 @@ router.get('/delete-product-cart/:id',middleware.userSession,middleware.blockedS
 router.get('/show-user-cartDispaly',middleware.userSession,middleware.blockedStatus,controllers.dummygetViewCart)
 //view place orderpage
 router.get('/shop-checkout',middleware.userSession,middleware.blockedStatus,controllers.getCheckout)
+//check wallet amount
+router.get('/walletAmt-check',middleware.userSession,middleware.blockedStatus,controllers.checkWalletAmount)
 
 //view order success page
 router.get('/order-details',middleware.blockedStatus,middleware.userSession,controllers.getOrderSuccess)
@@ -63,12 +69,12 @@ router.get('/viewOrders',middleware.userSession,middleware.blockedStatus,control
 //view order product from orderList
 router.get('/view-order-products/:id',middleware.userSession,middleware.blockedStatus,controllers.viewOrederProduct)
 //return orderd product
-router.put('/return-product',controllers.returnProduct)
+router.post('/return-product',middleware.userSession ,middleware.blockedStatus ,controllers.returnProduct)
 //cancel ordered product
-router.put('/cancel-product',controllers.cancelOrder)
-//view order details page
-router.get('/view-orderDetail',controllers.orderDetails)
-// get whishlist page
+router.put('/cancel-product', middleware.userSession,middleware.blockedStatus ,controllers.cancelOrder)
+// //view order details page
+// router.get('/view-orderDetail',controllers.orderDetails)
+// view whishlist page 
 router.get('/shop-wishlist', middleware.userSession,middleware.blockedStatus,controllers.getWishLish)
 //add wishlist
 router.post('/addto-wishlist',controllers.addWishList)
@@ -78,7 +84,7 @@ router.get('/delete-wishlist/:id',middleware.userSession,middleware.blockedStatu
 router.get('/addCartWishlist',middleware.userSession,middleware.blockedStatus,controllers.addToCartFromWishlist)
 
 //userProfile
-router.get('/user-account',middleware.blockedStatus,middleware.userSession,controllers.getUserAccount)
+router.get('/user-account',middleware.userSession,middleware.blockedStatus,controllers.getUserAccount)
 //add address 
 router.post('/addAddress',middleware.userSession,controllers.postAddress)
 //edit address
@@ -90,9 +96,11 @@ router.get('/available-coupon',middleware.userSession,middleware.blockedStatus,c
 router.post('/apply-coupon',middleware.userSession, couponController.couponApply)
 
 //place order
-router.post('/shop-checkout',middleware.userSession, controllers.postCheckout)
+router.post('/shop-checkout',middleware.userSession, middleware.blockedStatus, controllers.postCheckout)
 //razorpay verification
 router.post('/verify-payment',controllers.verifyPayment)
+//add address in checkout page
+router.post('/checkoutAddress',controllers.CheckoutAddress)
 
 //logout page
 router.get("/logout",controllers.getLogout)

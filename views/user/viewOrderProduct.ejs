@@ -1,4 +1,4 @@
-<main class="main-wrap">
+<!-- <main class="main-wrap">
    
     <section class="content-main">
         <div class="content-header">
@@ -17,14 +17,18 @@
                         <small class="text-muted">Order ID: 3453012</small>
                     </div>
                     <div class="col-lg-6 col-md-6 ms-auto text-md-end">
-                       
-                        <!-- <a class="btn btn-primary" href="#">Return</a> -->
-                        <button class="btn btn-primary" onclick="productReturn('<%=orderDetails._id%>')">Return</button>
+                     <% if(orderStatus!=='Returned' && orderStatus=='Delivered'){%>
+                        <a class="btn btn-primary" href="#">Return</a>
+                         <button class="btn btn-primary" onclick="productReturn('<%=orderDetails._id%>')">Return</button>
+                        <%}else{%> 
+                             <button class="btn btn-primary" disabled>Return</button>
+                       <%}%> 
                        
                     </div>
                 </div>
-            </header> <!-- card-header end// -->
-            <div class="card-body">
+            </header>  -->
+            
+            <!-- <div class="card-body">
                 <div class="row mb-50 mt-20 order-info-wrap">
                     <div class="col-md-4">
                         <article class="icontext align-items-start">
@@ -35,12 +39,12 @@
                                 <h6 class="mb-1">Customer</h6>
                                 <p class="mb-1">
                                     <%=orderDetails.name%><br> <template class="__cf_email__" data-cfemail="e2838e879aa2879a838f928e87cc818d8f">[email&#160;protected]</template> <br>  <%=orderDetails.shippingAddress[0].mobile%>
-                                </p>
+                                </p> -->
                                 <!-- <a href="#">View profile</a> -->
-                            </div>
+                            <!-- </div>
                         </article>
-                    </div> <!-- col// -->
-                    <div class="col-md-4">
+                    </div>  -->
+                    <!-- <div class="col-md-4">
                         <article class="icontext align-items-start">
                             <span class="icon icon-sm rounded-circle bg-primary-light">
                                 <i class="text-primary material-icons md-local_shipping"></i>
@@ -48,13 +52,13 @@
                             <div class="text">
                                 <h6 class="mb-1">Order info</h6>
                                 <p class="mb-1">
-                                    Shipping: Fargo express <br> Pay method: <%=orderDetails.paymentMethod%> <br> Status: <%=orderDetails.orderStatus%>
-                                </p>
+                                    Shipping: Fargo express <br> Pay method: <%=orderDetails.paymentMethod%> <br>Order Status: <%=orderDetails.orderStatus%>
+                                </p> -->
                                 <!-- <a href="#">Download info</a> -->
-                            </div>
-                        </article>
-                    </div> <!-- col// -->
-                    <div class="col-md-4">
+                            <!-- </div>
+                        </article> -->
+                    <!-- </div>  -->
+                    <!-- <div class="col-md-4">
                         <article class="icontext align-items-start">
                             <span class="icon icon-sm rounded-circle bg-primary-light">
                                 <i class="text-primary material-icons md-place"></i>
@@ -66,11 +70,11 @@
                                 </p>
                                 
                             </div>
-                        </article>
-                    </div> <!-- col// -->
-                </div> <!-- row // -->
-                <div class="row">
-                    <div class="col-lg-7">
+                        </article> -->
+                    <!-- </div> <!-- col// -->
+                <!-- </div> row // -->
+                <!-- <div class="row">
+                    <div class="col-lg-11">
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
@@ -81,8 +85,8 @@
                                         <th width="20%" class="text-end">Total</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <%orderDetails.productDetails.forEach(function(object){ %>
+                                <tbody> -->
+                                    <!-- <%orderDetails.productDetails.forEach(function(object){ %>
                                     <tr>
                                         <td>
                                             <a class="itemside" href="#">
@@ -101,7 +105,9 @@
                                             maximumFractionDigits: 2,
                                           } );%> </td>
                                     </tr>
-                                    <tr>
+                                    <%})%> -->
+
+                                    <!-- <tr>
                                         <td colspan="4">
                                             <article class="float-end">
                                                 <dl class="dlist">
@@ -135,21 +141,43 @@
                                             </article>
                                         </td>
                                     </tr>
-                                    <%})%>
-                                </tbody>
-                            </table>
-                        </div> <!-- table-responsive// -->
-                    </div> <!-- col// -->
-                    <div class="col-lg-1"></div>
+                                  
+                                </tbody> -->
+                            <!-- </table>
+                        </div>  table-responsive// -->
+                    <!-- </div>  -->
+                    <!-- <div class="col-lg-5">
+                        <h4 style="color: red;">Product Return </h4>
+                        <form >
+                           
+                        
+                            <label for="return_reason">Return Reason:</label><br>
+                            <textarea id="return_reason" name="return_reason" rows="4" cols="50" placeholder="Return Reason:" required></textarea><br><br>
+                        
+                            <div class="col-lg-6 col-md-6 ms-auto text-md-end">
+                                <% if(orderStatus!=='Returned' && orderStatus=='Delivered'){%>
+                                    <a class="btn btn-primary" href="#">Return</a> -->
+                                   <!-- <button class="btn btn-primary" onclick="productReturn('<%=orderDetails._id%>')">Return</button>
+                                   <%}else{%>
+                                       <button class="btn btn-primary" disabled>Return</button>
+                                  <%}%>
+                                  
+                               </div>
+                          </form> -->
+                    <!-- </div> -->
                     
-                </div>
-            </div> <!-- card-body end// -->
-        </div> <!-- card end// -->
-    </section> <!-- content-main end// -->
+                <!-- </div>  -->
+            <!-- </div>  -->
+            <!-- card-body end// -->
+        <!-- </div> -->
+         <!-- card end// -->
+    <!-- </section> -->
+     <!-- content-main end// -->
    
-</main>
+<!-- </main>
 <script>
     function productReturn(id) {
+        
   swal({
     title: "Are you sure,You want to return the product?",
     text: "Once returned, you will not be able to recover the product!",
@@ -171,6 +199,561 @@
         }
       });
       swal("Your product is Returned!", {
+        icon: "success",
+      });
+    } else {
+      swal("Canceled");
+    }
+  });
+}
+</script> -->
+
+
+
+<!-- new code -->
+<!-- <main class="main-wrap">
+   
+    <section class="content-main m-4">
+        <div class="content-header">
+            <div>
+                <h2 class="content-title card-title">Order detail</h2>
+                
+            </div>
+        </div>
+        <div class="card">
+            <header class="card-header">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
+                        <span>
+                            <i class="material-icons md-calendar_today"></i> <b>Wed, Aug 13, 2020, 4:34PM</b>
+                        </span> <br>
+                        <small class="text-muted">Order ID: 3453012</small>
+                    </div>
+                    <div class="col-lg-6 col-md-6 ms-auto text-md-end">
+                     <% if(orderStatus!=='Returned' && orderStatus=='Delivered'){%> -->
+                        <!-- <a class="btn btn-primary" href="#">Return</a> -->
+                        <!-- <button class="btn btn-primary" onclick="showReturnModal('<%=orderDetails._id%>')">Return</button>
+                        <%}else if(orderStatus==='Returned'){%> 
+                             <button class="btn btn-primary" disabled>Returned</button>
+                       <%}else{%> 
+                        <button class="btn btn-primary" >Cancel</button>
+                        <%}%>
+                    </div>
+                </div>
+            </header>  -->
+            <!-- card-header end -->
+            <!-- <div class="card-body" style="margin:0 auto;">
+                <div class="mt-4"> -->
+                    <!-- Customer Info -->
+                <!-- </div> -->
+                 <!-- row // -->
+                <!-- <div class="row">
+                    <div class="col-lg-7">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th width="40%">Product</th>
+                                        <th width="20%">Unit Price</th>
+                                        <th width="20%">Quantity</th>
+                                        <th width="20%" class="text-end">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <%orderDetails.productDetails.forEach(function(object){ %> -->
+                                         <!-- Product Details -->
+                                        <!-- <tr>
+                                            <td>
+                                                <a class="itemside" href="#">
+                                                    <div class="left">
+                                                        <img src="/uploads/<%=object.cartItems.Image[0]%>" width="40" height="40" class="img-xs" alt="Item">
+                                                    </div>
+                                                    <div class="info"> <%=object.cartItems.Productname %></div>
+                                                </a>
+                                            </td>
+                                            <td> <%=object.cartItems.Price%> </td>
+                                            <td> <%=object.Quantity%> </td>
+                                            <td class="text-end"><%=(object.cartItems.Price * object.Quantity).toLocaleString("en-IN",{
+                                                style: "currency",
+                                                currency: "INR",
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2,
+                                              } );%> </td>
+                                        </tr>
+                                    <%})%>
+
+                                    <tr>
+                                        <td colspan="4"> -->
+                                            <!-- Order Total -->
+                                            <!-- <article class="float-end">
+                                                <dl class="dlist">
+                                                    <dt>Subtotal:</dt>
+                                                    <dd><%=orderDetails.totalPrice.toLocaleString("en-IN",{
+                                                        style: "currency",
+                                                        currency: "INR",
+                                                        minimumFractionDigits: 2,
+                                                        maximumFractionDigits: 2,
+                                                      } );%></dd>
+                                                </dl>
+                                                <dl class="dlist">
+                                                    <dt>Shipping cost:</dt>
+                                                    <dd>0.00</dd>
+                                                </dl>
+                                                <dl class="dlist">
+                                                    <dt>Grand total:</dt>
+                                                    <dd> <b class="h5"><%=orderDetails.totalPrice.toLocaleString("en-IN",{
+                                                        style: "currency",
+                                                        currency: "INR",
+                                                        minimumFractionDigits: 2,
+                                                        maximumFractionDigits: 2,
+                                                      } );%></b> </dd>
+                                                </dl>
+                                                <dl class="dlist">
+                                                    <dt class="text-muted">Status:</dt>
+                                                    <dd>
+                                                        <span class="badge rounded-pill alert-success text-success">Payment done</span>
+                                                    </dd>
+                                                </dl>
+                                            </article>
+                                        </td>
+                                    </tr>
+                                  
+                                </tbody>
+                            </table> -->
+                        <!-- </div> 
+                    </div> 
+                    
+                </div> 
+            </div> 
+        </div>
+    </section> 
+   
+</main> -->
+<!--sterin -->
+<!-- <div class="modal " id="returnModal" >
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <form id="cancellationForm">
+                    <div class="modal-body">
+
+                    <h4 class="text-center mb-4 mt-4">Let us know the reason for return</h4>
+                    <table style="margin:auto">
+                        <tr>
+                        <td>
+                            <input type="radio" name="reason" id="returnReason1" class="form-check" checked="" value="The Product Didn't Match the Description.">
+                        </td>
+                        <td>
+                            <label class="ml-2" for="returnReason1">The Product Didn't Match the Description.</label>
+                        </td>
+                        </tr>
+                        <tr>
+                        <td>
+                            <input type="radio" name="reason" id="returnReason2" class="form-check" value="The product was damaged or defective.">
+                        </td>
+                        <td>
+                            <label class="ml-2" for="returnReason2">The product was damaged or defective.</label>
+                        </td>
+                        </tr>
+                        <tr>
+                        <td>
+                            <input type="radio" name="reason" id="returnReason3" class="form-check" value="The Merchant Shipped the Wrong Item.">
+                        </td>
+                        <td>
+                            <label class="ml-2" for="returnReason3">The Merchant Shipped the Wrong Item.</label>
+                        </td>
+                        </tr>
+                        <tr>
+                        <td>
+                            <input type="radio" name="reason" id="returnReason4" class="form-check" value="The product arrived too late.">
+                        </td>
+                        <td>
+                            <label class="ml-2" for="returnReason4">The product arrived too late.</label>
+                        </td>
+                        </tr>
+                        <tr>
+                        <td>
+                            <input type="radio" name="reason" id="returnReason5" class="form-check" value="The product did not meet the customer’s expectations.">
+                        </td>
+                        <td>
+                            <label class="ml-2" for="returnReason5">The product did not meet the customer’s expectations.</label>
+                        </td>
+                        </tr>
+                    </table>
+
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeReturnModal()">Close</button>
+                    <button type="button" class="btn btn-primary" id="submitBtn" data-bs-dismiss="modal" onclick="productReturn('<%=orderDetails._id%>')">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div> -->
+
+
+
+
+
+
+
+
+
+
+<!-- <script>
+  function showReturnModal(orderId) {
+    // Show the return modal
+    var modal = document.getElementById("returnModal");
+    modal.style.display = "block";
+    
+   
+  }
+  
+  function closeReturnModal() {
+    var modal = document.getElementById("returnModal");
+    modal.style.display = "none";
+  }
+
+  function productReturn(id) {
+        
+        swal({
+          title: "Are you sure,You want to return the product?",
+          text: "Once returned, you will not be able to recover the product!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        }).then((willReturn) => {
+          if (willReturn) {
+            $.ajax({
+              url: '/return-product', 
+              type: 'post',
+              data: $('#cancellationForm').serialize()+'&id='+id,
+              success: function (response) {
+                if (response) {
+                    closeReturnModal();
+                  location.reload();
+                }
+              }
+            });
+            swal("Your product is Returned!", {
+              icon: "success",
+            });
+            closeReturnModal();
+          } else {
+            swal("Canceled");
+          }
+        });
+      }
+</script> -->
+
+<section style="display: flex;flex-flow: column;align-items: center;">
+    
+    <div class="content-header" style="align-self: flex-start;margin-left:10vw; margin-top: 1%;">
+        <div>
+            <h2 class="content-title card-title">Order detail</h2>
+            
+        </div>
+    </div>
+    <div class="card col-lg-10">
+        <header class="card-header">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
+                    <span>
+                        <i class="material-icons md-calendar_today"></i> <b>Wed, Aug 13, 2020, 4:34PM</b>
+                    </span> <br>
+                   
+                </div>
+                <div class="col-lg-6 col-md-6 ms-auto text-md-end">
+                    <% if(orderStatus!=='Returned' && orderStatus=='Delivered'){%> 
+                       
+                        <button class="btn btn-primary" onclick="showReturnModal('<%=orderDetails._id%>')">Return</button>
+                       <%}else if(orderStatus==='Returned'){%> 
+                            <button class="btn btn-primary" disabled>Returned</button>
+                      <%}else if(orderStatus==='Canceled by User'){%>
+                        <button class="btn btn-primary" disabled>Cancelled</button>
+
+                      <%}else{%> 
+                       <button class="btn btn-primary" onclick="cancelOrder('<%=orderDetails._id%>')" >Cancel</button>
+                       <%}%>
+                   </div>
+            </div>
+        </header>  
+        <div class="card-body">
+            <div class="row mb-50 mt-20 order-info-wrap">
+                <div class="col-md-4">
+                    <article class="icontext align-items-start">
+                        <span class="icon icon-sm rounded-circle bg-primary-light">
+                            <i class="text-primary material-icons md-person"></i>
+                        </span>
+                        <div class="text">
+                            <h6 class="mb-1">Customer Name</h6>
+                            <p class="mb-1">
+                                <%=orderDetails.name%><br> <template class="__cf_email__" data-cfemail="e2838e879aa2879a838f928e87cc818d8f">[email&#160;protected]</template> <br> +998 99 22123456
+                            </p>
+                            <!-- <a href="#">View profile</a> -->
+                        </div>
+                    </article>
+                </div> <!-- col// -->
+                <div class="col-md-4">
+                    <article class="icontext align-items-start">
+                        <span class="icon icon-sm rounded-circle bg-primary-light">
+                            <i class="text-primary material-icons md-local_shipping"></i>
+                        </span>
+                        <div class="text">
+                            <h6 class="mb-1">Order info</h6>
+                            <p class="mb-1">
+                                 Pay method: <%=orderDetails.paymentMethod%><br> Status: <%=orderDetails.orderStatus%>
+                            </p>
+                            
+                        </div>
+                        
+                    </article>
+                </div> <!-- col// -->
+                <div class="col-md-4">
+                    <article class="icontext align-items-start">
+                        <span class="icon icon-sm rounded-circle bg-primary-light">
+                            <i class="text-primary material-icons md-place"></i>
+                        </span>
+                        <div class="text">
+                            <h6 class="mb-1">Deliver to</h6>
+                            <p class="mb-1">
+                                <%=orderDetails.shippingAddress[0].firstName%>  <%=orderDetails.shippingAddress[0].lastName%> <br>
+                                <%=orderDetails.shippingAddress[0].building%> ,<%=orderDetails.shippingAddress[0].street%> <br>  <%=orderDetails.shippingAddress[0].city%>
+                                <br> <%=orderDetails.shippingAddress[0].state%>
+                            </p>
+                             
+                        </div>
+                    </article>
+                </div> <!-- col// -->
+            </div> <!-- row // -->
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th width="40%">Product</th>
+                                    <th width="20%">Unit Price</th>
+                                    <th width="20%">Quantity</th>
+                                    <th width="20%" class="text-end">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%orderDetails.productDetails.forEach(function(data){ %>
+                                <tr>
+                                    <td>
+                                        <a class="itemside" href="#">
+                                            <div class="left">
+                                                <img src="/uploads/<%=data.cartItems.Image[0]%>" width="40" height="40" class="img-xs" alt="Item">
+                                            </div>
+                                            <div class="info"> <%=data.cartItems.Productname %></div>
+                                        </a>
+                                    </td>
+                                    <td> <%=data.cartItems.Price.toLocaleString("en-IN",{
+                                        style: "currency",
+                                        currency: "INR",
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                      } );%></td>
+                                    <td> <%=data.Quantity%> </td>
+                                    <td class="text-end"> <%=(data.Quantity*data.cartItems.Price).toLocaleString("en-IN",{
+                                        style: "currency",
+                                        currency: "INR",
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                      } ); %></td>
+                                </tr>
+                                <%})%>
+                                <tr>
+                                    <td colspan="4">
+                                        <article class="float-end">
+                                            <dl class="dlist">
+                                                <dt>Subtotal:</dt>
+                                                <dd><%=orderDetails.totalPrice.toLocaleString("en-IN",{
+                                                    style: "currency",
+                                                    currency: "INR",
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2,
+                                                  } );%></dd>
+                                            </dl>
+                                            <dl class="dlist">
+                                                <dt>Shipping cost:</dt>
+                                                <dd>0.00</dd>
+                                            </dl>
+                                            <dl class="dlist">
+                                                <dt>Grand total:</dt>
+                                                <dd> <b class="h5"><%=orderDetails.totalPrice.toLocaleString("en-IN",{
+                                                    style: "currency",
+                                                    currency: "INR",
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2,
+                                                  } );%></b> </dd>
+                                            </dl>
+                                            <dl class="dlist">
+                                                <dt class="text-muted">Status:</dt>
+                                                <dd>
+                                                    <span class="badge rounded-pill alert-success text-success">Payment done</span>
+                                                </dd>
+                                            </dl>
+                                        </article>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div> <!-- table-responsive// -->
+                </div> <!-- col// -->
+                <div class="col-lg-1"></div>
+                <!-- <div class="col-lg-4">
+                    <div class="box shadow-sm bg-light">
+                        <h6 class="mb-15">Payment info</h6>
+                        <p>
+                            <img src="assets/imgs/card-brands/2.png" class="border" height="20"> Master Card **** **** 4768 <br>
+                            Business name: Grand Market LLC <br>
+                            Phone: +1 (800) 555-154-52
+                        </p>
+                    </div>
+                    <div class="h-25 pt-4">
+                        <div class="mb-3">
+                            <label>Notes</label>
+                            <textarea class="form-control" name="notes" id="notes" placeholder="Type some note"></textarea>
+                        </div>
+                        <button class="btn btn-primary">Save note</button>
+                    </div> -->
+                <!-- </div> -->
+            </div>
+        </div> <!-- card-body end// -->
+        <!--pagination-->
+
+    </div> <!-- card end// -->
+
+</section> 
+
+
+<div class="modal " id="returnModal" >
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <form id="cancellationForm">
+                <div class="modal-body">
+
+                <h4 class="text-center mb-4 mt-4">Let us know the reason for return</h4>
+                <table style="margin:auto">
+                    <tr>
+                    <td>
+                        <input type="radio" name="reason" id="returnReason1" class="form-check" checked="" value="The Product Didn't Match the Description.">
+                    </td>
+                    <td>
+                        <label class="ml-2" for="returnReason1">The Product Didn't Match the Description.</label>
+                    </td>
+                    </tr>
+                    <tr>
+                    <td>
+                        <input type="radio" name="reason" id="returnReason2" class="form-check" value="The product was damaged or defective.">
+                    </td>
+                    <td>
+                        <label class="ml-2" for="returnReason2">The product was damaged or defective.</label>
+                    </td>
+                    </tr>
+                    <tr>
+                    <td>
+                        <input type="radio" name="reason" id="returnReason3" class="form-check" value="The Merchant Shipped the Wrong Item.">
+                    </td>
+                    <td>
+                        <label class="ml-2" for="returnReason3">The Merchant Shipped the Wrong Item.</label>
+                    </td>
+                    </tr>
+                    <tr>
+                    <td>
+                        <input type="radio" name="reason" id="returnReason4" class="form-check" value="The product arrived too late.">
+                    </td>
+                    <td>
+                        <label class="ml-2" for="returnReason4">The product arrived too late.</label>
+                    </td>
+                    </tr>
+                    <tr>
+                    <td>
+                        <input type="radio" name="reason" id="returnReason5" class="form-check" value="The product did not meet the customer’s expectations.">
+                    </td>
+                    <td>
+                        <label class="ml-2" for="returnReason5">The product did not meet the customer’s expectations.</label>
+                    </td>
+                    </tr>
+                </table>
+
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeReturnModal()">Close</button>
+                <button type="button" class="btn btn-primary" id="submitBtn" data-bs-dismiss="modal" onclick="productReturn('<%=orderDetails._id%>')">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div> 
+<script>
+     function showReturnModal(orderId) {
+    // Show the return modal
+    var modal = document.getElementById("returnModal");
+    modal.style.display = "block";
+    
+   
+  }
+  function closeReturnModal() {
+    var modal = document.getElementById("returnModal");
+    modal.style.display = "none";
+  }
+  function productReturn(id) {
+        
+        swal({
+          title: "Are you sure,You want to return the product?",
+          text: "Once returned, you will not be able to recover the product!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        }).then((willReturn) => {
+          if (willReturn) {
+            $.ajax({
+              url: '/return-product', 
+              type: 'post',
+              data: $('#cancellationForm').serialize()+'&id='+id,
+              success: function (response) {
+                if (response) {
+                    closeReturnModal();
+                  location.reload();
+                }
+              }
+            });
+            swal("Your product is Returned!", {
+              icon: "success",
+            });
+            closeReturnModal();
+          } else {
+            swal("Canceled");
+          }
+        });
+      }
+
+      function cancelOrder(id) {
+  swal({
+    title: "Are you sure,You want to cancel the order?",
+    text: "Once returned, you will not be able to recover the product!",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  }).then((willCancel) => {
+    if (willCancel) {
+      $.ajax({
+        url:'/cancel-product', 
+        type:'PUT',
+        data: {
+          orderid: id
+        },
+        success: function (response) {
+          if (response) {
+            location.reload();
+          }
+        }
+      });
+      swal("Your product is canceled!", {
         icon: "success",
       });
     } else {

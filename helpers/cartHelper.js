@@ -1,4 +1,4 @@
-// const db  = require("../models/connection");
+  // const db  = require("../models/connection");
 const { response } = require('express')
 const db= require('../models/connection')
 const { Promise } = require('mongoose')
@@ -18,7 +18,7 @@ viewCart:(userId)=>{
            {
             $project:{ item:"$cartItems.productId",
             Quantity:"$cartItems.Quantity"
-           }
+           }  
            },
            {
             $lookup:{

@@ -13,9 +13,33 @@
                     <h2 class="content-title card-title">Orders </h2>
                     
                 </div>
-                <div>
+                <!-- <div>
                     <input type="text" placeholder="Search order ID" class="form-control bg-white">
+                </div> -->
+                <div>
+                <div class="dropdown">
+                    <button class="btn btn-md rounded dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Dropdown button
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" href="#">Action</a>
+                      <a class="dropdown-item" href="#">Another action</a>
+                      <a class="dropdown-item" href="#">Something else here</a>
+                    </div> 
+                   
                 </div>
+
+                    <select  class="btn btn-md rounded dropdown-toggle" id="paymentMethord" onchange="OrderByPayment()">
+                        <option selected hidden>Payment Methord</option>
+                        <option>COD</option>
+                        <option>Wallet</option>
+                        <option>Razorpay</option>
+                    </select>
+                    
+
+
+                </div>
+
             </div>
             <div class="card mb-4">
                 
@@ -27,7 +51,7 @@
                                     <th>#ID</th>
                                     <th scope="col">Date</th>
                                     <th scope="col">Payment</th>
-                                    <th scope="col">PaymentStatus</th>
+                                    <th scope="col">OrderStatus</th>
                                     <th scope="col">total</th>
                                     <th scope="col" class="text-end"> Action </th>
                                 </tr>
@@ -38,11 +62,11 @@
                                     <td><%=object.hashedId%></td>
                                     <td><%=object.CreatedAt%></td>
                                     <td><%=object.paymentMethod%></td>
-                                    <td><%=object.paymentStatus%></td>
+                                    <td><%=object.orderStatus%></td>
                                     <td><%=object.totalPrice%></td>
                                     
                                     <td class="text-end">
-                                        <a href="#" class="btn btn-md rounded font-sm">Detail</a>
+                                        <a href="/admin/order-detail/<%=object._id%>" class="btn btn-md rounded font-sm">Detail</a>
                                         <div class="dropdown">
                                             <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
                                             
@@ -68,10 +92,31 @@
         </ul>
     </nav>
   </div>
-         </div>
-    </section
+ </div>
+</section>
+
+
+<script>
+    function OrderByPayment(){
+        paymentData=document.getElementById('paymentMethord').value
+        console.log("asdfg",paymentData);
+        $.ajax({
+            url:'/orders-Payment',
+            method:'get',
+            data:{
+                paymentData  
+            },
+            success:(Response)=>{
+
+            }
+        })
+
+    }
+</script>
+
     
     
         
 
-<!-- Mirrored from wp.alithemes.com/html/evara/evara-backend/page-orders-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Aug 2021 15:33:22 GM -->
+
+

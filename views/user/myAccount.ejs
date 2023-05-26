@@ -182,6 +182,9 @@
                                             <a class="nav-link active" id="dashboard-tab" data-bs-toggle="tab" href="#dashboard" role="tab" aria-controls="dashboard" aria-selected="false"><i class="fi-rs-settings-sliders mr-10"></i>Dashboard</a>
                                         </li>
                                         <li class="nav-item">
+                                            <a class="nav-link" id="track-orders-tab" data-bs-toggle="tab" href="#track-orders" role="tab" aria-controls="track-orders" aria-selected="false"><i class=" fi-wallet"></i>My wallet</a>
+                                        </li>
+                                        <li class="nav-item">
                                             <a class="nav-link" id="orders-tab" data-bs-toggle="tab" href="#orders" role="tab" aria-controls="orders" aria-selected="false"><i class="fi-rs-shopping-bag mr-10"></i>Orders</a>
                                         </li>
                                         <!-- <li class="nav-item">
@@ -211,8 +214,59 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <!--wallet-->
+                                    <div class="tab-pane fade" id="track-orders" role="tabpanel" aria-labelledby="track-orders-tab">
+                                        <div class="card">
+
+                                            <div class="card-header">
+                                                <h5 class="mb-0">Wallet Amount : <%= walletData?.walletBalance?.toLocaleString("en-IN", {
+                                                    style: "currency",
+                                                    currency: "INR",
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2,
+                                                }) ?? 'N/A' %></h5>
+                                            </div>
+                                            
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                
+                                                                <th>Order no.</th>
+                                                                <th>Date</th>
+                                                                <th>payment</th>
+                                                                 <th>Amount</th>
+                                                                
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <% walletData?.transaction?.forEach(function(object,index){%>
+                                                            <tr>
+                                                                <td><%=index+1 %> </td>
+                                                                <td><%=object.createdAt%></td>
+                                                                <td><%=object.Type%></td>
+                                                                <td><%=object.amount%></td>
+                                                                
+                                                                
+                                                              
+                                                            </tr>
+                                                        <%})%>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
                                     <!--order-->
                                     <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="orders-tab">
+                                        <%if(orderCount===0){%>
+                                            <h1>My Orders</h1>
+                                            <p>Currently you have no order</p>
+                                            
+                                            <a href="/shop">Browse products</a>
+                                        <%}else{%>
                                         <div class="card">
                                             <div class="card-header">
                                                 <h5 class="mb-0">Your Orders</h5>
@@ -225,7 +279,8 @@
                                                                 <th>Order</th>
                                                                 <th>Date</th>
                                                                 <th>payment</th>
-                                                                <th>Status</th>
+                                                                
+                                                                <th>order Status</th>
                                                                 <th>Total</th>
                                                                 <th>Actions</th>
                                                             </tr>
@@ -236,7 +291,8 @@
                                                                 <td><%= object.hashedId%></td>
                                                                 <td><%=object.CreatedAt%></td>
                                                                 <td><%=object.paymentMethod%></td>
-                                                                <td><%=object.paymentStatus%></td>
+                                                                
+                                                                <td><%=object.orderStatus%></td>
                                                                 <td>₹<%=object.totalPrice%></td>
                                                                 <td><a href="/view-order-products/<%=object._id%>" class="btn-small d-block">View</a></td>
                                                             </tr>
@@ -247,6 +303,7 @@
                                                 
                                             </div>
                                         </div>
+                                    <%}%>
                                     </div>
                                     <!-- <div class="tab-pane fade" id="track-orders" role="tabpanel" aria-labelledby="track-orders-tab">
                                         <div class="card">
@@ -314,8 +371,8 @@
                                                 </div>
                                                 </div>
                                                 <div id="collapseAddress" class="different_address collapse in">
-                                                  <form action="/addAddress" method="post" id="address">
-                                                    <input type="hidden" name="userId" value="{{user._id}}">
+                                                  <form action="/addAddress" method="post" >
+                                                    <input type="hidden" name="userId" value="">
                                                     <div class="form-group">
                                                       <label for="name">First Name *</label>
                                                       <input type="text" name="name" id="name" placeholder="Enter your first name"
@@ -405,11 +462,11 @@
                                     <div class="tab-pane fade" id="account-detail" role="tabpanel" aria-labelledby="account-detail-tab">
                                         <div class="card">
                                             <div class="card-header">
-                                                <h5>Account Details</h5>
+                                                <h5>Change user name and Password</h5>
                                             </div>
                                             <div class="card-body">
                                                 <!-- <p>Already have an account? <a href="page-login-register.html">Log in instead!</a></p> -->
-                                                <form  id="userDetails">
+                                                
                                                     <div class="row">
                                                         <!-- <div class="form-group col-md-6">
                                                             <label> Name <span class="required">*</span></label>
@@ -419,7 +476,7 @@
                                                         <div class="form-group col-md-6">
                                                             <label> Name <span >*</span></label>
                                                             <div class="input-group">
-                                                                <input required="" class="form-control square" name="name" type="text">
+                                                                <input  class="form-control square" name="name" type="text">
                                                                 <a href="#" class="btn btn-primary">change<i class="fas fa-edit"></i></a>
                                                             </div>
                                                         </div>
@@ -445,7 +502,7 @@
                                                             </div>
                                                             </div>
                                                             <div id="collapseAddress" class="different_address collapse in">
-                                                              <form id="address">
+                                                              <form id="resetPassword">
                                                                 <input type="hidden" name="userId" value="">
                                                                 <div class="form-group col-md-12">
                                                                     <label>Current Password <span class="required">*</span></label>
@@ -453,26 +510,25 @@
                                                                 </div>
                                                                 <input type="text" name="userId" style="display: none;" value="">
                                                                 <div class="mb-3">
-                                                                  <label for="pwd" class="form-label">New Pasword</label>
+                                                                  <label for="password2" class="form-label">New Pasword</label>
                                                                   <input type="password" 
                                                                   id="password2" 
                                                                   class="form-control" 
                                                                   name="password2" 
                                                                   placeholder="Enter Your New password" required
-                                                                  onkeyup="validatePassword()"
-                                                                   >
+                                                                >
                                                                     <span id="pass-error" class="validation-label"></span>
                                                   
                                                                 </div>
                                                                 <div class="mb-3">
-                                                                  <label for="pwd" class="form-label">Re Enter Pasword</label>
+                                                                  <label for="cnfrm-password" class="form-label">Re Enter Pasword</label>
                                                                   <input 
                                                                   type="password" 
                                                                   id="cnfrm-password" 
                                                                   class="form-control" 
                                                                   name="cnfrm-password" 
                                                                   placeholder="Re Enter Your New password"
-                                                                  onkeyup="validateRePassword()" required
+                                                                  required
                                                                   >
                                                                     <span id="pass-error" class="validation-label"></span>
                                                   
@@ -488,7 +544,7 @@
                                                                     <input required="" onkeyup="RevalidatePassword()" class="form-control square" name="cpassword" type="password" id="cnfrm-password" >
                                                                 </div> -->
                                                                 <div class="col-md-12">
-                                                                    <button onclick="changePassword('<%=address.user%>')" class="btn btn-fill-out submit" name="submit" value="Submit">Save</button>
+                                                                    <button onclick="changePassword(event,'<%=userId%>')" class="btn btn-fill-out submit" >Save</button>
                                                                 </div>
 
                                                                 
@@ -501,68 +557,10 @@
                                                         
                                                        
                                                        
-                                                        <!-- <div class="ship_detail">
-                                                            <div class="form-group">
-                                                                <div class="chek-form">
-                                                                <div class="custome-checkbox">
-                                                                  <input class="form-check-input" type="checkbox" name="checkbox" id="differentaddress">
-                                                                  <label class="form-check-label label_info" data-bs-toggle="collapse"
-                                                                    data-target="#collapseAddress" href="#collapseAddress" aria-controls="collapseAddress"
-                                                                    for="differentaddress"><span> <a href="#" class="btn-small">Reset
-                                                                        Password</a></span></label>
-                                                                </div>
-                                                                </div>
-                                                            </div>
-                                                            <div id="collapseAddress" class="different_address collapse in">
-                                                              <form action="/addAddress" method="post" id="address">
-                                                                <input type="hidden" name="userId" value="{{user._id}}">
-                                                                
-                                                                <div class="form-group">
-                                                                    <label for="Lname">Last Name *</label>
-                                                                    <input type="text" name="Lname" id="Lname" placeholder="Enter your first name"
-                                                                      onblur="namecheck()" required>
-                                                                    <label id="nmlabel" for="Lname" style="display: none; color:red;">This field is
-                                                                      required</label>
-                                                                    <label id="nmlabel-01" for="Lname" style="display: none; color:red;">Name doesn't start
-                                                                      with a number</label>
-                                                                    <label id="nmlabel-02" for="Lname" style="display: none; color:red;">Name doesn't contain
-                                                                      special characters</label>
-                                                                  </div>
-                                                                <div class="form-group">
-                                                                  <label for="phone">Phone *</label>
-                                                                  <input type="tel" name="phone" id="phone"  placeholder="Enter your phone number"
-                                                                    onblur="phonecheck()" required>
-                                                                  <label id="ml" for="phone" style="display: none; color:red;">This field is
-                                                                    required</label>
-                                                                  <label id="ml-01" for="phone" style="display: none; color:red;">Minimum 10
-                                                                    digits required</label>
-                                      
-                                                                </div>
-                                                                <div class="form-group">
-                                                                  <label for="address">Address *</label>
-                                                                  <input type="text" name="billingaddress" id="address" 
-                                                                    placeholder="Enter your address"  onblur="addresscheck()" required>
-                                                                  <label id="adlabel" for="address" style="display: none; color:red;">This field is
-                                                                    required</label>
-                                                                  <label id="adlabel-01" for="address" style="display: none; color:red;">Address doesn't start
-                                                                    with a number</label>
-                                                                  <label id="adlabel-02" for="address" style="display: none; color:red;">Address doesn't contain
-                                                                    special characters</label>
-                                      
-                                                                </div>
-                                                                
-                                                               
-                                                               
-                                                                
-                                                                <button type="submit" class="btn btn-success mt-4">Submit</button>
-                                                              </form>
-                                      
-                                                            </div>
-                                                          
-                                                         </div> -->
+                                                        
                                                         
                                                     </div>
-                                                </form>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -702,6 +700,38 @@
     </div>
     <!-- Vendor JS-->
    <script>
+   function changePassword(event,userid){
+    
+    event.preventDefault()
+    
+    $.ajax({
+        url:'/reset-password',
+        type:'post',
+        data:$('#resetPassword').serialize()+'&userid='+userid,
+        success:function(response){
+            console.log("response",response);
+
+            if(response){
+            swal('Password reset successfully').then(()=>{
+                location.href="/logout"
+            })
+
+              
+    
+
+            }else{
+                swal(' invalid password').then(()=>{
+                    location.reload()
+                })
+                
+            }
+            
+        }
+
+        
+
+    })
+   }
 
    </script>
   

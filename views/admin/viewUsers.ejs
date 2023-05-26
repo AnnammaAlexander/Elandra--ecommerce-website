@@ -125,12 +125,12 @@
                                     <td>
                                       <%if(user.blocked){%>
                                         
-                                        <a href ="/admin/unblock_users/<%= user._id %>" class="btn btn-success">UnBlock</a>
+                                        <a  class="btn btn-success" onclick="unblock('<%=user._id %>')">UnBlock</a>
                                  
                                         
                                       <%}
                                       else{%>
-                                        <a href ="/admin/block_users/<%= user._id %>" class="btn btn-danger">Block</a>
+                                        <a class="btn btn-danger" onclick="block('<%=user._id %>')">Block</a>
                 
                               
                                       <%}%>
@@ -162,6 +162,71 @@
       </ul>
   </nav>
 </div>
-         </div>
-    </section
+    </div>
+        
+</section>
+<script>
+  function unblock(userid){
+    swal({
+    title: "Are you sure?",
+    text: "Do you want to Unblock this user!",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  }).then((willDelete) => {
+    if (willDelete) {
+      $.ajax({
+        url: `/admin/unblock_users/${userid}`, 
+        type: 'GET',
+        data: {
+          userid: userid
+        },
+        success: function (response) {
+          if (response) {
+            location.reload();
+          }
+        }
+      });
+      swal("Your product is deleted!", {
+        icon: "success",
+      });
+    } else {
+      swal("Canceled");
+    }
+  });
+
+  }
+  //block the user
+  function block(userid){
+    swal({
+    title: "Are you sure?",
+    text: "Do you want to Block this user!",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  }).then((willDelete) => {
+    if (willDelete) {
+      $.ajax({
+        url: `/admin/block_users/${userid}`, 
+        type: 'GET',
+        data: {
+          userid: userid
+        },
+        success: function (response) {
+          if (response) {
+            location.reload();
+          }
+        }
+      });
+      swal("Your product is deleted!", {
+        icon: "success",
+      });
+    } else {
+      swal("Canceled");
+    }
+  });
+
+  }
+</script>
+    
   

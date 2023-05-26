@@ -87,7 +87,18 @@ module.exports={
         return data
       },
 
-
+      wishlistcount:async(userid)=>{
+        try {
+          const wishCount = await db.wishList.findOne({user:userid});
+          if (wishCount) {
+            return wishCount.wishList.length;
+          } else {
+            return 0;
+          }
+        } catch (error) {
+          throw error;
+        }
+      },
 
       deleteWishlistItem:async(proid,userId) => {
         try {

@@ -7,6 +7,7 @@ const Razorpay=require('razorpay')
 const crypto=require('crypto');
 const { use } = require('../routes/user');
 const { log } = require('console');
+const { resolve } = require('path');
 module.exports = {
     doLogin: (userData) => {
 
@@ -15,9 +16,11 @@ module.exports = {
             try {
                 let response = {}
                 let users = await db.user.findOne({ email: userData.email })
+                
                 if (users) {
                     if (users.blocked == false) {
                         await bcrypt.compare(userData.password, users.Password).then((status) => {
+
                             if (status) {
                                 response.user = users
                                 // response.status
@@ -48,7 +51,7 @@ module.exports = {
             
         try {
             let response = {}
-            
+            //check the phone number from the user collection
             let users = await  db.user.findOne({phonenumber:number})
             if (users) {
                 if (users.blocked == false) {
@@ -75,10 +78,55 @@ module.exports = {
 
   //reset password
   resetPassword:async(body)=>{
+    //change the password to hashed id
      let hashPassword = await bcrypt.hash(body.password2, 10);
+     //save the hashed password to the user collectin
      let result= await db.user.updateOne({_id:objectId(body.userId)},{$set:{Password:hashPassword}})
       return result
   } ,
+ // change password in user account
+   updatePassword:(body)=>{
+    console.log("body",body);
+    try {
+        return new Promise(async(resolve, reject) => {
+                let user= await db.user.findOne({_id:objectId(body.userid)})
+                
+                    console.log("user:",user);
+                    
+                    await bcrypt.compare(body.password,user.Password).then(async (response)=>{
+                        if(response==true){
+                            let hashedPassword= await bcrypt.hash(body.password2, 10);
+                            console.log("hashedPassword",hashedPassword);
+                            await db.user.updateOne({_id:objectId(body.userid)},{$set:{Password:hashedPassword}})
+                            resolve({status:true})
+                        }else{
+                            
+                            resolve({status:false})
+
+                        }
+                        
+                    })
+
+                
+               
+               
+                
+        })
+        
+    } catch (error) {
+        
+    }
+
+    // console.log("result",result);
+    // let hashPassword = await bcrypt.hash(body.password2, 10);
+    // console.log("hashPassword of password2",hashPassword);
+    // currentpass=await bcrypt.hash(body.password, 10);
+    // console.log("currentpass",currentpass);
+    
+    
+    // return result
+
+  },
    
 //signup
     doSignUp: (userData) => {
@@ -89,11 +137,14 @@ module.exports = {
 
             try {
                 email = userData.email;
+                //checking the email is existing or not
                 existingUser = await db.user.findOne({ email: email })
+                //email is existing
                 if (existingUser) {
                     response = { status: false }
                     return resolve(response)
                 }
+                
                 else {
                     var hashPassword = await bcrypt.hash(userData.password, 10);
                     const data = {
@@ -103,6 +154,7 @@ module.exports = {
                         phonenumber: userData.phonenumber
                     }
                     console.log(data);
+                    //create new document in user collection
                     await db.user.create(data).then((data) => {
                         resolve({ data, status: true })
                     })
@@ -118,6 +170,7 @@ module.exports = {
 //reset password
 passwordReset: (data) => {
     return new Promise(async (resolve, reject) => {
+
       let user = await db.user.findOne({email:data.email});
       resolve(user)
     });
@@ -128,10 +181,13 @@ passwordReset: (data) => {
 //cart count
  getCartCount: async (userId) => {
   try {
+    //find out th euser have cart collection or not
     const cartCount = await db.cart.findOne({user:userId});
     if (cartCount) {
+        //return the count of the 'cartItems' array
       return cartCount.cartItems.length;
     } else {
+        //if the user has no cart collection the count return 0
       return 0;
     }
   } catch (error) {
@@ -141,6 +197,7 @@ passwordReset: (data) => {
 //list all products 
 listProductShop:(page,perpage)=>{
     return new Promise(async(resolve, reject) => {
+        //find all products from the product collection
         await db.product.find(). skip((page-1)*perpage).limit(perpage).then((response)=>{
             resolve(response)
         })
@@ -167,7 +224,7 @@ searchItem:(key)=>{
     console.log('keyyyyyy',key);
     return new Promise(async(resolve, reject) => {
         const Regex= new RegExp(key,'i')
-        await db.product.find({Productname:{$regex:Regex}}).then((response)=>{
+        await db.product.find({Productname:{$regex:Regex}}).limit(5). then((response)=>{
             console.log("response",response);
             response=response.map((product)=>{
             return {_id:product._id,Productname:product.Productname}
@@ -202,7 +259,7 @@ searchItem:(key)=>{
         })
       
 },
-//get shop product based on category
+//get  products based on category
 getcategoryProduct:(data)=>{
     return new Promise(async(resolve, reject) => {
         await db.product.find({category:data}).sort({_id:-1}).then((response)=>{
@@ -268,6 +325,7 @@ addAddress:(userId,data)=>{
 getAddress:(userId)=>{
     try{
         return new Promise(async (resolve, reject) => {
+            //get all the address from the addres collection
             const userAddress= await db.address.findOne({'user': userId});
             resolve(userAddress);
          });
@@ -275,10 +333,11 @@ getAddress:(userId)=>{
 
     }
 },
+
 //edit address
 getEditAddress:(addressId,userId)=>{
-    console.log(objectId(addressId),objectId(userId));
     return new Promise(async(resolve, reject) => {
+    //db query to edit address
     const editadrs=   await db.address.findOne({'user':objectId(userId),'Address._id':objectId(addressId)},{'Address.$':1,'_id':0})
     console.log("edited adrs:",editadrs);
      resolve(editadrs)
@@ -287,7 +346,7 @@ getEditAddress:(addressId,userId)=>{
 
 
 
-
+//find the address from user address collection
 
 findAddress:(addressId, userId) => {
   return new Promise(async (resolve, reject) => {
@@ -303,6 +362,7 @@ findAddress:(addressId, userId) => {
     }
   });
 },
+//add order to the db
 addOrder:async(address,cart,total,name,payment,userId,paymentStatus)=>{
     try{
         total = total
@@ -319,7 +379,7 @@ addOrder:async(address,cart,total,name,payment,userId,paymentStatus)=>{
         _id:new objectId()
         })
         //hashed id
-         //hashing id
+         
          let id =orderObj._id 
          const hash = crypto.createHash('sha256');
          hash.update(id.toString());
@@ -343,10 +403,10 @@ console.log("orderid:",order._id);
     }
 },
 //get all address
-GetAlldAddress:( userId)=>{
+GetAlldAddress:(userId)=>{
     return new Promise(async (resolve, reject) => {
         try {
-            const Addres = await db.address.find({ userId:objectId(userId )}).limit(10);
+            const Addres = await db.address.find({ user:objectId(userId )}).limit(10);
             resolve(Addres);
         } catch (error) {
             reject(error);
@@ -364,6 +424,8 @@ findOrders:(userId,page,perpage)=> {
         }
     });
 },
+//
+
 orderDetails:(id,userId)=>{
    return new Promise(async(resolve, reject) => {
     try {
@@ -376,7 +438,7 @@ orderDetails:(id,userId)=>{
 },
 
 
-
+//razor pay
 getRazorpay: (orderId,total) => {
     console.log("getRazorpay",orderId,total);
     try {
@@ -422,7 +484,7 @@ verifyPaymentRazorpay:(paymentInfo) => {
         hmac = hmac.digest("hex")
         console.log('-----------------',hmac);
 
-        console.log('payment',paymentInfo["order[razorpay_signature]"]);
+        console.log('payment sign & receipt',paymentInfo["order[razorpay_signature]"],paymentInfo["payment[receipt]"]);
 
         if (hmac === paymentInfo["order[razorpay_signature]"]) {
 
@@ -447,7 +509,33 @@ emptyCart:async(userId)=>{
        console.log("Action not complete ,the cart is not empty"); 
     }
 },
-//view banner
+//sort products by price
+ sortByPrice : (data, category) => {
+    let order = 1;
+  
+    if (data === 'High to low') {
+      order = -1;
+    }
+  
+    if (category) {
+      return db.product.find({ category: category }).sort({ Price: order });
+    } else {
+      return db.product.find().sort({ Price: order });
+    }
+  },
+  //// update used coupons to user collection
+  addCouponToUser:(userid,coupon)=>{
+    return new Promise(async(resolve, reject) => {
+        if(coupon!=''){
+        await db.user.updateOne({_id:objectId(userid)},{$push:{coupons:coupon}})
+        resolve()
+        }else {
+        resolve()
+        }
+    })
+
+  }
+  
 
 
 

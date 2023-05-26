@@ -34,56 +34,38 @@
                                         <img src="assets/imgs/shop/product-16-7.jpg" alt="product image">
                                     </figure>
                                 </div>
-                                <!-- THUMBNAILS -->
-                                <!-- <div class="slider-nav-thumbnails pl-15 pr-15">
-                                    <div><img src="assets/imgs/shop/thumbnail-3.jpg" alt="product image"></div>
-                                    <div><img src="assets/imgs/shop/thumbnail-4.jpg" alt="product image"></div>
-                                    <div><img src="assets/imgs/shop/thumbnail-5.jpg" alt="product image"></div>
-                                    <div><img src="assets/imgs/shop/thumbnail-6.jpg" alt="product image"></div>
-                                    <div><img src="assets/imgs/shop/thumbnail-7.jpg" alt="product image"></div>
-                                    <div><img src="assets/imgs/shop/thumbnail-8.jpg" alt="product image"></div>
-                                    <div><img src="assets/imgs/shop/thumbnail-9.jpg" alt="product image"></div>
-                                </div> -->
+                                
                             </div>
-                            <!-- End Gallery -->
-                            <!-- <div class="social-icons single-share">
-                                <ul class="text-grey-5 d-inline-block">
-                                    <li><strong class="mr-10">Share this:</strong></li>
-                                    <li class="social-facebook"><a href="#"><img src="assets/imgs/theme/icons/icon-facebook.svg" alt=""></a></li>
-                                    <li class="social-twitter"> <a href="#"><img src="assets/imgs/theme/icons/icon-twitter.svg" alt=""></a></li>
-                                    <li class="social-instagram"><a href="#"><img src="assets/imgs/theme/icons/icon-instagram.svg" alt=""></a></li>
-                                    <li class="social-linkedin"><a href="#"><img src="assets/imgs/theme/icons/icon-pinterest.svg" alt=""></a></li>
-                                </ul>
-                            </div> -->
+                           
                         </div>
                         <div class="col-md-6 col-sm-12 col-xs-12">
                             <div class="detail-info">
-                                <h3 class="title-detail mt-30">Colorful Pattern Shirts HD450</h3>
+                                <h3 class="title-detail mt-30"><%=response.ProductDescription%></h3>
                                 <div class="product-detail-rating">
                                     <div class="pro-details-brand">
-                                        <span> Brands: <a href="shop-grid-right.html">Bootstrap</a></span>
+                                        <span>  <a href=""><%=response.catrgory%></a></span>
                                     </div>
                                     <div class="product-rate-cover text-end">
                                         <div class="product-rate d-inline-block">
                                             <div class="product-rating" style="width:90%">
                                             </div>
                                         </div>
-                                        <span class="font-small ml-5 text-muted"> (25 reviews)</span>
+                                        
                                     </div>
                                 </div>
                                 <div class="clearfix product-price-cover">
                                     <div class="product-price primary-color float-left">
-                                        <ins><span class="text-brand">$120.00</span></ins>
+                                        <ins><span class="text-brand"><%=response.price%></span></ins>
                                         <ins><span class="old-price font-md ml-15">$200.00</span></ins>
                                         <span class="save-price  font-md color3 ml-15">25% Off</span>
                                     </div>
                                 </div>
                                 <div class="bt-1 border-color-1 mt-15 mb-15"></div>
                                 <div class="short-desc mb-30">
-                                    <p class="font-sm">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquam rem officia, corrupti reiciendis minima nisi modi,!</p>
+                                    <p class="font-sm"><%=response.ProductDescription%></p>
                                 </div>
                                 
-                                <div class="attr-detail attr-color mb-15">
+                                <!-- <div class="attr-detail attr-color mb-15">
                                     <strong class="mr-10">Color</strong>
                                     <ul class="list-filter color-filter">
                                         <li><a href="#" data-color="Red"><span class="product-color-red"></span></a></li>
@@ -94,8 +76,8 @@
                                         <li><a href="#" data-color="Green"><span class="product-color-green"></span></a></li>
                                         <li><a href="#" data-color="Purple"><span class="product-color-purple"></span></a></li>
                                     </ul>
-                                </div>
-                                <div class="attr-detail attr-size">
+                                </div> -->
+                                <!-- <div class="attr-detail attr-size">
                                     <strong class="mr-10">Size</strong>
                                     <ul class="list-filter size-filter font-small">
                                         <li><a href="#">S</a></li>
@@ -104,7 +86,7 @@
                                         <li><a href="#">XL</a></li>
                                         <li><a href="#">XXL</a></li>
                                     </ul>
-                                </div>
+                                </div> -->
                                 <div class="bt-1 border-color-1 mt-30 mb-30"></div>
                                 <div class="detail-extralink">
                                     <div class="detail-qty border radius">
@@ -114,15 +96,29 @@
                                     </div>
                                     <div class="product-extra-link2">
                                          
-                                        <a href='/add-to-cart/<%=response._id%>' class="button-add-to-cart" style="width:5rem;background:black;color:white" >AddToCart..</a> 
-                                        <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
-                                        <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                                       <!--add to cart main-->
+                                       <%if(userId){%>
+                                            
+                                        <div class="product-extra-link2">
+                                           
+                                           <a href='#' onclick="addTocart('<%=response._id%>')" class="button-add-to-cart" style="width:5rem;background:black;color:white" >AddToCart..</a>
+                                        </div>
+                                        <%}else{%>
+
+                                     
+                                        <div class="product-extra-link2">
+                                           
+                                           <a href='/login' class="button-add-to-cart" style="width:5rem;background:black;color:white" >AddToCart..</a>
+                                        </div>
+                                        <%}%>
+                                        <a aria-label="Add To Wishlist" class="action-btn hover-up" href=""><i class="fi-rs-heart"></i></a>
+                                        
                                     </div>
                                 </div>
                                 <ul class="product-meta font-xs color-grey mt-50">
-                                    <li class="mb-5">SKU: <a href="#">FWM15VKT</a></li>
+                                    
                                     <li class="mb-5">Tags: <a href="#" rel="tag">Cloth</a>, <a href="#" rel="tag">Women</a>, <a href="#" rel="tag">Dress</a> </li>
-                                    <li>Availability:<span class="in-stock text-success ml-5">8 Items In Stock</span></li>
+                                    <li>Availability:<span class="in-stock text-success ml-5"><%=response.Quantity%></span></li>
                                 </ul>
                             </div>
                             <!-- Detail Info -->
@@ -138,7 +134,7 @@
         <div class="page-header breadcrumb-wrap">
             <div class="container">
                 <div class="breadcrumb">
-                    <a href="index.html" rel="nofollow">Home</a>
+                    <a href="/" rel="nofollow">Home</a>
                     <span></span> Fashion
                     <span></span> Abstract Print Patchwork Dress
                 </div>
@@ -167,15 +163,7 @@
                                             <figure class="border-radius-10">
                                                 <img src="/uploads/<%= response.Image[3] %>"  alt="product image">
                                             </figure>
-                                            <!-- <figure class="border-radius-10">
-                                                <img src="assets/imgs/shop/product-16-5.jpg" alt="product image">
-                                            </figure>
-                                            <figure class="border-radius-10">
-                                                <img src="assets/imgs/shop/product-16-6.jpg" alt="product image">
-                                            </figure>
-                                            <figure class="border-radius-10">
-                                                <img src="assets/imgs/shop/product-16-7.jpg" alt="product image">
-                                            </figure> -->
+                                            
                                         </div>
                                         <!-- THUMBNA -->
                                         <div class="slider-nav-thumbnails pl-15 pr-15">
@@ -184,8 +172,7 @@
                                         
                                             <div><img src="/uploads/<%= response.Image[2] %>"  alt="product image"></div>
                                             <div><img src="/uploads/<%= response.Image[3] %>" alt="product image"></div> 
-                                            <!-- <div><img src="assets/imgs/shop/thumbnail-8.jpg" alt="product image"></div>
-                                            <div><img src="assets/imgs/shop/thumbnail-9.jpg" alt="product image"></div> -->
+                                           
                                         </div>
                                     </div> 
                                     <!-- End Gallery -->
@@ -195,26 +182,23 @@
                                         <h2 class="title-detail"><%=response.Productname%></h2>
                                         <div class="product-detail-rating">
                                             <div class="pro-details-brand">
-                                                <span> Brands: <a href="#">Bootstrap</a></span>
+                                                <span><%=response.category%></span>
                                             </div>
                                             <div class="product-rate-cover text-end">
-                                                <div class="product-rate d-inline-block">
-                                                    <div class="product-rating" style="width:90%">
-                                                    </div>
-                                                </div>
-                                                <span class="font-small ml-5 text-muted"> (25 reviews)</span>
+                                                
+                                                
                                             </div>
                                         </div>
                                         <div class="clearfix product-price-cover">
                                             <div class="product-price primary-color float-left">
                                                 <ins><span class="text-brand">₹<%=response.Price%></span></ins>
-                                                <!-- <ins><span class="old-price font-md ml-15">$200.00</span></ins>
-                                                <span class="save-price  font-md color3 ml-15">25% Off</span> -->
+                                                
                                             </div>
                                         </div>
                                         <div class="bt-1 border-color-1 mt-15 mb-15"></div>
                                         <div class="short-desc mb-30">
-                                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquam rem officia, corrupti reiciendis minima nisi modi, quasi, odio minus dolore impedit fuga eum eligendi? Officia doloremque facere quia. Voluptatum, accusantium!</p>
+                                                
+                                            <p><%=response.ProductDescription%></p>
                                         </div>
                                         <div class="product_sort_info font-xs mb-30">
                                             <ul>
@@ -223,64 +207,45 @@
                                                 <li><i class="fi-rs-credit-card mr-5"></i> Cash on Delivery available</li>
                                             </ul>
                                         </div>
-                                        <div class="attr-detail attr-color mb-15">
-                                            <strong class="mr-10">Color</strong>
-                                            <ul class="list-filter color-filter">
-                                                <li><a href="#" data-color="Red"><span class="product-color-red"></span></a></li>
-                                                <li><a href="#" data-color="Yellow"><span class="product-color-yellow"></span></a></li>
-                                                <li class="active"><a href="#" data-color="White"><span class="product-color-white"></span></a></li>
-                                                <li><a href="#" data-color="Orange"><span class="product-color-orange"></span></a></li>
-                                                <li><a href="#" data-color="Cyan"><span class="product-color-cyan"></span></a></li>
-                                                <li><a href="#" data-color="Green"><span class="product-color-green"></span></a></li>
-                                                <li><a href="#" data-color="Purple"><span class="product-color-purple"></span></a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="attr-detail attr-size">
-                                            <strong class="mr-10">Size</strong>
-                                            <ul class="list-filter size-filter font-small">
-                                                <li><a href="#">S</a></li>
-                                                <li class="active"><a href="#">M</a></li>
-                                                <li><a href="#">L</a></li>
-                                                <li><a href="#">XL</a></li>
-                                                <li><a href="#">XXL</a></li>
-                                            </ul>
-                                        </div>
+                                        <!--  -->
+                                        
                                         <div class="bt-1 border-color-1 mt-30 mb-30"></div>
 
                                         
 
-                                        <!-- <div class="detail-extralink">
-                                            <div class="detail-qty border radius">
-                                                <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
-                                                <span class="qty-val" id="quantity">1</span>
-                                                <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
-                                            </div> -->
+                                       <!--add to cart main-->
+                                       <%if(userId){%>
                                             
-                                            <div class="product-extra-link2">
-                                               <button ></button>
-                                               <a href='#' onclick="addTocart('<%=response._id%>')" class="button-add-to-cart" style="width:5rem;background:black;color:white" >AddToCart..</a>
-                                                    
-                                                <!-- <a aria-label="Add To Wishlist" class="action-btn hover-up"
-                                                    href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
-                                                <a aria-label="Compare" class="action-btn hover-up"
-                                                    href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
-                                            </div> -->
+                                        <div class="product-extra-link2">
+                                           
+                                           <a href='#' onclick="addTocart('<%=response._id%>')" class="button-add-to-cart" style="width:5rem;background:black;color:white" >AddToCart..</a>
                                         </div>
-                                        
+                                        <%}else{%>
+
+                                     
+                                        <div class="product-extra-link2">
+                                           
+                                           <a href='/login' class="button-add-to-cart" style="width:5rem;background:black;color:white" >AddToCart..</a>
+                                        </div>
+                                        <%}%>
 
 
 
                                     
                                         <ul class="product-meta font-xs color-grey mt-50">
-                                            <li class="mb-5">SKU: <a href="#">FWM15VKT</a></li>
-                                            <li class="mb-5">Tags: <a href="#" rel="tag">Cloth</a>, <a href="#" rel="tag">Women</a>, <a href="#" rel="tag">Dress</a> </li>
-                                            <li>Availability:<span class="in-stock text-success ml-5">8 Items In Stock</span></li>
+                                            <li class="mb-5">Tags: <a href="#" rel="tag">Cloth</a>, <a href="#" rel="tag">Women</a>, <a href="#" rel="tag">Dress</a></li>
+                                            <% if(response.Quantity > 1) { %>
+                                                <li>Availability: <span class="in-stock text-success ml-5"><%= response.Quantity %></span></li>
+                                            <% }else{ %>
+                                                <li>Availability: <span class="in-stock text-success ml-5">Only 1 stock available</span></li>
+                                                <%}%>
                                         </ul>
+                                        
                                     </div>
                                     <!-- Detail Info -->
                                 </div>
                             </div>
-                            <div class="row">
+                            <!-- <div class="row">
                                 <div class="col-lg-10 m-auto entry-main-content">
                                     <h2 class="section-title style-1 mb-30">Description</h2>
                                     <div class="description mb-50">
@@ -409,7 +374,7 @@
                                     </div>
                                     <h3 class="section-title style-1 mb-30 mt-30">Reviews (3)</h3>
                                     <!--Comments-->
-                                    <div class="comments-area style-2">
+                                    <!-- <div class="comments-area style-2">
                                         <div class="row">
                                             <div class="col-lg-8">
                                                 <h4 class="mb-30">Customer questions & answers</h4>
@@ -435,9 +400,9 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div> -->
                                                     <!--single-comment -->
-                                                    <div class="single-comment justify-content-between d-flex">
+                                                    <!-- <div class="single-comment justify-content-between d-flex">
                                                         <div class="user justify-content-between d-flex">
                                                             <div class="thumb text-center">
                                                                 <img src="assets/imgs/page/avatar-7.jpg" alt="">
@@ -458,9 +423,9 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div> -->
                                                     <!--single-comment -->
-                                                    <div class="single-comment justify-content-between d-flex">
+                                                    <!-- <div class="single-comment justify-content-between d-flex">
                                                         <div class="user justify-content-between d-flex">
                                                             <div class="thumb text-center">
                                                                 <img src="assets/imgs/page/avatar-8.jpg" alt="">
@@ -481,9 +446,9 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div> -->
                                                     <!--single-comment -->
-                                                </div>
+                                                <!-- </div>
                                             </div>
                                             <div class="col-lg-4">
                                                 <h4 class="mb-30">Customer reviews</h4>
@@ -517,9 +482,9 @@
                                                 <a href="#" class="font-xs text-muted">How are ratings calculated?</a>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <!--comment form-->
-                                    <div class="comment-form">
+                                    <!-- <div class="comment-form">
                                         <h4 class="mb-15">Add a review</h4>
                                         <div class="product-rate d-inline-block mb-30">
                                         </div>
@@ -557,15 +522,104 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --> 
                             
-                            <div class="banner-img banner-big wow fadeIn f-none animated mt-50">
+                            <!-- <div class="banner-img banner-big wow fadeIn f-none animated mt-50">
                                 <img class="border-radius-10" src="assets/imgs/banner/banner-4.png" alt="">
                                 <div class="banner-text">
                                     <h4 class="mb-15 mt-40">Repair Services</h4>
                                     <h2 class="fw-600 mb-20">We're an Apple <br>Authorised Service Provider</h2>
                                 </div>
-                            </div>
+                            </div> -->
+
+                            <section class="newsletter p-30 text-white wow fadeIn animated">
+                                <div class="container">
+                                  <div class="row align-items-center">
+                                    <div class="col-lg-7 mb-md-3 mb-lg-0">
+                                      <div class="row align-items-center">
+                                        <div class="col flex-horizontal-center">
+                                          <img
+                                            class="icon-email"
+                                            src="assets/imgs/theme/icons/icon-email.svg"
+                                            alt=""
+                                          />
+                                          <h4 class="font-size-20 mb-0 ml-3">Sign up to Newsletter</h4>
+                                        </div>
+                                        <div class="col my-4 my-md-0 des">
+                                          <h5 class="font-size-15 ml-4 mb-0">
+                                            ...and receive
+                                            <strong> coupon for first shopping.</strong>
+                                          </h5>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    
+                                  </div>
+                                </div>
+                              </section>
+                              <section class="section-padding footer-mid">
+                                <div class="container pt-15 pb-20">
+                                  <div class="row">
+                                    <div class="col-lg-4 col-md-6">
+                                      <div class="widget-about font-md mb-md-5 mb-lg-0">
+                                        <div class="logo logo-width-1 wow fadeIn animated">
+                                          <a href="#"
+                                            ><img src="/assets/imgs/theme/logo-color.png" alt="logo"
+                                          /></a>
+                                        </div>
+                                        <h5 class="mt-20 mb-10 fw-600 text-grey-4 wow fadeIn animated">
+                                          Contact
+                                        </h5>
+                                        <p class="wow fadeIn animated">
+                                          <strong>Address: </strong>562 Wellington Road, Street 32, San
+                                          Francisco
+                                        </p>
+                                        <p class="wow fadeIn animated">
+                                          <strong>Phone: </strong>+01 2222 365 /(+91) 01 2345 6789
+                                        </p>
+                                       
+                                        <h5 class="mb-10 mt-30 fw-600 text-grey-4 wow fadeIn animated">
+                                          Follow Us
+                                        </h5>
+                                        <!-- < -->
+                                      </div>
+                                    </div>
+                                    <div class="col-lg-2 col-md-3">
+                                      <h5 class="widget-title wow fadeIn animated">About</h5>
+                                      <ul class="footer-list wow fadeIn animated mb-sm-5 mb-md-0">
+                                        <li><a href="#">About Us</a></li>
+                                        
+                                      </ul>
+                                    </div>
+                                    <div class="col-lg-2 col-md-3">
+                                      <h5 class="widget-title wow fadeIn animated">My Account</h5>
+                                      <ul class="footer-list wow fadeIn animated">
+                                        <li><a href="#">Sign In</a></li>
+                                      
+                                      </ul>
+                                    </div>
+                                    <div class="col-lg-4">
+                                      <h5 class="widget-title wow fadeIn animated">Install App</h5>
+                                      <div class="row">
+                                       
+                                        <div class="col-md-4 col-lg-12 mt-md-3 mt-lg-0">
+                                          <p class="mb-20 wow fadeIn animated">
+                                            Secured Payment Gateways
+                                          </p>
+                                          <img
+                                            class="wow fadeIn animated"
+                                            src="assets/imgs/theme/payment-method.png"
+                                            alt=""
+                                          />
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </section>
+
+
+
                         </div>
                     </div>
                 </div>
@@ -574,13 +628,11 @@
     </main>
 <script>
     function addTocart(id){
-        console.log(id);
         $.ajax({
       url:'/add-to-cart/' + id,
       method:'get',
       data: id,
       success: (response) => {
-        console.log("qqqqqqqqq:",response);
         if(response.outOfStock){
             
             swal({
@@ -604,7 +656,6 @@
             
         }
       }
-    })
-
-    }
+})
+ }
 </script>
