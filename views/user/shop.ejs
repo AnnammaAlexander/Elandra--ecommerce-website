@@ -10,7 +10,7 @@
                      
                       <div class="row product-grid-3" id="catrgory">
                         <%if(userId){%>
-                          <% response.forEach(function(response,index) { %>
+                          <% offer.forEach(function(response) { %>
 
                           <div class="col-lg-4 col-md-4 col-12 col-sm-6">
 
@@ -18,8 +18,8 @@
                               <div class="product-cart-wrap mb-30">
                                   <div class="product-img-action-wrap">
                                       <div class="product-img product-img-zoom">
-                                          <a href="/uploads/<%= response.Image[0]%>">
-                                              <img class="default-img" src="/uploads/<%= response.Image[0] %>" alt="">
+                                          <a href=" /product-detail/<%=response._id%> ">
+                                              <img class="default-img" src="/uploads/<%= response.Image[0] %>"  alt="">
                                               <!-- <img class="hover-img" src="assets/imgs/shop/product-7-1.jpg" alt=""> -->
                                           </a>
                                       </div>
@@ -42,12 +42,21 @@
                                               <span>95%</span>
                                           </span>
                                       </div>
+                                      <div class="product-price primary-color float-left">
+                                        <%if(response?.result?.offerStatus){%>
+                                        <ins><span class="text-brand">₹<%= Math.round((response?.Price ?? 0) - ((response?.Price ?? 0) * (response?.result?.offerPercentage ?? 0) / 100)) %></span>
+                                            <span class="old-price">₹<%=response.Price%></span>  
+                                        <%}else{%>
+                                           <ins><span class="text-brand">₹<%=response.Price%></span>
+                                        <%}%>
+                                        
+                                        </ins>
+                                    </div> 
 
-
-                                      <div class="product-price">
+                                      <!-- <div class="product-price">
                                           <span><%=response.Price%></span>
                                       
-                                      </div>
+                                      </div> -->
                                       <!--addto cart-->
                                      
                                       <div class="product-action-1 show">
@@ -60,7 +69,7 @@
                           </div>
                            <% }) %>
                            <%}else{%>
-                            <% response.forEach(function(response,index) { %>
+                            <% offer.forEach(function(response,index) { %>
 
                                 <div class="col-lg-4 col-md-4 col-12 col-sm-6">
       
@@ -94,10 +103,16 @@
                                             </div>
       
       
-                                            <div class="product-price">
-                                                <span><%=response.Price%></span>
-                                            
-                                            </div>
+                                            <div class="product-price primary-color float-left">
+                                                <%if(response?.result?.offerStatus){%>
+                                                <ins><span class="text-brand">₹<%= Math.round((response?.Price ?? 0) - ((response?.Price ?? 0) * (response?.result?.offerPercentage ?? 0) / 100)) %></span>
+                                                    <span class="old-price">₹<%=response.Price%></span>  </ins> 
+                                                <%}else{%>
+                                                   <ins><span class="text-brand">₹<%=response.Price%></span>
+                                                <%}%>
+                                                
+                                                </ins>
+                                            </div> 
                                             <!--addto cart-->
                                            
                                             <div class="product-action-1 show">

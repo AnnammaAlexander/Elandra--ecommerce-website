@@ -340,8 +340,12 @@ module.exports = {
      },
 //Add Banner
 addBanner:async(req,res)=>{
-    console.log("req.body.................",req.body);
-   await bannerHelper.addBanner(req.body,req.file.filename)
+    try {
+        await bannerHelper.addBanner(req.body,req.file.filename)
+    } catch (error) {
+        
+    }
+  
 
   res.redirect("/admin/banners")
 },
@@ -353,15 +357,24 @@ deleteBanner:async(req,res)=>{
 
 
 },
-//ilter order on thebasis of payment methord
-ordersByPayment:(req,res)=>{
-    console.log("data:",req.query.paymentData);
+//list order on thebasis of payment methord
+ordersByPayment:async(req,res)=>{
+    try {
+        console.log("data:",req.query.paymentData);
+        await adminHelper.listOreders(req.query.paymentData)
+
+    } catch (error) {
+        
+    }
+   
+
 },
 // view offer details
 getOffers:async(req,res)=>{
     try {
         let categories=await db.category.find()
-        res.render('admin/AddOffers',{layout: "adminLayout", adminStatus,loggedIn: true,categories})
+        let offer= await db.offer.find()
+        res.render('admin/AddOffers',{layout: "adminLayout", adminStatus,loggedIn: true,categories,offer})
         
     } catch (error) {
         
@@ -369,16 +382,26 @@ getOffers:async(req,res)=>{
 },
 //add offer
 addOffer: async (req, res) => {
-  console.log("req.body", req.body);
+  console.log("req.body");
+
   try {
     const result = await adminOfferHelper.addOffer(req.body);
-    console.log(result)
     res.json(result);
   } catch (error) {
     res.status(500).json({ error: 'An error occurred' });
   }
 },
+//remove offer
+removeOffer:async(req,res)=>{
+    try {
+      id=req.query.id  
+      await adminOfferHelper.removeOffers(id)
+      res.json()
+    } catch (error) {
+        res.status(500).json({ error: 'An error occurred' });   
+    }
 
+},
 
 //logOut
     logOut: (req, res) => {

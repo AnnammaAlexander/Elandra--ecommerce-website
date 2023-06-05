@@ -1,112 +1,124 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <section class="content-main">
-    <div class="content-header">
-        <div>
-            <h2 class="content-title card-title">Offers</h2>
-            
-        </div>
-        <div>
-            <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#exampleModalCenter">
-                Add Offer
-              </button>
-        </div>
+  <div class="content-header">
+    <div>
+      <h2 class="content-title card-title">Offers</h2>
     </div>
+    <div>
+      <button
+        type="button"
+        class="btn btn-primary"
+        data-toggle="modal"
+        data-target="#exampleModalCenter"
+      >
+        Add Offer
+      </button>
+    </div>
+  </div>
 
+  <!-- modal -->
+  <div
+    class="modal fade"
+    id="exampleModalCenter"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Add Offer</h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <section class="">
+            <div class="container d-flex justify-content-center">
+              <div class="row w-75 mt-5">
+                <div class="col-md-12">
+                  <h2 class="text-center">Add Offer</h2>
 
+                  <form id="offerForm">
+                    <label for="" style="margin-bottom: 15px">Category</label>
 
+                    <select
+                      name="categoryName"
+                      class="form-control"
+                      style="margin-bottom: 15px"
+                      required
+                    >
+                      <option
+                        value=""
+                        style="margin-bottom: 15px"
+                        disabled
+                        selected
+                      >
+                        Select a category
+                      </option>
+                      <% categories.forEach(function(ele){%>
 
-<!-- modal -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">Add Offer</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-      
-              <section class="">
-                <div class="container d-flex justify-content-center">
-                  <div class="row w-75 mt-5">
-                    <div class="col-md-12">
-                      <h2 class="text-center">Add Offer</h2>
-                      <!-- <form
-                        action="/admin/AddOffers"
-                        method="POST">
-                        <label for="">Category</label>
-                        <input type="text" name="catrgoryName" class="form-control" required />
-                       
-              
-                        <label for="">Offer Percentage</label>
-                        <input type="text" name="discountPercentage" id="Quantity" class="form-control" required/>
-                        <p style="color: red;" id="QuantityError"></p>
-            
-              
-              
-                       
-              
-                        <label for="">Expiry Date</label>
-                        <input type="date" name="expiry" class="form-control" required />
-                       
-                       
+                      <option style="margin-bottom: 15px">
+                        <%=ele.CategoryName%>
+                      </option>
+                      <%})%>
 
+                      <!-- JavaScript code will populate the options here -->
+                    </select>
+                    <label for="" style="margin-bottom: 15px"
+                      >Offer Percentage</label
+                    >
+                    <input
+                      type="text"
+                      style="margin-bottom: 15px"
+                      name="discountPercentage"
+                      id="Quantity"
+                      class="form-control"
+                      required
+                    />
+                    <p style="color: red" id="QuantityError"></p>
 
-                       
+                    <label for="" style="margin-bottom: 15px"
+                      >Expiry Date</label
+                    >
+                    <input
+                      type="date"
+                      style="margin-bottom: 15px"
+                      name="expiry"
+                      class="form-control"
+                      required
+                    />
 
-                        <button type="submit" class="btn btn-md rounded font-sm"  onclick="return generateOffer()">Generate Offer</button>
-                      </form> -->
-
-
-
-
-                      <form id="offerForm">
-                        <label for=""  style="margin-bottom: 15px">Category</label>
-
-                        <select name="categoryName" class="form-control" style="margin-bottom: 15px" required>
-                          <option value="" style="margin-bottom: 15px;" disabled selected>Select a category</option>
-                        <% categories.forEach(function(ele){%>
-
-                          <option style="margin-bottom: 15px;"><%=ele.CategoryName%> </option>
-                    <%})%>
-
-                          <!-- JavaScript code will populate the options here -->
-                        </select>
-                        <label for="" style="margin-bottom: 15px;">Offer Percentage</label>
-                        <input type="text" style="margin-bottom: 15px;" name="discountPercentage" id="Quantity" class="form-control" required/>
-                        <p style="color: red;" id="QuantityError"></p>
-                      
-                        <label for="" style="margin-bottom: 15px;">Expiry Date</label>
-                        <input type="date" style="margin-bottom: 15px" name="expiry" class="form-control" required />
-                      
-                        <button  style="margin-bottom: 20px;" class="btn btn-md rounded font-sm" onclick="generateOffer(event)" >Generate Offer</button>
-                      </form>
-                      
-                    
-                      
-                    </div>
-                  </div>
+                    <button
+                      style="margin-bottom: 20px"
+                      class="btn btn-md rounded font-sm"
+                      onclick="generateOffer(event)"
+                    >
+                      Generate Offer
+                    </button>
+                  </form>
                 </div>
-              </section>
-              
-      
+              </div>
             </div>
-            <!-- <div class="modal-footer">
+          </section>
+        </div>
+        <!-- <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
               <button type="submit" class="btn btn-primary " onclick="checkDuplicate()" >Submit</button>
             </div> -->
-          
-          </div>
-        </div>
       </div>
- 
+    </div>
+  </div>
 
-
-
-    <div class="card mb-4">
-        <!-- <header class="card-header">
+  <div class="card mb-4">
+    <!-- <header class="card-header">
             <div class="row gx-3">
                 <div class="col-lg-4 col-md-6 me-auto">
                     <input type="text" placeholder="Search..." class="form-control" />
@@ -128,120 +140,169 @@
                 </div>
             </div>
         </header> -->
-        <!-- card-header end// -->
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-hover" id="couponTable">
-                    <thead>
-                        <tr>
-                            <!-- <th> -->
-                                <!-- <div class="form-check">
+    <!-- card-header end// -->
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover" id="couponTable">
+          <thead>
+            <tr>
+              <!-- <th> -->
+              <!-- <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="" />
                                 </div> -->
-                            <!-- </th> -->
-                            <th>Category</th>
-                            <th>Offer Percentage</th>
-                           
+              <!-- </th> -->
+              <th>Category</th>
+              <th>Offer Percentage</th>
 
-                            <th>Offer Status</th>
-                            <th>Expiry Date</th>
+              <th>Offer Status</th>
+              <th>Expiry Date</th>
 
-                            
+              <th class="text-end">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% offer.forEach(function(data){%>
+            <tr>
+              <td><%=data.CategoryName%></td>
+              <td><%=data.offerPercentage%>%</td>
+              <td><%=data.offerStatus%></td>
+              <td><%=data.expirDate%></td>
+              <td>
+                <a class="btn btn-danger" onclick="removeOffer('<%=data._id %>')">RemoveOffer</a>
+              </td>
+            </tr>
 
-                            <th class="text-end">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    
-                    </tbody>
-                </table>
-            </div> <!-- table-responsive//end -->
-        </div>
-        <!-- card-body end// -->
+            <%})%>
+          </tbody>
+        </table>
+      </div>
+      <!-- table-responsive//end -->
     </div>
-</section> <!-- content-main end// -->
+    <!-- card-body end// -->
+  </div>
+</section>
+<!-- content-main end// -->
 
 <script>
-  
-//   function generateOffer() {
-//     console.log("deleeadfghjk");
-//     swal({
-//     title: "Are you sure?",
-//     text: "Once deleted, you will not be able to recover the product!",
-//     icon: "warning",
-//     buttons: true,
-//     dangerMode: true,
-//   }).then((willDelete) => {
-//     if (willDelete) {
-//       $.ajax({
-//         url:'/admin/delete-coupon?id='+id, 
-//         type: 'GET',
-//         data: {
-//         couponId:id
-//         },
-//         success: function (response) {
-//           if (response.status) {
-//             console.log('hai',response.status)
-//             $(document).ready(function(){
-//             $('#couponTable').load(window.location.href + ' #couponTable ');
-//             })
-//           }
-//         }
-//       });
-//       swal("Your product is deleted!", {
-//         icon: "success",
-//       });
-//     } else {
-//       swal("Canceled");
-//     }
-//   });
-//   }
+  //   function generateOffer() {
+  //     console.log("deleeadfghjk");
+  //     swal({
+  //     title: "Are you sure?",
+  //     text: "Once deleted, you will not be able to recover the product!",
+  //     icon: "warning",
+  //     buttons: true,
+  //     dangerMode: true,
+  //   }).then((willDelete) => {
+  //     if (willDelete) {
+  //       $.ajax({
+  //         url:'/admin/delete-coupon?id='+id,
+  //         type: 'GET',
+  //         data: {
+  //         couponId:id
+  //         },
+  //         success: function (response) {
+  //           if (response.status) {
+  //             console.log('hai',response.status)
+  //             $(document).ready(function(){
+  //             $('#couponTable').load(window.location.href + ' #couponTable ');
+  //             })
+  //           }
+  //         }
+  //       });
+  //       swal("Your product is deleted!", {
+  //         icon: "success",
+  //       });
+  //     } else {
+  //       swal("Canceled");
+  //     }
+  //   });
+  //   }
 
+  document.addEventListener("DOMContentLoaded", function () {
+    // Fetch categories from the database
+    fetchCategories()
+      .then(function (categories) {
+        // Get the select element
+        var select = document.querySelector('select[name="categoryName"]');
 
-
-  
- document.addEventListener("DOMContentLoaded", function() {
-   // Fetch categories from the database
-   fetchCategories()
-     .then(function(categories) {
-       // Get the select element
-       var select = document.querySelector('select[name="categoryName"]');
-
-       // Populate options with categories
-       categories.forEach(function(category) {
-         var option = document.createElement("option");
-         option.value = category.CategoryName;
-         option.text = category.CategoryName;
-         select.appendChild(option);
-       });
-     })
-     .catch(function(error) {
-       console.error("Error fetching categories:", error);
-     });
- });
- //generate offer
- function generateOffer(){
-    event.preventDefault()
+        // Populate options with categories
+        categories.forEach(function (category) {
+          var option = document.createElement("option");
+          option.value = category.CategoryName;
+          option.text = category.CategoryName;
+          select.appendChild(option);
+        });
+      })
+      .catch(function (error) {
+        console.error("Error fetching categories:", error);
+      });
+  });
+  //generate offer
+  function generateOffer(event) {
+    event.preventDefault();
+    console.log("asdfghjkl");
     $.ajax({
-        url:'/admin/AddOffers',
-        type:'post',
-        data:$('#offerForm').serialize(),
-        success:function(response){
-            console.log('hbahghsgdfghjkl');
-            console.log("fghjkl:",response)
+      url:"/admin/AddOffers",
+      type:"POST",
+      data:$("#offerForm").serialize(),
+      success:function(response) {
+        console.log("hbahghsgdfghjkl");
+        console.log("fghjkl:", response);
 
-            if(response.offerExist){
-                swal('offer exist')
-            }else{
-                swal('offer added succesfully')
-            }
-            
-            
-            
-            
+        if (response.offerExist) {
+          swal("offer exist");
+        } else {
+          swal("offer added succesfully");
         }
-    })
- }
-    </script>
+      },
+    });
+  }
 
-  
+  // function removeOffer(id){
+  //   $.ajax({
+  //     url:"/admin/removeOffer",
+  //     type:"get",
+  //     data:{
+  //       id:id
+  //     },
+  //     success:function(response) {
+  //       console.log("hbahghsgdfghjkl");
+  //       console.log("fghjkl:", response);
+
+       
+  //     },
+  //   });
+  // }
+
+
+  function removeOffer(id){
+    swal({
+    title: "Are you sure?",
+    text: "Do you want to disable the offer!",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  }).then((willDelete) => {
+    if (willDelete) {
+      $.ajax({
+        url:"/admin/removeOffer", 
+        type:'GET',
+        data: {
+          id:id
+        },
+        success: function (response) {
+          if (response) {
+            location.reload();
+          }
+        }
+      });
+      swal("Your product is disabled!", {
+        icon: "success",
+      });
+    } else {
+      swal("Canceled");
+    }
+  });
+
+  }
+</script>

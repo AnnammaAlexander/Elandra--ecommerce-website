@@ -296,6 +296,19 @@ getDeliveredOrder:(page,perpage)=>{
      })
 
 },
+//list order on the basis of payament
+listOreders:(payment)=>{
+    try {
+       return new Promise(async(resolve, reject) => {
+        await db.order.find({paymentMethod:payment})
+       }).then((response)=>{
+        console.log(",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,",response);
+        resolve(response)
+       })
+    } catch (error) {
+        
+    }
+},
 
         //get dashbord data
         DashbordhHelper:async(req,res)=>{

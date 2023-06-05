@@ -77,6 +77,12 @@
                     <h2 class="content-title card-title">Users </h2>
                     
                 </div>
+                <select  class="btn btn-md rounded dropdown-toggle" id="usersList" onchange="listUsers()">
+                  <option selected hidden>Users</option>
+                  <option>Blocked users</option>
+                  <option>Users</option>
+                  
+              </select>
                 <!-- <div>
                   <a href="/admin/addCategoryView" class="btn btn-md rounded font-sm">Add Category</a>
                 </div> -->
@@ -227,6 +233,21 @@
   });
 
   }
+  //List users
+ function listUsers(){
+  paymentData=document.getElementById('usersList').value
+        console.log("asdfg",paymentData);
+        $.ajax({
+            url:'/orders-Payment',
+            method:'get',
+            data:{
+                paymentData  
+            },
+            success:(Response)=>{
+
+            }
+        })
+ }
 </script>
     
   

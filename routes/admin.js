@@ -65,7 +65,9 @@ router.get('/delete-coupon',middleware.adminSession,couponController.deleteCoupo
 //view offerpage
 router.get("/offers",controllers.getOffers)
 //add offer
-router.post('/AddOffers',middleware.adminSession,controllers.addOffer)
+router.post("/AddOffers",controllers.addOffer)
+//disable offer
+router.get('/removeOffer',controllers.removeOffer)
 
 //banner ,view bannerlist
 router.get('/banners',controllers.getBanner)

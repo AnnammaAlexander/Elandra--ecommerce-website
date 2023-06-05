@@ -247,7 +247,52 @@ searchItem:(key)=>{
         }
        
     },
+    //find the offer of a product
+    findOffer:async(id)=>{
+        try {
+           const offer =  await db.product.aggregate([
+                {
+                    $match:{_id:objectId(id)}
+                },
+                {
+                    $lookup:{
+                        from: "offers",
+                        localField: "category",
+                        foreignField: "CategoryName",
+                        as: "result"
+                    }
+                },{
+                    $unwind: '$result'
+                }
+                
+            ])
 
+            return offer
+        } catch (error) {
+            
+        }
+
+    },
+//get offer for shop page
+getOffer:async()=>{
+    try {
+        const offer =  await db.product.aggregate([
+            {
+                $lookup:{
+                    from: "offers",
+                    localField: "category",
+                    foreignField: "CategoryName",
+                    as: "result"
+                } 
+            },{
+                $unwind: '$result'  
+            }
+        ])
+          return offer  
+    } catch (error) {
+        
+    }
+},
 
 //get all products from product
  getShopHelper:()=>{

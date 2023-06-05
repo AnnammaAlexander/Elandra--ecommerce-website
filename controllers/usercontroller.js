@@ -41,6 +41,7 @@ module.exports = {
       let Popular=await productHelper.getPopular()
       res.render('user/index', { userSession, logheader, cartCount ,banners,wishcount,products,Featured,Popular})
     } else {
+      console.log('here')
       logheader = false
       //console.log(logheader);
       let banners= await bannerHelper.viewBanner()
@@ -51,7 +52,6 @@ module.exports = {
       //get popular
       let Popular=await productHelper.getPopular()
       res.render('user/index', { logheader, loginStatus,banners,cartCount,wishcount,products,Featured,Popular });
-      // res.render("user/index", { userSession, logheader, cartCount,banners })
 
     }
 
@@ -232,7 +232,9 @@ getShop: async (req, res) => {
     // list category
     let procategory = await userHelpers.getShopHelperCategory();
     let logheader = false; // Assume user is not logged in
-
+    //offer details
+    let offer=await userHelpers.getOffer()
+    console.log(",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,",offer);
     if (req.session.userLoggedIn) {
       userId = req.session.users._id
       logheader = true;
@@ -253,6 +255,7 @@ getShop: async (req, res) => {
       cartCount,
       wishcount,
       userId,
+      offer,
       pages: Math.ceil(orderListCount / perpage)
     });
   } catch (error) {
@@ -289,17 +292,16 @@ console.log(data,category);
     let id = req.params.id
     let userId
     let response = await userHelpers.showProductDetail(id)
+    let offer= await userHelpers.findOffer(id)
+
+    console.log(offer,'----------------------------');
+
     if (req.session.userLoggedIn) {
        userId = req.session.users._id
       logheader = true
       cartCount = await userHelpers.getCartCount(req.session.users._id)
       req.session.cartCount = parseInt(cartCount)
-     
-
-      console.log('id of a particular product', id);
-     
       logheader = true
-      console.log("response.........:",response);
       //get wishlist count
       wishcount=await wishListHelper.wishlistcount(req.session.users._id)
     
@@ -309,7 +311,8 @@ console.log(data,category);
 
       
     }
-    res.render('user/shopProduct', { logheader, userSession, response, cartCount,wishcount ,userId})
+    console.log(offer);
+    res.render('user/shopProduct', { logheader, userSession, response, cartCount,wishcount ,userId,offer})
   },
 
 
@@ -344,6 +347,7 @@ let wishcount=0
 
 
   },
+
 
 
 
