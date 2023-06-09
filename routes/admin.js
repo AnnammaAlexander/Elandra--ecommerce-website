@@ -6,6 +6,8 @@ const offerHelpeer=require('../helpers/adminOfferHelper')
 const multer=require('../multer/multer')
 const  middlewares=require('../middlewares/middleware');
 const middleware = require('../middlewares/middleware');
+const productHelper = require('../helpers/productHelper');
+const adminOfferHelper = require('../helpers/adminOfferHelper');
 /* GET users listing. */
 
 //view dashbord
@@ -30,6 +32,8 @@ router.get('/edit-product/:id',middlewares.adminSession,controllers. getEditProd
 router.post('/edit-product/:id',middlewares.adminSession ,multer.editeduploads,controllers. postEditProducts)
 router.get('/block-product/:id',middlewares.adminSession,controllers.blockProducts)
 router.get('/unblocked-product/:id',middlewares.adminSession,controllers.unblockProduct)
+//list available product
+router.get('/product-list',middleware.adminSession,controllers.listProducts)
 
 //category
 router.get('/add_category',middlewares.adminSession,controllers.getCategory)
@@ -48,6 +52,8 @@ router.get('/view_users',middleware.adminSession, controllers.getViewUsers)
 router.get('/block_users/:id',middleware.adminSession ,controllers.blockUsers)
 //unblock user
 router.get('/unblock_users/:id', middleware.adminSession,controllers.unblockUsers )
+//list blocked & Active users
+router.get('/userList',middleware.adminSession,controllers.listUsers)
 
 //order
 router.get('/orders',middleware.adminSession,controllers.viewOrders)
@@ -63,21 +69,25 @@ router.get('/add-coupon',middleware.adminSession,couponController.getAddCoupon)
 router.post('/add-coupon',middleware.adminSession,couponController.postCoupon)
 router.get('/delete-coupon',middleware.adminSession,couponController.deleteCoupon)
 //view offerpage
-router.get("/offers",controllers.getOffers)
+router.get("/offers",middleware.adminSession,controllers.getOffers)
 //add offer
 router.post("/AddOffers",controllers.addOffer)
 //disable offer
 router.get('/removeOffer',controllers.removeOffer)
+//list offers by status
+router.get('/offer-status',controllers.listOffers)
 
 //banner ,view bannerlist
-router.get('/banners',controllers.getBanner)
+router.get('/banners',middleware.adminSession,controllers.getBanner)
 // add banner
 router.post('/banners',multer.bannerAdd ,controllers.addBanner)
 //delete banner
 router.get('/delete-banner',controllers.deleteBanner)
 
 //filter the order
-router.get('/orders-Payment',controllers.ordersByPayment)
+router.get('/orders-Payment',middleware.adminSession, controllers.ordersByPayment)
+//filter orderlist on the basis of orderstatus
+router.get('/orders-status',middleware.adminSession,controllers.orderStatus)
 
 //logout
 router.get('/logout',controllers.logOut )

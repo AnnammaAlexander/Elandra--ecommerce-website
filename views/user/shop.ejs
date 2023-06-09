@@ -8,9 +8,9 @@
               <div class="row flex-row-reverse">
                   <div class="col-lg-9">
                      
-                      <div class="row product-grid-3" id="catrgory">
-                        <%if(userId){%>
-                          <% offer.forEach(function(response) { %>
+                    <div class="row product-grid-3" id="catrgory">
+                    <%if(userId){%>
+                          <% response.forEach(function(data) { %>
 
                           <div class="col-lg-4 col-md-4 col-12 col-sm-6">
 
@@ -18,14 +18,14 @@
                               <div class="product-cart-wrap mb-30">
                                   <div class="product-img-action-wrap">
                                       <div class="product-img product-img-zoom">
-                                          <a href=" /product-detail/<%=response._id%> ">
-                                              <img class="default-img" src="/uploads/<%= response.Image[0] %>"  alt="">
+                                          <a href=" /product-detail/<%=data._id%> ">
+                                              <img class="default-img" src="/uploads/<%= data.Image[0] %>"  alt="">
                                               <!-- <img class="hover-img" src="assets/imgs/shop/product-7-1.jpg" alt=""> -->
                                           </a>
                                       </div>
                                       <div class="product-action-1">
                                           
-                                          <a aria-label="Add To Wishlist" class="action-btn hover-up" onclick="addToWishlist('<%= response._id%>')" ><i class="fi-rs-heart"></i></a>
+                                          <a aria-label="Add To Wishlist" class="action-btn hover-up" onclick="addToWishlist('<%= data._id%>')" ><i class="fi-rs-heart"></i></a>
                                          
                                       </div>
                                       <div class="product-badges product-badges-position product-badges-mrg">
@@ -34,42 +34,40 @@
                                   </div>
                                   <div class="product-content-wrap">
                                       <div class="product-category">
-                                          <a href=#><%=response.category%></a>
+                                          <a href=#><%=data.category%></a>
                                       </div>
-                                      <h2><a href="/product-detail/<%=response._id%>" > <%=response.Productname%></a></h2>
+                                      <h2><a href="/product-detail/<%=data._id%>" > <%=data.Productname%></a></h2>
                                       <div class="rating-result" title="90%">
+                                        <% if(data?.offerPercentage){%>
                                           <span>
-                                              <span>95%</span>
+                                              <span><%=data.offerPercentage ?? ''%>%</span>
                                           </span>
+                                          <%}%>
                                       </div>
                                       <div class="product-price primary-color float-left">
-                                        <%if(response?.result?.offerStatus){%>
-                                        <ins><span class="text-brand">₹<%= Math.round((response?.Price ?? 0) - ((response?.Price ?? 0) * (response?.result?.offerPercentage ?? 0) / 100)) %></span>
-                                            <span class="old-price">₹<%=response.Price%></span>  
+                                        <%if(data?.offerPercentage){%>
+                                        <span class="text-brand">₹<%= Math.round((data?.Price ?? 0) - ((data?.Price ?? 0) * (data?.offerPercentage ?? 0) / 100)) %></span>
+                                            <span class="old-price">₹<%=data.Price%></span>   
                                         <%}else{%>
-                                           <ins><span class="text-brand">₹<%=response.Price%></span>
+                                           <span class="text-brand">₹<%=data.Price%></span>
                                         <%}%>
                                         
-                                        </ins>
+                                        
                                     </div> 
 
-                                      <!-- <div class="product-price">
-                                          <span><%=response.Price%></span>
-                                      
-                                      </div> -->
-                                      <!--addto cart-->
+                                     
                                      
                                       <div class="product-action-1 show">
-                                          <a aria-label="Add To Cart" class="action-btn hover-up" onclick="addToCart('<%=response._id%>')"><i class="fi-rs-shopping-bag-add"></i></a>
+                                          <a aria-label="Add To Cart" class="action-btn hover-up" onclick="addToCart('<%=data._id%>')"><i class="fi-rs-shopping-bag-add"></i></a>
                                       </div>
                                      
 
                                   </div>
                               </div>
                           </div>
-                           <% }) %>
-                           <%}else{%>
-                            <% offer.forEach(function(response,index) { %>
+                        <% }) %>
+                    <%}else{%>
+                            <% response.forEach(function(data) { %>
 
                                 <div class="col-lg-4 col-md-4 col-12 col-sm-6">
       
@@ -77,8 +75,8 @@
                                     <div class="product-cart-wrap mb-30">
                                         <div class="product-img-action-wrap">
                                             <div class="product-img product-img-zoom">
-                                                <a href="/uploads/<%= response.Image[0]%>">
-                                                    <img class="default-img" src="/uploads/<%= response.Image[0] %>" alt="">
+                                                <a href="/uploads/<%= data.Image[0]%>">
+                                                    <img class="default-img" src="/uploads/<%= data.Image[0] %>" alt="">
                                                     <!-- <img class="hover-img" src="assets/imgs/shop/product-7-1.jpg" alt=""> -->
                                                 </a>
                                             </div>
@@ -93,27 +91,29 @@
                                         </div>
                                         <div class="product-content-wrap">
                                             <div class="product-category">
-                                                <a href=#><%=response.category%></a>
+                                                <a href=#><%=data.category%></a>
                                             </div>
-                                            <h2><a href="/product-detail/<%=response._id%>" > <%=response.Productname%></a></h2>
+                                            <h2><a href="/product-detail/<%=data._id%>" > <%=data.Productname%></a></h2>
                                             <div class="rating-result" title="90%">
+                                               <% if(data?.offerPercentage){%>
                                                 <span>
-                                                    <span>95%</span>
+                                                     <span><%=data?.offerPercentage%>%</span> 
                                                 </span>
+                                                <%}%>
                                             </div>
       
       
                                             <div class="product-price primary-color float-left">
-                                                <%if(response?.result?.offerStatus){%>
-                                                <ins><span class="text-brand">₹<%= Math.round((response?.Price ?? 0) - ((response?.Price ?? 0) * (response?.result?.offerPercentage ?? 0) / 100)) %></span>
-                                                    <span class="old-price">₹<%=response.Price%></span>  </ins> 
+                                                <%if(data?.offerPercentage){%>
+                                                <span class="text-brand">₹<%= Math.round((data?.Price ?? 0) - ((data?.Price ?? 0) * (data?.offerPercentage ?? 0) / 100)) %></span>
+                                                    <span class="old-price">₹<%=data.Price%></span>   
                                                 <%}else{%>
-                                                   <ins><span class="text-brand">₹<%=response.Price%></span>
+                                                   <span class="text-brand">₹<%=data.Price%></span>
                                                 <%}%>
                                                 
-                                                </ins>
+                                                
                                             </div> 
-                                            <!--addto cart-->
+                                            <!-- addto cart -->
                                            
                                             <div class="product-action-1 show">
                                                 <a href="/login" aria-label="Add To Cart" class="action-btn hover-up" ><i class="fi-rs-shopping-bag-add"></i></a>
@@ -123,8 +123,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                 <%})%>
-                                 <%}%>
+                            <%})%>
+                        <%}%>
 
                       </div>
                       <!--pagination-->
@@ -197,7 +197,7 @@
                 icon: 'success',
                 timer: 5000
             }).then(()=>{
-                location.href='/shop'
+                location.reload();
             })
             
         }
@@ -241,102 +241,87 @@
 
 
 
-//   //  add to wishlist
-//     function addToWishlist(proId) {
-//         $.ajax({
-//             url:'/addto-wishlist',
-//             type:'post',
-//             data: {
-//                 proId:proId
-//             },
-//             success:function(response){
-//             swal("Your product is added to wishlist!");
-//             setTimeout(function() {
-//                 location.reload();
-//             }, 5000); // Delay of 2 seconds (2000 milliseconds)
-//         }
-            
-//         })
-//         location.reload();
-//     }
- //list product based on category
- var selectedCategory=''
-function productcategory(data,id){
-//indicaion of seleted category
-    var navLinks = document.querySelectorAll('.categories li');   
-    for (var i = 0; i < navLinks.length; i++) {
-        navLinks[i].classList.remove('indica');
-       
-    }
-    document.getElementById(id).classList.add('indica')
-    // document.getElementById(id).style.color='blue'
-    
-    
-    selectedCategory = data
-    
-    $.ajax({
-        url:'/shop-category',
-        type:'get',
-        data:{
-            data
-        },
-        success:function(result){
-            console.log(result);
-            let categoryProducts=''
-            for(let i=0;i<result.length;i++){
-                categoryProducts+=`
-                <div class="col-lg-4 col-md-4 col-12 col-sm-6">
 
 
-<div class="product-cart-wrap mb-30">
-    <div class="product-img-action-wrap">
-        <div class="product-img product-img-zoom">
-            <a href="/uploads/${result[i].Image[0]}">
-                <img class="default-img" src="/uploads/${result[i].Image[0]}" alt="">
-                <!-- <img class="hover-img" src="assets/imgs/shop/product-7-1.jpg" alt=""> -->
-            </a>
-        </div>
-        <div class="product-action-1">
-           
-            <a aria-label="Add To Wishlist" class="action-btn hover-up" onclick="addToWishlist('${result[i]._id}')" ><i class="fi-rs-heart"></i></a>
-           
-        </div>
-        <div class="product-badges product-badges-position product-badges-mrg">
-            
-        </div>
-    </div>
-    <div class="product-content-wrap">
-        <div class="product-category">
-            <a href=#>${result[i].category}</a>
-        </div>
-        <h2><a href="/product-detail/${result[i]._id}" > ${result[i].Productname}</a></h2>
-        <div class="rating-result" title="90%">
-            <span>
-                <span>95%</span>
-            </span>
-        </div>
 
+function productcategory(data, id) {
+  // indication of selected category
+  var navLinks = document.querySelectorAll('.categories li');
+  for (var i = 0; i < navLinks.length; i++) {
+    navLinks[i].classList.remove('indica');
+  }
+  document.getElementById(id).classList.add('indica');
 
-        <div class="product-price">
-            <span>${result[i].Price}</span>
-        
-        </div>
-        <div class="product-action-1 show">
-            <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
-        </div>
-    </div>
-</div>
-</div>`
-            }
-            document.getElementById('catrgory').innerHTML=categoryProducts
+  selectedCategory = data;
+
+  $.ajax({
+    url: '/shop-category',
+    type: 'get',
+    data: {
+      data: selectedCategory
+    },
+    success: function (result) {
+      console.log(result);
+      let categoryProducts = '';
+      for (let i = 0; i < result.length; i++) {
+        const product = result[i];
+        let priceHtml = '';
+        if (product.offerPercentage) {
+          const discountedPrice = Math.round(product.Price - (product.Price * product.offerPercentage / 100));
+          priceHtml = `<span class="text-brand">₹${discountedPrice}</span><span class="old-price">₹${product.Price}</span>`;
+        } else {
+          priceHtml = `<span class="text-brand">₹${product.Price}</span>`;
         }
-    })
-}     
+        
+        categoryProducts += `
+          <div class="col-lg-4 col-md-4 col-12 col-sm-6">
+            <div class="product-cart-wrap mb-30">
+              <div class="product-img-action-wrap">
+                <div class="product-img product-img-zoom">
+                  <a href="/uploads/${product.Image[0]}">
+                    <img class="default-img" src="/uploads/${product.Image[0]}" alt="">
+                  </a>
+                </div>
+                <div class="product-action-1">
+                  <a aria-label="Add To Wishlist" class="action-btn hover-up" onclick="addToWishlist('${product._id}')">
+                    <i class="fi-rs-heart"></i>
+                  </a>
+                </div>
+                <div class="product-badges product-badges-position product-badges-mrg">
+                </div>
+              </div>
+              <div class="product-content-wrap">
+                <div class="product-category">
+                  <a href="#">${product.category}</a>
+                </div>
+                <h2>
+                  <a href="/product-detail/${product._id}">${product.Productname}</a>
+                </h2>
+                <div class="rating-result" title="90%">
+                 ${product?.offerPercentage ? `<span>${product.offerPercentage}%</span>` : ''}
+                </div>
+
+                <div class="product-price primary-color float-left">
+                  ${priceHtml}
+                </div>
+                <div class="product-action-1 show">
+                  <a aria-label="Add To Cart" class="action-btn hover-up" onclick="addToCart('${product._id}')">
+                    <i class="fi-rs-shopping-bag-add"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>`;
+      }
+      document.getElementById('catrgory').innerHTML = categoryProducts;
+    }
+  });
+}
 
 //filtered by price
 function shopByPrice(){
     let data=document.getElementById('shopbyPrice').value
-    let category=selectedCategory
+    let category=data
     console.log(category);
     $.ajax({
       url:'/sortByPrice',
@@ -350,6 +335,13 @@ function shopByPrice(){
       success: (result) => {
         let product=''
         for(i=0;i<result.length;i++){
+          let priceHtml = '';
+        if (result[i].offerPercentage) {
+          const discountedPrice = Math.round(result[i].Price - (result[i].Price * result[i].offerPercentage / 100));
+          priceHtml = `<span class="text-brand">₹${discountedPrice}</span><span class="old-price">₹${result[i].Price}</span>`;
+        } else {
+          priceHtml = `<span class="text-brand">₹${result[i].Price}</span>`;
+        }
             product += `<div class="col-lg-4 col-md-4 col-12 col-sm-6">
 
 
@@ -376,18 +368,16 @@ function shopByPrice(){
         </div>
         <h2><a href="/product-detail/${result[i]._id}" > ${result[i].Productname}</a></h2>
         <div class="rating-result" title="90%">
-            <span>
-                <span>95%</span>
-            </span>
-        </div>
+                 ${result[i]?.offerPercentage ? `<span>${result[i].offerPercentage}%</span>` : ''}
+                </div>
 
 
         <div class="product-price">
-            <span>${result[i].Price}</span>
+          ${priceHtml}
         
         </div>
         <div class="product-action-1 show">
-            <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
+            <a aria-label="Add To Cart" class="action-btn hover-up" onclick="addToCart('${result[i]._id}')"><i class="fi-rs-shopping-bag-add"></i></a>
         </div>
     </div>
 </div>
@@ -403,4 +393,3 @@ function shopByPrice(){
 }
 </script>
 
-<!-- Mirrored from wp.alithemes.com/html/evara/evara-frontend/shop-grid-left.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Aug 2021 15:26:43 GMT -->

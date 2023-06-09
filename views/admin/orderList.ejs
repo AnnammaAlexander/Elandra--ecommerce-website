@@ -1,10 +1,3 @@
-
-
-
-<!-- Mirrored from wp.alithemes.com/html/evara/evara-backend/page-orders-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Aug 2021 15:33:21 GMT -->
-
-
-
     
  <section class="content-main">
     <div class="container">
@@ -13,20 +6,16 @@
                     <h2 class="content-title card-title">Orders </h2>
                     
                 </div>
-                <!-- <div>
-                    <input type="text" placeholder="Search order ID" class="form-control bg-white">
-                </div> -->
                 <div>
                 <div class="dropdown">
-                    <button class="btn btn-md rounded dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Dropdown button
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div> 
-                   
+                    <select  class="btn btn-md rounded dropdown-toggle" id="orderStatus" onchange="OrderByStatus()">
+                        <option selected hidden>Order Status</option>
+                        <option>confirmed</option>
+                        <option>Shipped</option>
+                        <option>Cancelled</option>
+                        <option>Delivered</option>
+                        <option>Returned</option>
+                    </select>
                 </div>
 
                     <select  class="btn btn-md rounded dropdown-toggle" id="paymentMethord" onchange="OrderByPayment()">
@@ -35,10 +24,7 @@
                         <option>Wallet</option>
                         <option>Razorpay</option>
                     </select>
-                    
-
-
-                </div>
+                  </div>
 
             </div>
             <div class="card mb-4">
@@ -56,21 +42,18 @@
                                     <th scope="col" class="text-end"> Action </th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="tableData">
                                 <% order.forEach(function(object) { %>
                                 <tr>
                                     <td><%=object.hashedId%></td>
-                                    <td><%=object.CreatedAt%></td>
+                                    <td><%=object.CreatedAt.toLocaleDateString('en-GB')%></td>
                                     <td><%=object.paymentMethod%></td>
                                     <td><%=object.orderStatus%></td>
-                                    <td><%=object.totalPrice%></td>
+                                    <td>₹<%=object.totalPrice%></td>
                                     
                                     <td class="text-end">
                                         <a href="/admin/order-detail/<%=object._id%>" class="btn btn-md rounded font-sm">Detail</a>
-                                        <div class="dropdown">
-                                            <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                            
-                                        </div> <!-- dropdown //end -->
+                                         <!-- dropdown //end -->
                                     </td>
                                 </tr>
                                 
@@ -100,39 +83,79 @@
     function OrderByPayment(){
         paymentData=document.getElementById('paymentMethord').value
         console.log("asdfg",paymentData);
-        $.ajax({
-            url:'/orders-Payment',
-            method:'get',
-            data:{
-                paymentData  
+            $.ajax({
+              url: '/admin/orders-Payment',
+              type: 'get',
+              data:{
+                paymentData:paymentData
             },
-            success:(Response)=>{
+            success:(respons)=>{
                 console.log(respons);
                 let orders=''
-                // <tbody>
-                            
-                //                 <tr>
-                //                     <td><%=object.hashedId%></td>
-                //                     <td><%=object.CreatedAt%></td>
-                //                     <td><%=object.paymentMethod%></td>
-                //                     <td><%=object.orderStatus%></td>
-                //                     <td><%=object.totalPrice%></td>
+                for(let i=0;i<respons.length;i++){
+                    orders+=`
+                                
+                                <tr>
+                                    <td>${respons[i].hashedId}</td>
+                                    <td>${new Date(respons[i].CreatedAt).toLocaleDateString('en-GB')}</td>
+
+                                    <td>${respons[i].paymentMethod}</td>
+                                    <td>${respons[i].orderStatus}</td>
+                                    <td>${respons[i].totalPrice}</td>
+                                   
                                     
-                //                     <td class="text-end">
-                //                         <a href="/admin/order-detail/<%=object._id%>" class="btn btn-md rounded font-sm">Detail</a>
-                //                         <div class="dropdown">
-                //                             <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                            
-                //                         </div> <!-- dropdown //end -->
-                //                     </td>
-                //                 </tr>
+                                    <td class="text-end">
+                                        <a href="/admin/order-detail/${respons[i]._id}" class="btn btn-md rounded font-sm">Detail</a>
+                                       
+                                </tr>
                                 
                                 
-                //             </tbody>  
+                            
+                    ` 
+                }
+               document.getElementById('tableData').innerHTML=orders
 
             }
         })
 
+    }
+    function OrderByStatus(){
+        status=document.getElementById('orderStatus').value
+        console.log("asdfg",status);
+            $.ajax({
+              url: '/admin/orders-status',
+              type: 'get',
+              data:{
+                status:status
+            },
+            success:(respons)=>{
+                console.log(respons);
+                let orders=''
+                for(let i=0;i<respons.length;i++){
+                    orders+=`
+                                
+                                <tr>
+                                    <td>${respons[i].hashedId}</td>
+                                    <td>${new Date(respons[i].CreatedAt).toLocaleDateString('en-GB')}</td>
+
+                                    <td>${respons[i].paymentMethod}</td>
+                                    <td>${respons[i].orderStatus}</td>
+                                    <td>${respons[i].totalPrice}</td>
+                                   
+                                    
+                                    <td class="text-end">
+                                        <a href="/admin/order-detail/${respons[i]._id}" class="btn btn-md rounded font-sm">Detail</a>
+                                       
+                                </tr>
+                                
+                                
+                            
+                    ` 
+                }
+               document.getElementById('tableData').innerHTML=orders
+
+            }
+        })  
     }
 </script>
 

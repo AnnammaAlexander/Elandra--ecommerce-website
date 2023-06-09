@@ -76,6 +76,9 @@ const productSchema = new mongoose.Schema({
   blocked: {
     type: Boolean, default: false
   },
+  offerPercentage:{
+    type:Number
+  }
 })
 
 
@@ -240,5 +243,5 @@ module.exports = {
   coupon:mongoose.model('coupon',couponSchema ),
   banner:mongoose.model('banner',bannerSchema),
   wallet:mongoose.model('wallet',walletSchema),
-  offer:mongoose.model('offer',offerSchema),
+  offer:mongoose.model('offer',offerSchema)
 }

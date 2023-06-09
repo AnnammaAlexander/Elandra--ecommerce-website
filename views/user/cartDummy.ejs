@@ -1,8 +1,4 @@
-
-
-
-    
-    <div class="mobile-header-active mobile-header-wrapper-style">
+ <div class="mobile-header-active mobile-header-wrapper-style">
         <div class="mobile-header-wrapper-inner">
             <div class="mobile-header-top">
                 <div class="mobile-header-logo">
@@ -22,11 +18,7 @@
                         <button type="submit"><i class="fi-rs-search"></i></button>
                     </form>
                 </div>
-                
-                    <!-- mobile menu start -->
-                    
-                    <!-- mobile menu end -->
-                </div>
+           </div>
                 <div class="mobile-header-info-wrap mobile-header-border">
                     <div class="single-mobile-header-info mt-30">
                         <a  href="page-contact.html"> Our location </a>
@@ -97,8 +89,16 @@
                                             <p class="font-xs"><%= object.cartItems.category%><br> </p>
                                             <p class="font-xs"><%= object.cartItems.ProductDescription %><br> </p>
                                           </td>
-                                          <td class="price" data-title="Price">₹<span id="price-<%= object.cartItems._id%>"><%= object.cartItems.Price%></span></td>
-                        
+                                          <td class="price" data-title="Price">
+                                            
+                                            <% if (object?.cartItems?.offerPercentage) { %>
+                                              ₹<span class="text-brand" id="price-<%=object.cartItems._id%>"><%= Math.round((object?.cartItems.Price ?? 0) - ((object?.cartItems.Price ?? 0) * (object?.cartItems.offerPercentage ?? 0) / 100)) %></span>
+                                            <% } else { %>
+                                              ₹<span class="text-brand" id="price-<%=object.cartItems._id%>"><%= object.cartItems.Price %></span>
+                                            <% } %>
+                                          </td>
+                                          
+                                        
                         
                         
                         
@@ -115,8 +115,14 @@
                                                 onclick="changeQuantity('<%=object._id %>','<%= object.item %>','<%= userId%>',+1)">+</button>
                                         </td>
                              <td class="text-right" data-title="Cart">
-                                ₹<span id="subTotal<%=object.item%>"><%=parseInt(object.Quantity) *
-                                  parseInt(object.cartItems.Price)%></span>
+                                
+                                  <% if (object?.cartItems?.offerPercentage) { %>
+                                    ₹<span  id="subTotal<%=object.item%>"><%= parseInt(object.Quantity) *Math.round((object?.cartItems.Price ?? 0) - ((object?.cartItems.Price ?? 0) * (object?.cartItems.offerPercentage ?? 0) / 100)) %></span>
+                                  <% } else { %>
+                                    ₹<span id="subTotal<%=object.item%>"><%=parseInt(object.Quantity) *
+                                      parseInt(object.cartItems.Price)%></span>
+    
+                                  <% } %>
                               </td>
                               <!--stock-->
                               <h6 id="Invetory-qty<%=object.item%>"  style="display: none;"><%=object.cartItems.Quantity %></h6>
@@ -136,14 +142,6 @@
                         <div class="divider center_icon mt-50 mb-50"><i class=""></i></div>
                         <div class="row mb-50">
                             <div class="col-lg-6 col-md-12">
-                                
-                                
-                                
-                             
-
-
-
-
 
                                 <!--coopon end-->
                             </div>
@@ -189,18 +187,23 @@
       
 
   function changeQuantity(cartId, proId, userId, count) {
+    console.log("asdfgh");
 
     let invetory=document.getElementById('Invetory-qty'+proId).textContent
+  
     let qty = document.getElementById('qty'+proId).textContent;
     let Price =document.getElementById('price-'+proId).textContent;
     let coun = parseInt(count)
     let quantity = parseInt(qty)
     let price = parseInt(Price)
    let stock=parseInt(invetory)
+  
+   
 
     //total quantity
 
     let totalQuantity = coun + quantity
+    console.log("totalQuantity",totalQuantity);
     let subT = (totalQuantity * price)
 console.log("stock",stock);
 console.log("qty:",totalQuantity);
@@ -266,6 +269,7 @@ if (coun == -1 && quantity == 1) {
 
         if(response){
             //place subtotal of product
+            console.log("subT",subT);
           document.getElementById('subTotal'+proId).innerHTML= subT
           
           document.getElementById('qty'+proId).innerHTML=totalQuantity
@@ -321,4 +325,4 @@ function deleteProduct(id) {
   </script>  
 
 
-<!-- Mirrored from wp.alithemes.com/html/evara/evara-frontend/shop-cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Aug 2021 15:26:06 GMT -->
+

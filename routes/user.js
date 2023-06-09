@@ -77,7 +77,7 @@ router.put('/cancel-product', middleware.userSession,middleware.blockedStatus ,c
 // view whishlist page 
 router.get('/shop-wishlist', middleware.userSession,middleware.blockedStatus,controllers.getWishLish)
 //add wishlist
-router.post('/addto-wishlist',controllers.addWishList)
+router.post('/addto-wishlist',middleware.userSession,controllers.addWishList)
 //delete wishList
 router.get('/delete-wishlist/:id',middleware.userSession,middleware.blockedStatus,controllers.deleteWishlist)
 //add to cart from wishlist
@@ -100,7 +100,8 @@ router.post('/shop-checkout',middleware.userSession, middleware.blockedStatus, c
 //razorpay verification
 router.post('/verify-payment',controllers.verifyPayment)
 //add address in checkout page
-router.post('/checkoutAddress',controllers.CheckoutAddress)
+router.get('/checkoutAddress',middleware.userSession,controllers.CheckoutAddress,middleware.blockedStatus)
+router.post('/add-checkoutAddress',middleware.userSession,controllers.postCheckoutAddress,middleware.blockedStatus)
 
 //logout page
 router.get("/logout",controllers.getLogout)

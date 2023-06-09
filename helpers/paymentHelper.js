@@ -5,37 +5,30 @@ const ObjectId=require("mongodb").ObjectId
 const moment=require('moment')
 module.exports = {
     //update wallet amount
-    getTotalPrice:(orderid)=>{
-//         return new Promise(async(resolve, reject) => {
-//             await db.order.findOne({id:ObjectId(orderid)})
-//         }).then((response)=>{
-            
-// console.log("dddddddddddddddddddddddddddddd",response);
-//             resolve(response)
-
-//         })
-             return new Promise(async(resolve, reject) => {
-                await db.order.aggregate([
-                    {
-                        $match:{_id:ObjectId(orderid)}
-                    },
-                    {
-                        $project:{  
-                            totalPrice:1,
-                             _id:0}
-                    }
-        
-                ]).then((totalAmt)=>{
-                    console.log("total price",totalAmt);
-                    
-                    resolve(totalAmt)
-                })
-            })
-       
-        
-        
-
-    },
+    getTotalPrice: (orderId) => {
+        return new Promise(async (resolve, reject) => {
+          try {
+            // Find the total price of the order with the provided orderId
+            const totalAmt = await db.order.aggregate([
+              {
+                $match: { _id: ObjectId(orderId) }
+              },
+              {
+                $project: {
+                  totalPrice: 1,
+                  _id: 0
+                }
+              }
+            ]);
+      
+            console.log("total price", totalAmt);
+      
+            resolve(totalAmt);
+          } catch (error) {
+            reject(error);
+          }
+        });
+      },
     //refund to wallet
     refundToWallet:async(price, userId, orderId) => {
         try {
@@ -80,19 +73,7 @@ module.exports = {
            console.error(error) 
         }
     },
-    // //get wallet amount
-    // getWalletAmount:async(userId)=>{
-    //     try {
-    //         let userWallet=db.wallet.findOne({user:ObjectId(userId)})
-    //         return userWallet
-            
-    //     } catch (error) {
-    //        // Handle error here
-    //        console.error(error)  
-    //     }
-      
-
-    // },
+   
     //check wallet 
     checkWallet:async(userId)=>{
         try {
@@ -105,12 +86,22 @@ module.exports = {
 
     },
     //debit from wallet
-    debitFromWallet:async(userId,finalAmount)=>{
-        let wallet= await db.wallet.findOne({user:ObjectId(userId)})
-         let prevBalance =parseInt(wallet.walletBalance)
-         const newBalance=prevBalance-parseInt(finalAmount)
-         await db.wallet.updateOne({user:ObjectId(userId)},{$set:{walletBalance:newBalance}})
-
-    }
+   
+    debitFromWallet: async (userId, finalAmount) => {
+        try {
+          // Find the wallet document for the user
+          let wallet = await db.wallet.findOne({ user: ObjectId(userId) });
+      
+          // Retrieve the previous wallet balance and calculate the new balance
+          let prevBalance = parseInt(wallet.walletBalance);
+          const newBalance = prevBalance - parseInt(finalAmount);
+      
+          // Update the wallet balance with the new value
+          await db.wallet.updateOne({ user: ObjectId(userId) }, { $set: { walletBalance: newBalance } });
+        } catch (error) {
+          throw error;
+        }
+      }
+      
       
 }

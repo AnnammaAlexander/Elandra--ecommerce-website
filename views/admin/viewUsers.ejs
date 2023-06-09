@@ -1,76 +1,4 @@
-<!-- <section class="">
-    <div class="container d-flex justify-content-center">
-      <div class="row w-75 mt-5">
-        <div class="col-md-12">
-          <h2 class="text-center">Users List</h2>
-          <form
-            action="/admin/add_sub"
-            method="post"
-            enctype="multipart/form-data"
-          >
-            
-          </form>
-        </div>
-      </div>
-    </div>
-  </section> -->
-  <!-- Table section -->
-  <!-- <section  mx-auto>
-    <div class="card-body">
-      <div class="row mt-5 mx-auto">
-        <div class="table-responsive">
-          <div class="table-responsive">
-            <table class="table align-middle table-nowrap mb-0">
-              <thead class="table-light">
-                <tr>
-                  <th class="align-middle" scope="col">No:</th>
-                  <th class="align-middle" scope="col">User Name</th>
-                  <th class="align-middle" scope="col">Email</th>
-                  <th class="align-middle" scope="col">Phone Number</th>
-                  <th class="align-middle" scope="col">Option</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% user.forEach(function(user,index) { %>
-                <tr>
-                  <td> <%=index+1 %> </td>
-                  <td><%= user.username %></td> 
-                  <td><%= user.email %></td>
-                  <td><%= user.phonenumber %></td>
-                  <td>
-                      <%if(user.blocked){%>
-                        
-                        <a href ="/admin/unblock_users/<%= user._id %>" class="btn btn-success">UnBlock</a>
-                 
-                        
-                      <%}
-                      else{%>
-                        <a href ="/admin/block_users/<%= user._id %>" class="btn btn-danger">Block</a>
-
-              
-                      <%}
-                        %>
-
-
-
-                  </td>
-    
-                 
-                </tr>
-                <% }) %>
-              </tbody>
-            </table>
-          </div> -->
-        <!-- </div>
-        table-responsive end
-      </div>
-    </div>
-  </section> -->
-
-
-
-
-  <section class="content-main">
+<section class="content-main">
     <div class="container">
             <div class="content-header">
                 <div>
@@ -79,13 +7,10 @@
                 </div>
                 <select  class="btn btn-md rounded dropdown-toggle" id="usersList" onchange="listUsers()">
                   <option selected hidden>Users</option>
-                  <option>Blocked users</option>
-                  <option>Users</option>
+                  <option>BlockedUsers</option>
+                  <option>ActiveUsers</option>
                   
               </select>
-                <!-- <div>
-                  <a href="/admin/addCategoryView" class="btn btn-md rounded font-sm">Add Category</a>
-                </div> -->
             </div>
             <div class="card mb-4">
                 
@@ -101,12 +26,9 @@
                                     <th scope="col">Phone Number</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Option</th>
-                                    
-
-                                    
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="tableBody">
                               <% user.forEach(function(user,index) { %>
                                 <tr>
                                     <td><%=index+1 %> </td>
@@ -131,23 +53,12 @@
                                     <td>
                                       <%if(user.blocked){%>
                                         
-                                        <a  class="btn btn-success" onclick="unblock('<%=user._id %>')">UnBlock</a>
-                                 
-                                        
+                                        <a  class="btn btn-success" onclick="unblock('<%=user._id %>')">UnBlock</a>    
                                       <%}
                                       else{%>
                                         <a class="btn btn-danger" onclick="block('<%=user._id %>')">Block</a>
-                
-                              
                                       <%}%>
-                                        
-                
-                
-                
-                                  </td>
-                                    
-                                  
-                                    
+                                  </td>   
                                 </tr>
                                 
                                 <% }) %>
@@ -235,15 +146,35 @@
   }
   //List users
  function listUsers(){
-  paymentData=document.getElementById('usersList').value
-        console.log("asdfg",paymentData);
+  users=document.getElementById('usersList').value
+        console.log("asdfg",users);
         $.ajax({
-            url:'/orders-Payment',
-            method:'get',
+            url:'/admin/userList',
+            type:'get',
             data:{
-                paymentData  
+              users  
             },
-            success:(Response)=>{
+            success:(response)=>{
+              let userDataList=''
+              response.forEach((user, index) => {
+        userDataList += `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${user.username}</td>
+            <td>${user.email}</td>
+            <td>${user.phonenumber}</td>
+            <td>
+              ${user.blocked ? '<h6>Blocked</h6>' : '<h6>Active</h6>'}
+            </td>
+            <td>
+              ${user.blocked ? 
+                `<a class="btn btn-success" onclick="unblock('${user._id}')">Unblock</a>` :
+                `<a class="btn btn-danger" onclick="block('${user._id}')">Block</a>`}
+            </td>
+          </tr>
+        `;
+      });
+      document.getElementById('tableBody').innerHTML=userDataList
 
             }
         })

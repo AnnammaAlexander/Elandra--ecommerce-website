@@ -21,42 +21,73 @@ let number, OtpNumber
 module.exports = {
 
 //view home page
-  getHome: async (req, res) => {
-    let cartCount = 0
-    let wishcount=0
+getHome: async (req, res) => {
+  try {
+    let cartCount = 0;
+    let wishCount = 0;
 
     if (req.session.userLoggedIn) {
-      logheader = true
-      cartCount = await userHelpers.getCartCount(req.session.users._id)
-      req.session.cartCount = parseInt(cartCount)
-      //get banner
-      let banners= await bannerHelper.viewBanner()
-      //get wishlist count
-     wishcount=await wishListHelper.wishlistcount(req.session.users._id)
-      //view some latest product
-      let products=await productHelper.getProduct()
-      //Featured
-      let Featured= await productHelper.getFeatured()
-      //get popular
-      let Popular=await productHelper.getPopular()
-      res.render('user/index', { userSession, logheader, cartCount ,banners,wishcount,products,Featured,Popular})
+      logheader = true;
+      cartCount = await userHelpers.getCartCount(req.session.users._id);
+      req.session.cartCount = parseInt(cartCount);
+
+      // Get banners
+      let banners = await bannerHelper.viewBanner();
+
+      // Get wishlist count
+      wishcount=await wishListHelper.wishlistcount(req.session.users._id)
+
+      // Get some latest products
+      let products = await productHelper.getProduct();
+
+      // Get featured products
+      let Featured = await productHelper.getFeatured();
+
+      // Get popular products
+      let Popular = await productHelper.getPopular();
+
+      let category= await userHelpers.getallCategory();
+
+      res.render('user/index', {
+        userSession,
+        logheader,
+        cartCount,
+        banners,
+        wishcount,
+        products,
+        Featured,
+        Popular,
+        category
+      });
     } else {
-      console.log('here')
-      logheader = false
-      //console.log(logheader);
-      let banners= await bannerHelper.viewBanner()
-      //view some latest product
-      let products=await productHelper.getProduct()
-      //Featured
-      let Featured= await productHelper.getFeatured()
-      //get popular
-      let Popular=await productHelper.getPopular()
-      res.render('user/index', { logheader, loginStatus,banners,cartCount,wishcount,products,Featured,Popular });
+      logheader = false;
 
+      let banners = await bannerHelper.viewBanner();
+
+      let products = await productHelper.getProduct();
+
+      let Featured = await productHelper.getFeatured();
+
+      let Popular = await productHelper.getPopular();
+
+      let category= await userHelpers.getallCategory();
+
+      res.render('user/index', {
+        logheader,
+        loginStatus,
+        banners,
+        cartCount,
+        wishCount,
+        products,
+        Featured,
+        Popular,
+        category
+      });
     }
-
-
-  },
+  } catch (error) {
+    throw error;
+  }
+},
   getUserLogin: (req, res) => {
     if (req.session.userLoggedIn) {
       res.redirect('/')
@@ -100,7 +131,6 @@ module.exports = {
 //post signup page
   postSignup: (req, res) => {
     helpers.doSignUp(req.body).then((response) => {
-      // console.log(response)
       var emailStatus = response.status
       if (emailStatus) {
         res.redirect('/login')
@@ -233,8 +263,6 @@ getShop: async (req, res) => {
     let procategory = await userHelpers.getShopHelperCategory();
     let logheader = false; // Assume user is not logged in
     //offer details
-    let offer=await userHelpers.getOffer()
-    console.log(",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,",offer);
     if (req.session.userLoggedIn) {
       userId = req.session.users._id
       logheader = true;
@@ -255,7 +283,6 @@ getShop: async (req, res) => {
       cartCount,
       wishcount,
       userId,
-      offer,
       pages: Math.ceil(orderListCount / perpage)
     });
   } catch (error) {
@@ -338,7 +365,6 @@ let wishcount=0
       }else{
        grandtotal=0
       }
-    
       res.render("user/cartDummy", { cartItems, userId, grandtotal ,logheader,userSession, cartCount,wishcount})
     } else {
       logheader = false
@@ -349,57 +375,6 @@ let wishcount=0
   },
 
 
-
-
-
-
-
-
-//add product to cart
-  // addToCart: async (req, res) => {
-  //   swal("Your product is added to cart!")
-  //   let productId = req.params.id
-  //   let userId = req.session.users._id
-
-  //   let product = await userHelpers.showProductDetail(productId)
-    
-    
-    
-
-  //   await cartHelper.addToCartHelper(userId, productId, product.Price).then((data) => {
-    
-  //     res.redirect('/shop')
-  //   });
-
-
-  // },
-//   addToCart: async (req, res) => {
-//     try {
-//       let productId = req.params.id;
-//       let userId = req.session.users._id;
-//       //find quantity of product from cart
-//      let data= await userHelpers.getcartQty(userId,productId)
-//     const qty= data.cartItems[0].Quantity
-      
-//       //get product details
-//       let product = await userHelpers.showProductDetail(productId);
-//       let stock=product.Quantity
-//       let availableStock=stock-qty
-// if(availableStock>0){
-//   // products add to cart
-//   await cartHelper.addToCartHelper(userId, productId, product.Price).then((response)=>{
-//   })
- 
-//    res.json(true)
-// }else{
-//   res.json({outOfStock:true})
-// }
-    
-//       // res.redirect('/shop');
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   },
 //add to cart
 addToCart:async (req, res) => {
   try {
@@ -412,11 +387,9 @@ addToCart:async (req, res) => {
     if(data.length){
       qty = data[0].cartItems[0].Quantity;
     }   
-    console.log("qty.........................:",qty);
     //get product details
     let product = await userHelpers.showProductDetail(productId);
     let stock = product.Quantity;
-    console.log("ssssssssstttok",stock);
     let availableStock = stock - qty;
 
     if (availableStock > 0) {
@@ -443,8 +416,9 @@ addToCart:async (req, res) => {
     let subTotal = parseInt(req.body.subtotal)
     let count = parseInt(req.body.count)
     let totalQuantity = parseInt(req.body.totalQuantity)
-    
+   
     const updateqty = count + qty
+    console.log("updateqty",updateqty);
     // if the product qty 0,then delete the product from cart 
      if (updateqty === 0) {
       await cartHelper.deleteProInCart(productId, userId)
@@ -452,6 +426,7 @@ addToCart:async (req, res) => {
      } else {
       await cartHelper.postUpdateCart(productId, userId, subTotal, updateqty, count)
       total = await cartHelper.grandTotal(userId)
+      console.log("total,,,,,,,,,,,,,,,,,,,,,,,",total);
       grandtotal = total[0].total;
        res.json(grandtotal)
     }
@@ -482,8 +457,6 @@ addToCart:async (req, res) => {
       res.json(true)
     }
     
-    console.log("ggggggggggggggggg",grandtotal);
-    console.log("walletBal",walletBal);
 
    
 
@@ -532,7 +505,12 @@ addToCart:async (req, res) => {
 //get wishlist count
     let wishcount=await wishListHelper.wishlistcount(req.session.users._id)
 //get address of a user
-    let address = await userHelpers.findAddress(req.body.addressId, userId)
+let address
+if(req.body.addressId){
+  console.log('insideadress',req.body.addressId);
+  address = await userHelpers.findAddress(req.body.addressId, userId)
+
+   
  //view all cart item
     let cart = await cartHelper.viewCart(userId)
     let total = await cartHelper.grandTotal(userId)
@@ -582,34 +560,17 @@ addToCart:async (req, res) => {
         response.OrderID=orderId
         res.json(response)
     }
+
+  }else{
+    console.log('noaddresss');
+    res.json({noAddress:true})
+  }
     
   
 
 
   },
-  // //view user account page
-  // getUserAccount: async(req, res) => {
-  //   let cartCount = 0
-  //   if (req.session.userLoggedIn) {
-  //     logheader = true
-  //     let userId = req.session.users._id
-  //     //find username
-  //    let username=await userHelpers.useraccountFindName(userId)
-  //    //pagination to the order list
-  //   const page=req.query.page||1;
-  //   const perpage=10;
-  //   const count=await db.order.countDocuments({})
-  //   const orderListCount=count
-  //    //get all orderlist
-  //   let orderedList = await userHelpers.findOrders(userId,page,perpage)
-     
-  //     res.render('user/myAccount', { userSession, logheader, cartCount,username,orderedList,pages:Math.ceil(orderListCount/perpage) })
-  //   } else {
-  //     logheader = false
-  //     res.render('user/login', { userSession, logheader })
-  //   }
-  // },
-
+ 
   //view user account page
 getUserAccount: async (req, res) => {
   let cartCount = 0;
@@ -634,9 +595,7 @@ getUserAccount: async (req, res) => {
     let orderCount=await db.order.countDocuments({userId:objectId(userId)})
     //get wallet amount and transactions
     let walletData= await paymenthelper.walletData(userId)
-    
-    console.log("address",address);
-    
+     cartCount = await userHelpers.getCartCount(userId)
    
     res.render("user/myAccount", {
       userSession,
@@ -756,10 +715,10 @@ cancelOrder:async(req,res)=>{
 },
 //get or view wishlist page
   getWishLish: async(req, res) => {
-    let cartCount = 0
+     let cartCount = await userHelpers.getCartCount(req.session.users._id)
     let wishlistItems= await wishListHelper.wishlist(req.session.users._id)
     let wishcount=await wishListHelper.wishlistcount(req.session.users._id)
-    console.log("....",wishlistItems);
+    
   
     res.render('user/shopWishlist', { logheader: true, userSession, cartCount,wishlistItems,wishcount })
   },
@@ -776,7 +735,6 @@ res.json(true)
 deleteWishlist:async(req,res)=>{
   let proid=req.params.id
   let userId=req.session.users._id
-  console.log("......................",userId);
 await wishListHelper.deleteWishlistItem(proid,userId)
 res.json(true)
 },
@@ -814,8 +772,16 @@ addToCartFromWishlist:async(req,res)=>{
     res.render('user/index', { logheader, loginStatus,banners,Popular,Featured,products });
   },
   //address adding in checkout page
-  CheckoutAddress:(req,res)=>{
-    console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",req,body.userId);
+  CheckoutAddress:async(req,res)=>{
+    let userId=req.session.users._id
+    let cartCount= await userHelpers.getCartCount(userId)
+    res.render('user/checkOutAddress',{ logheader: true, userSession, cartCount,wishcount })
+  },
+  //post postCheckoutAddress
+  postCheckoutAddress:(req,res)=>{
+    let userId=req.session.users._id
+    userHelpers.addAddress(userId, req.body)
+    res.json()
   }
 
 

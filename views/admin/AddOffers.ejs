@@ -6,6 +6,13 @@
       <h2 class="content-title card-title">Offers</h2>
     </div>
     <div>
+      <div>
+      <select class="btn btn-md rounded dropdown-toggle" id="offerStatus" onchange="offerStatus()">
+        <option selected hidden>OFFERS</option>
+        <option>UnAvailable</option>
+        <option>Available</option>
+      </select>
+    
       <button
         type="button"
         class="btn btn-primary"
@@ -14,6 +21,7 @@
       >
         Add Offer
       </button>
+    </div>
     </div>
   </div>
 
@@ -29,6 +37,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
+
           <h5 class="modal-title" id="exampleModalLongTitle">Add Offer</h5>
           <button
             type="button"
@@ -53,6 +62,7 @@
                       name="categoryName"
                       class="form-control"
                       style="margin-bottom: 15px"
+                      
                       required
                     >
                       <option
@@ -99,8 +109,7 @@
                     <button
                       style="margin-bottom: 20px"
                       class="btn btn-md rounded font-sm"
-                      onclick="generateOffer(event)"
-                    >
+                      onclick="generateOffer(event)">
                       Generate Offer
                     </button>
                   </form>
@@ -109,48 +118,19 @@
             </div>
           </section>
         </div>
-        <!-- <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary " onclick="checkDuplicate()" >Submit</button>
-            </div> -->
+       
       </div>
     </div>
   </div>
 
   <div class="card mb-4">
-    <!-- <header class="card-header">
-            <div class="row gx-3">
-                <div class="col-lg-4 col-md-6 me-auto">
-                    <input type="text" placeholder="Search..." class="form-control" />
-                </div>
-                <div class="col-lg-2 col-md-3 col-6">
-                    <select class="form-select">
-                        <option>Status</option>
-                        <option>Active</option>
-                        <option>Disabled</option>
-                        <option>Show all</option>
-                    </select>
-                </div>
-                <div class="col-lg-2 col-md-3 col-6">
-                    <select class="form-select">
-                        <option>Show 20</option>
-                        <option>Show 30</option>
-                        <option>Show 40</option>
-                    </select>
-                </div>
-            </div>
-        </header> -->
-    <!-- card-header end// -->
+   
     <div class="card-body">
       <div class="table-responsive">
         <table class="table table-hover" id="couponTable">
           <thead>
             <tr>
-              <!-- <th> -->
-              <!-- <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" />
-                                </div> -->
-              <!-- </th> -->
+            
               <th>Category</th>
               <th>Offer Percentage</th>
 
@@ -160,7 +140,7 @@
               <th class="text-end">Action</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="offerList">
             <% offer.forEach(function(data){%>
             <tr>
               <td><%=data.CategoryName%></td>
@@ -168,7 +148,7 @@
               <td><%=data.offerStatus%></td>
               <td><%=data.expirDate%></td>
               <td>
-                <a class="btn btn-danger" onclick="removeOffer('<%=data._id %>')">RemoveOffer</a>
+                <a class="btn btn-danger" onclick="removeOffer('<%=data.CategoryName %>')">RemoveOffer</a>
               </td>
             </tr>
 
@@ -184,39 +164,7 @@
 <!-- content-main end// -->
 
 <script>
-  //   function generateOffer() {
-  //     console.log("deleeadfghjk");
-  //     swal({
-  //     title: "Are you sure?",
-  //     text: "Once deleted, you will not be able to recover the product!",
-  //     icon: "warning",
-  //     buttons: true,
-  //     dangerMode: true,
-  //   }).then((willDelete) => {
-  //     if (willDelete) {
-  //       $.ajax({
-  //         url:'/admin/delete-coupon?id='+id,
-  //         type: 'GET',
-  //         data: {
-  //         couponId:id
-  //         },
-  //         success: function (response) {
-  //           if (response.status) {
-  //             console.log('hai',response.status)
-  //             $(document).ready(function(){
-  //             $('#couponTable').load(window.location.href + ' #couponTable ');
-  //             })
-  //           }
-  //         }
-  //       });
-  //       swal("Your product is deleted!", {
-  //         icon: "success",
-  //       });
-  //     } else {
-  //       swal("Canceled");
-  //     }
-  //   });
-  //   }
+ 
 
   document.addEventListener("DOMContentLoaded", function () {
     // Fetch categories from the database
@@ -239,43 +187,35 @@
   });
   //generate offer
   function generateOffer(event) {
-    event.preventDefault();
-    console.log("asdfghjkl");
-    $.ajax({
-      url:"/admin/AddOffers",
-      type:"POST",
-      data:$("#offerForm").serialize(),
-      success:function(response) {
-        console.log("hbahghsgdfghjkl");
-        console.log("fghjkl:", response);
+  event.preventDefault();
+  console.log("data");
+  $.ajax({
+    url: "/admin/AddOffers",
+    type: "POST",
+    data: $("#offerForm").serialize(),
+    success: function(response) {
 
-        if (response.offerExist) {
-          swal("offer exist");
-        } else {
-          swal("offer added succesfully");
-        }
-      },
-    });
-  }
+      if (response.offerExist) {
+        swal("Offer exists").then(()=>{
+          location.reload()
+        })
+      } else {
+        swal("Offer added successfully").then(()=>{
+          location.reload()
+        })
+      }
+    },
+    error: function(xhr, status, error) {
+      console.log(xhr.responseText); // Log the error response
+      swal("Error occurred while adding the offer");
+    }
+  });
+}
 
-  // function removeOffer(id){
-  //   $.ajax({
-  //     url:"/admin/removeOffer",
-  //     type:"get",
-  //     data:{
-  //       id:id
-  //     },
-  //     success:function(response) {
-  //       console.log("hbahghsgdfghjkl");
-  //       console.log("fghjkl:", response);
-
-       
-  //     },
-  //   });
-  // }
+  
 
 
-  function removeOffer(id){
+  function removeOffer(category){
     swal({
     title: "Are you sure?",
     text: "Do you want to disable the offer!",
@@ -288,7 +228,7 @@
         url:"/admin/removeOffer", 
         type:'GET',
         data: {
-          id:id
+          category:category
         },
         success: function (response) {
           if (response) {
@@ -304,5 +244,32 @@
     }
   });
 
+  }
+  function offerStatus(){
+    status=document.getElementById('offerStatus').value
+        console.log("asdfg",status);
+        $.ajax({
+            url:'/admin/offer-status',
+            type:'get',
+            data:{
+              status  
+            },
+            success:(response)=>{
+              let offerList=''
+              for(let i=0;i<response.length;i++){
+                offerList +=`<tr>
+              <td>${response[i].CategoryName}</td>
+              <td>${response[i].offerPercentage}%/td>
+              <td>${response[i].offerStatus}</td>
+              <td>${response[i].expirDate}</td>
+              <td>
+                <a class="btn btn-danger" onclick="removeOffer('${response[i].CategoryName}')">RemoveOffer</a>
+              </td>
+            </tr>
+                `
+              }
+              document.getElementById('offerList').innerHTML=offerList
+            }
+          })
   }
 </script>

@@ -6,57 +6,55 @@ const ObjectId=require("mongodb").ObjectId
 
 module.exports={
 //aggergatioon   
-viewCart:(userId)=>{
-    return new Promise(async(resolve, reject) => {
-        await db.cart.aggregate([
-           {
-            $match:{user:ObjectId(userId)}
-           } ,
-           {
-            $unwind :"$cartItems"
-           },
-           {
-            $project:{ item:"$cartItems.productId",
-            Quantity:"$cartItems.Quantity"
-           }  
-           },
-           {
-            $lookup:{
-                from:"products",
-                localField:"item",
-                foreignField:"_id",
-                as:"carted"
-            }
-           },
-           {
-            $project:{
-                item :1,
-                Quantity:1,
-                cartItems:{$arrayElemAt:["$carted",0]}
+viewCart: (userId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const cartItems = await db.cart.aggregate([
+        {
+          $match: { user: ObjectId(userId) }
+        },
+        {
+          $unwind: "$cartItems"
+        },
+        {
+          $project: {
+            item: "$cartItems.productId",
+            Quantity: "$cartItems.Quantity"
+          }
+        },
+        {
+          $lookup: {
+            from: "products",
+            localField: "item",
+            foreignField: "_id",
+            as: "carted"
+          }
+        },
+        {
+          $project: {
+            item: 1,
+            Quantity: 1,
+            cartItems: { $arrayElemAt: ["$carted", 0] }
+          }
+        }
+      ]).exec();
 
-            }
-           },
-
-        ]).then((cartItems)=>{
-
-            
-            
-            resolve(cartItems)
-        })
-    })
+      resolve(cartItems);
+    } catch (error) {
+      reject(error);
+    }
+  });
 },
 
 addToCartHelper:(userId,proId,price)=>{
     
-    try {
-       let proObj = {
+  try {
+        let proObj = {
         productId: proId,
         Quantity: 1,
         subTotal:price
-            
-    }
-        
-        return new Promise(async(resolve, reject) => {
+        }
+         return new Promise(async(resolve, reject) => {
             let carts=await db.cart.findOne({user: ObjectId(userId)});
             if(carts){
                 console.log('cart exist');
@@ -88,11 +86,9 @@ addToCartHelper:(userId,proId,price)=>{
         })
         
     } catch (error) {
-      console.log('cart adding error');  
+      console.log('cart adding error'); 
+      throw error; 
     }
-
-
-
 },
                                   
 //delete product from cart
@@ -111,41 +107,43 @@ deleteProInCart: async (productId, userId) => {
 //update cart
 postUpdateCart:async (productId, userId, subTotal,updateqty) => {
     try {
-
-      const data = await db.cart.updateOne(
+        const data = await db.cart.updateOne(
         {"user": ObjectId(userId), "cartItems.productId": ObjectId(productId)},
         {$set: {"cartItems.$.Quantity":updateqty,"cartItems.$.subTotal":subTotal}}
-      );
-      return data;
-    } catch (error) {
-      throw new Error(error);
-    }
+        );
+        return data;
+      } catch (error) {
+        throw new Error(error);
+      }
   },
   //get total amount
-  grandTotal:(userId)=>{
-
-    return new Promise(async(resolve, reject) => {
-        const total=await db.cart.aggregate([
-           {
-            $match:{user:ObjectId(userId)}
-           } ,
-           {
-            $unwind :"$cartItems"
-           },
-           { $group:{_id:ObjectId(userId),
-             total:{$sum:"$cartItems.subTotal"}}},
-             {
-              $project:{_id:0}
-             }
-        
-           
-        ]).then((cartItems)=>{
-            
-            // console.log('aggregate',cartItems[0].cartItems.Image[0]);
-            resolve(cartItems)
-        })
-    })
-},
+  grandTotal: (userId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const cartItems = await db.cart.aggregate([
+          {
+            $match: { user: ObjectId(userId) } // Match documents where the user matches the provided userId
+          },
+          {
+            $unwind: "$cartItems" // Unwind the cartItems array
+          },
+          {
+            $group: {
+              _id: ObjectId(userId), // Group by the userId
+              total: { $sum: "$cartItems.subTotal" } // Calculate the sum of subTotal for each document
+            }
+          },
+          {
+            $project: { _id: 0 } // Exclude the _id field from the result
+          }
+        ]).exec();
+  
+        resolve(cartItems);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  },
 
 
 }
