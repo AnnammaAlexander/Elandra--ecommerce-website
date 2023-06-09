@@ -10,7 +10,7 @@
         </div>
     </div>
     <div class="container d-flex justify-content-center">
-      <div class="col-lg-9">
+      <div class="col-lg-6">
         <div class="col-md-12">
           <h2 class="text-center">Add Address</h2>
           
@@ -19,7 +19,7 @@
             <div class="form-group">
               <label for="name">First Name *</label>
               <input type="text" name="name" id="name" placeholder="Enter your first name"
-                onblur="namecheck()" required>
+                 required>
               <label id="nmlabel" for="name" style="display: none; color:red;">This field is
                 required</label>
               <label id="nmlabel-01" for="name" style="display: none; color:red;">Name doesn't start
@@ -30,7 +30,7 @@
             <div class="form-group">
                 <label for="Lname">Last Name *</label>
                 <input type="text" name="Lname" id="Lname" placeholder="Enter your first name"
-                  onblur="namecheck()" required>
+                   required>
                 <label id="nmlabel" for="Lname" style="display: none; color:red;">This field is
                   required</label>
                 <label id="nmlabel-01" for="Lname" style="display: none; color:red;">Name doesn't start
@@ -41,7 +41,7 @@
             <div class="form-group">
               <label for="phone">Phone *</label>
               <input type="tel" name="phone" id="phone"  placeholder="Enter your phone number"
-                onblur="phonecheck()" required>
+                 required>
               <label id="ml" for="phone" style="display: none; color:red;">This field is
                 required</label>
               <label id="ml-01" for="phone" style="display: none; color:red;">Minimum 10
@@ -51,7 +51,7 @@
             <div class="form-group">
               <label for="address">Address *</label>
               <input type="text" name="billingaddress" id="address" 
-                placeholder="Enter your address"  onblur="addresscheck()" required>
+                placeholder="Enter your address"   required>
               <label id="adlabel" for="address" style="display: none; color:red;">This field is
                 required</label>
               <label id="adlabel-01" for="address" style="display: none; color:red;">Address doesn't start
@@ -63,7 +63,7 @@
             <div class="form-group">
               <label for="address2">Street</label>
               <input type="text" name="billingaddress2" id="address2"
-                placeholder="Enter your address line 2" onblur="addressLcheck()" required>
+                placeholder="Enter your address line 2"  required>
               <label id="adLlabel" for="address2" style="display: none; color:red;">This field is
                 required</label>
               <label id="adLlabel-01" for="address2" style="display: none; color:red;">Address doesn't start
@@ -73,7 +73,7 @@
             </div>
             <div class="form-group">
               <label for="city">City/Town *</label>
-              <input type="text" name="city" id="city"  placeholder="Enter your city/town" onblur="addresscheck()" required>
+              <input type="text" name="city" id="city"  placeholder="Enter your city/town"  required>
               <label id="adlabel" for="address2" style="display: none; color:red;">This field is
                 required</label>
               <label id="adlabel-01" for="address2" style="display: none; color:red;">Address doesn't start
@@ -102,14 +102,14 @@
   <script>
     function addAddress(event){
             event.preventDefault()
-            
+            console.log("llllllllllllllll");
             $.ajax({
                 url:'/add-checkoutAddress',
                 type:'post',
                 data:$('#addressDetails').serialize(),
                 success:function(response){
                     swal('address addred succesfully').then(()=>{
-                            location.reload()
+                      location.href = '/shop-checkout';
                         })
                 }
             })

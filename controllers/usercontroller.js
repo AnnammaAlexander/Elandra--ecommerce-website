@@ -507,12 +507,14 @@ addToCart:async (req, res) => {
 //get address of a user
 let address
 if(req.body.addressId){
+  await userHelpers.updateStock(req.body)
   console.log('insideadress',req.body.addressId);
   address = await userHelpers.findAddress(req.body.addressId, userId)
 
    
  //view all cart item
     let cart = await cartHelper.viewCart(userId)
+    console.log(";;;;;;;;;;;;;;;;cart",cart);
     let total = await cartHelper.grandTotal(userId)
 
     let grandtotal = total[0].total;
@@ -529,11 +531,12 @@ if(req.body.addressId){
       finalAmount=grandTotalFromAjax
     }
     
-    
+    for(let i=0;i<cart.length;i++){
+      await db.product.updateOne({_id:objectId(cart[i].item)},{$inc:{Quantity:-(cart[i].Quantity)}})
+    }
       
     //add order 
     let orderId = await userHelpers.addOrder(address.Address, cart, finalAmount, name, payment, userId, paymentStatus,wishcount)
-    console.log("order id",orderId);
     console.log("payment/:",payment);
     let response={}
     
@@ -778,10 +781,10 @@ addToCartFromWishlist:async(req,res)=>{
     res.render('user/checkOutAddress',{ logheader: true, userSession, cartCount,wishcount })
   },
   //post postCheckoutAddress
-  postCheckoutAddress:(req,res)=>{
+  postCheckoutAddress:async(req,res)=>{
     let userId=req.session.users._id
-    userHelpers.addAddress(userId, req.body)
-    res.json()
+     let response=await userHelpers.addAddress(userId, req.body)
+    res.json(response)
   }
 
 

@@ -416,13 +416,14 @@ addAddress: (userId, data) => {
   
       return new Promise(async (resolve, reject) => {
         let addressDetails = await db.address.findOne({ user: objectId(userId) });
+        let message = 'Address added';
         if (addressDetails === null) {
           const AddressDetails = new db.address({
             user: objectId(userId),
             Address: addressObj,
           });
           await AddressDetails.save().then(() => {
-            let message = 'Address added';
+            
             resolve(message);
           });
         } else {
@@ -430,7 +431,7 @@ addAddress: (userId, data) => {
             { user: objectId(userId) },
             { $push: { Address: addressObj } }
           );
-          resolve();
+          resolve(message);
         }
       });
     } catch (error) {
@@ -691,7 +692,9 @@ sortByPrice: (data, category) => {
     }
   },
   
-
+  updateStock:(body)=>{
+    console.log(";;;;;;;;;;;;;;;;;;;;;",body);
+  }
 
 
 }

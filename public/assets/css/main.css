@@ -68,6 +68,10 @@ thead {
   font-weight: 600;
 }
 
+/* *{
+  outline:1px solid red;
+} */
+
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
   display: block;

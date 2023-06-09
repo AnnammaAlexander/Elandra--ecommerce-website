@@ -26,33 +26,35 @@
                         
                     </div>
                     <!-- mobile menu start -->
-                    <nav>
-                        <ul class="mobile-menu">
-                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="/">Home</a>
-                               
-                            </li>
-                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="/shop">shop</a>
-                                
-                            </li>
-                            
-                          
-                           
-                            
-                        </ul>
-                    </nav>
-                    <!-- mobile menu end -->
+            <nav>
+                <ul class="mobile-menu">
+                  <li class="menu-item-has-children">
+                    <span class="menu-expand"></span><a href="/">Home</a>
+                  </li>
+                  <li class="menu-item-has-children">
+                    <span class="menu-expand"></span><a href="/shop">Shop</a>
+                  </li>
+                 <% if(logheader == true){ %>
+                  <li class="menu-item-has-children">
+                    <span class="menu-expand"></span><a href="/viewOrders">Orders</a>
+                  </li>
+                  <li class="menu-item-has-children">
+                    <span class="menu-expand"></span><a href="/logout">logout</a>
+                  </li>
+                  
+                <% }else{ %>
+                  <li class="menu-item-has-children">
+                    <span class="menu-expand"></span><a href="/login">login</a>
+                  </li>
+                 
+                  <% } %>
+    
+                  
+                </ul>
+              </nav>
+              <!-- mobile menu end -->
                 </div>
-                <div class="mobile-header-info-wrap mobile-header-border">
-                    <div class="single-mobile-header-info mt-30">
-                        <a  href="#"> Our location </a>
-                    </div>
-                    <div class="single-mobile-header-info">
-                        <a href="/login">Log In / Sign Up </a>
-                    </div>
-                    <div class="single-mobile-header-info">
-                        <a href="#">(+91) - 2345 - 6789 </a>
-                    </div>
-                </div>
+                
                
             </div>
         </div>

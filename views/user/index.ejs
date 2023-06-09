@@ -66,11 +66,20 @@
                 <li class="menu-item-has-children">
                   <span class="menu-expand"></span><a href="/shop">Shop</a>
                 </li>
+               <% if(logheader == true){ %>
                 <li class="menu-item-has-children">
-                  <span class="menu-expand"></span><a href="/login">Orders</a>
+                  <span class="menu-expand"></span><a href="/viewOrders">Orders</a>
+                </li>
+                <li class="menu-item-has-children">
+                  <span class="menu-expand"></span><a href="/logout">logout</a>
                 </li>
                 
-                
+              <% }else{ %>
+                <li class="menu-item-has-children">
+                  <span class="menu-expand"></span><a href="/login">login</a>
+                </li>
+               
+                <% } %>
   
                 
               </ul>

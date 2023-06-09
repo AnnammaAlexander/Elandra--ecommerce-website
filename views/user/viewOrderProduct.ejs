@@ -1,12 +1,72 @@
 
+<div class="mobile-header-active mobile-header-wrapper-style">
+    <div class="mobile-header-wrapper-inner">
+        <div class="mobile-header-top">
+            <div class="mobile-header-logo">
+                <a href="#"><img src="/assets/imgs/theme/logo-color.png" alt="logo"></a>
+            </div>
+            <div class="mobile-menu-close close-style-wrap close-style-position-inherit">
+                <button class="close-style search-close">
+                    <i class="icon-top"></i>
+                    <i class="icon-bottom"></i>
+                </button>
+            </div>
+        </div>
+        <div class="mobile-header-content-area">
+            <div class="mobile-search search-style-3 mobile-header-border">
+                <form action="#">
+                    <input type="text" placeholder="Search for items…">
+                    <button type="submit"><i class="fi-rs-search"></i></button>
+                </form>
+            </div>
+            <div class="mobile-menu-wrap mobile-header-border">
+                <div class="main-categori-wrap mobile-header-border">
+                    <a href="/shop">
+                        <span class="fi-rs-apps"></span> Browse Categories
+                    </a>
+                    
+                </div>
+                <!-- mobile menu start -->
+        <nav>
+            <ul class="mobile-menu">
+              <li class="menu-item-has-children">
+                <span class="menu-expand"></span><a href="/">Home</a>
+              </li>
+              <li class="menu-item-has-children">
+                <span class="menu-expand"></span><a href="/shop">Shop</a>
+              </li>
+             <% if(logheader == true){ %>
+              <li class="menu-item-has-children">
+                <span class="menu-expand"></span><a href="/viewOrders">Orders</a>
+              </li>
+              <li class="menu-item-has-children">
+                <span class="menu-expand"></span><a href="/logout">logout</a>
+              </li>
+              
+            <% }else{ %>
+              <li class="menu-item-has-children">
+                <span class="menu-expand"></span><a href="/login">login</a>
+              </li>
+             
+              <% } %>
 
+              
+            </ul>
+          </nav>
+          <!-- mobile menu end -->
+            </div>
+            
+           
+        </div>
+    </div>
+</div>
 <section style="display: flex;flex-flow: column;align-items: center;">
     
     <div class="content-header" style="align-self: flex-start;margin-left:10vw; margin-top: 1%;">
-        <div>
+        
             <h2 class="content-title card-title">Order detail</h2>
             
-        </div>
+        
     </div>
     <div class="card col-lg-10">
         <header class="card-header">
